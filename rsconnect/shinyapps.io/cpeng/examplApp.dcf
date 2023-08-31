@@ -1,0 +1,13 @@
+name: examplApp
+title: examplApp
+username:
+account: cpeng
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 6086816
+bundleId: 5796480
+url: https://cpeng.shinyapps.io/examplApp/
+when: 1649892416.41766
+lastSyncTime: 1649892416.41767
+asMultiple: FALSE
+asStatic: FALSE

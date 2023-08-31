@@ -1,0 +1,13 @@
+name: w12-DataAnalyShinyApps
+title: w12-DataAnalyShinyApps
+username:
+account: cpeng
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 6109457
+bundleId: 5808157
+url: https://cpeng.shinyapps.io/w12-DataAnalyShinyApps/
+when: 1650247025.63587
+lastSyncTime: 1650247025.63588
+asMultiple: FALSE
+asStatic: FALSE
