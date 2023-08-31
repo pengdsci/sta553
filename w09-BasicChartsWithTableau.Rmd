@@ -1,0 +1,480 @@
+---
+title: "Basic Charts with Tableau"
+author: "Cheng Peng"
+date: "West Chester University "
+output:
+  html_document: 
+    toc: yes
+    toc_depth: 4
+    fig_width: 6
+    number_sections: yes
+    theme: readable
+    fig_height: 4
+  word_document: 
+    toc: yes
+    toc_depth: 4
+    fig_caption: yes
+    keep_md: yes
+  pdf_document: 
+    toc: yes
+    toc_depth: 4
+    fig_caption: yes
+    number_sections: yes
+    fig_width: 5
+    fig_height: 4
+---
+<style type="text/css">
+
+div#TOC li {
+    list-style:none;
+    background-image:none;
+    background-repeat:none;
+    background-position:0;
+}
+h1.title {
+  font-size: 24px;
+  color: DarkRed;
+  text-align: center;
+}
+h4.author { /* Header 4 - and the author and data headers use this too  */
+    font-size: 18px;
+  font-family: "Times New Roman", Times, serif;
+  color: DarkRed;
+  text-align: center;
+}
+h4.date { /* Header 4 - and the author and data headers use this too  */
+  font-size: 18px;
+  font-family: "Times New Roman", Times, serif;
+  color: DarkBlue;
+  text-align: center;
+}
+h1 { /* Header 3 - and the author and data headers use this too  */
+    font-size: 22px;
+    font-family: "Times New Roman", Times, serif;
+    color: darkred;
+    text-align: center;
+}
+h2 { /* Header 3 - and the author and data headers use this too  */
+    font-size: 18px;
+    font-family: "Times New Roman", Times, serif;
+    color: navy;
+    text-align: left;
+}
+
+h3 { /* Header 3 - and the author and data headers use this too  */
+    font-size: 15px;
+    font-family: "Times New Roman", Times, serif;
+    color: navy;
+    text-align: left;
+}
+
+h4 { /* Header 4 - and the author and data headers use this too  */
+    font-size: 18px;
+    font-family: "Times New Roman", Times, serif;
+    color: darkred;
+    text-align: left;
+}
+img {
+  border: 1px solid #555;
+}
+</style>
+
+```{r setup, include=FALSE}
+# code chunk specifies whether the R code, warnings, and output 
+# will be included in the output files.
+if (!require("Stat2Data")) {
+   install.packages("Stat2Data")
+   library(Stat2Data)
+}
+
+# knitr::opts_knit$set(root.dir = "C:/Users/75CPENG/OneDrive - West Chester University of PA/Documents")
+# knitr::opts_knit$set(root.dir = "C:\\STA490\\w05")
+
+knitr::opts_chunk$set(echo = TRUE,       
+                      warning = FALSE,   
+                      result = TRUE,   
+                      message = FALSE)
+```
+
+
+# Introduction
+
+The Hawks data set was collected by students from Cornell College. It is built in in the R library {Stat2Data}. I also make a copy and posted at <https://raw.githubusercontent.com/pengdsci/sta553/main/Tableau/hawks.csv>. You can download it and save it to a folder in your machine.
+
+```{r}
+data("Hawks")
+write.csv(Hawks, file="/Users/chengpeng/WCU/Teaching/2022Spring/STA553/tableau/hawks.csv")
+```
+
+
+Tableau uses manual driven approach to load data in certain formats. The following figure shows the types of external data that be connected to Tableau. There are some built-in data sets available in Tableau for practice purpose.
+
+## Data Loading
+
+We open the program and see the following UI.
+
+<br>
+<center>
+<img src ="https://github.com/pengdsci/sta553/blob/main/Tableau/TBLFrontPage.png?raw=true" width = 600 height = 500>
+</center>
+<br>
+
+The Hawks data is in CSV format, we choose `text file` to connect to the data set. After the data being connected, we will see the following Data Source page with the brief information of the data set.
+
+<br>
+<center>
+<img src ="https://github.com/pengdsci/sta553/blob/main/Tableau/TBLDataSourcePage.png?raw=true" width = 500 height = 350>
+</center>
+<br>
+
+We can explore the variables in the data set on the data source page. We can connect to multiple data sets and merge them on this page.
+
+
+## Openning Work Sheet
+
+Click the Sheet Tab in the bottom left of the data source data, we will the list of the variables and the panels of visualization tools for making charts.
+
+<br>
+<center>
+<img src ="https://github.com/pengdsci/sta553/blob/main/Tableau/TBLSheet.png?raw=true" width = 500 height = 350>
+</center>
+<br>
+
+Statistical charts are created on different sheets. We can add more sheets as needed and change default sheets name to a meaningful name.
+
+Next, we create commonly used statistical charts in separate sheets.
+
+
+# Basic Statistical Charts with Existing Variables
+
+## Bar Chart
+
+Bar charts are one of the most common data visualizations. We can use them to quickly compare data across categories, highlight differences, show trends and outliers, and reveal historical highs and lows at a glance. Bar charts are especially effective when you have data that can be split into multiple categories.
+
+We consider the distribution of hawks species. Change `Sheet 1` to `barChart`.
+
+**Step 1**: Drag `Species` to the Column field
+
+**Step 2**: Drag `Species` to the Row field and change it to counts (frequencies).
+
+<center>
+  <table border="0">
+	<col style="width:47%">
+	<col style="width:6%">
+	<col style="width:47%">
+   <tr>
+    <td><img src ="https://github.com/pengdsci/sta553/blob/main/Tableau/TBLbarChart01.png?raw=true" width = 300 height = 250></td>
+    <td>
+    </td>
+    <td><img src ="https://github.com/pengdsci/sta553/blob/main/Tableau/TBLbarChart02.png?raw=true" width = 300 height = 250></td>
+   </tr>
+  </table>
+</center>
+
+
+## Pie Chart
+
+Pie charts are powerful for adding detail to other visualizations. Alone, a pie chart doesn’t give the viewer a way to quickly and accurately compare information. Since the viewer has to create context on their own, key points from your data are missed. Instead of making a pie chart the focus of your dashboard, try using them to drill down on other visualizations.
+
+**Step 1**: repeat the two steps in barchart.
+
+**Step 2**: Click `Show Me` on the topright of the UI and select `piechart icon`.
+
+**Step 3**: Select the `Entire View` from the top panel drop-down menu.
+
+**Step 4**: drag `Species` to `Label` in **Marks** panel.
+
+<center>
+  <table border="0">
+	<col style="width:47%">
+	<col style="width:6%">
+	<col style="width:47%">
+   <tr>
+    <td><img src ="https://github.com/pengdsci/sta553/blob/main/Tableau/TBLpieChart01.png?raw=true" width = 300 height = 250></td>
+    <td>
+    </td>
+    <td><img src ="https://github.com/pengdsci/sta553/blob/main/Tableau/TBLpieChart02.png?raw=true" width = 300 height = 250></td>
+   </tr>
+  </table>
+</center>
+
+
+## Histogram
+
+A histogram is a chart that displays the shape of a distribution. A histogram looks like a bar chart but groups values for a continuous measure into ranges, or bins.
+
+**Step 1**: drag `weight` to the column field.
+
+**Step 2**: click `show me`, in the drop-down menu and select `histogram` icon.
+
+**Step 3**: Click `color` icon in Marks panel to adjust color and border of the histogram.
+
+
+<center>
+  <table border="0">
+	<col style="width:47%">
+	<col style="width:6%">
+	<col style="width:47%">
+   <tr>
+    <td><img src ="https://github.com/pengdsci/sta553/blob/main/Tableau/TBLhistogram02.png?raw=true" width = 300 height = 250></td>
+    <td>
+    </td>
+    <td><img src ="https://github.com/pengdsci/sta553/blob/main/Tableau/TBLhistogram01.png?raw=true" width = 300 height = 250></td>
+   </tr>
+  </table>
+</center>
+
+
+
+## Box-plot
+
+We can use box plots, also known as box-and-whisker plots, to show the distribution of values along an axis. Boxes indicate the middle 50 percent of the data (that is, the middle two quartiles of the data's distribution).
+
+The following steps are used to create a simple box-plot.
+
+**Step 1**: add a numerical variable to the sheet (we use `weight` in this example).
+
+**Step 2**: change `weight` to dimension. It will automatically create a default box-plot with data points plotted on the numerical axis.
+
+**Step 3**: Change the appearance of the box-plot by selecting **Entire View** (see the  screenshot) 
+
+**Step 4**: choose `Gantt Bar` to show the density of the values and edit the boxplot to get a better chart.
+
+<center>
+  <table border="0">
+	<col style="width:47%">
+	<col style="width:6%">
+	<col style="width:47%">
+   <tr>
+    <td><img src ="https://github.com/pengdsci/sta553/blob/main/Tableau/TBLboxPlot01.png?raw=true" width = 300 height = 250></td>
+    <td>
+    </td>
+    <td><img src ="https://github.com/pengdsci/sta553/blob/main/Tableau/TBLboxPlot02.png?raw=true" width = 300 height = 250></td>
+   </tr>
+  </table>
+</center>
+
+
+
+
+
+
+
+
+## Line Chart
+
+The line chart, or line graph, connects several distinct data points, presenting them as one continuous evolution. Use line charts to view trends in data, usually over time (like stock price changes over five years or website page views for the month). The result is a simple, straightforward way to visualize changes in one value relative to another.
+
+**Step 1**: Drap `year` to the column field and `Species` to the row field and convert it into frequencies.
+
+**Step 2**: Click `Show Me` on the topright of the UI and select `line plot` icon.
+
+**Step 3**: right click `Species` and `Sex` and send them to the **Filter** panel.
+
+**Step 4**: Choose appropriate display form of the filter (see the right panel of the following screenshot)
+
+<center>
+  <table border="0">
+	<col style="width:47%">
+	<col style="width:6%">
+	<col style="width:47%">
+   <tr>
+    <td><img src ="https://github.com/pengdsci/sta553/blob/main/Tableau/TBLlinePlot01.png?raw=true" width = 300 height = 250></td>
+    <td>
+    </td>
+    <td><img src ="https://github.com/pengdsci/sta553/blob/main/Tableau/TBLlinePlot02.png?raw=true" width = 300 height = 250></td>
+   </tr>
+  </table>
+</center>
+
+
+## Scatter Plot
+
+Scatter plots are an effective way to investigate the relationship between different variables, showing if one variable is a good predictor of another, or if they tend to change independently. A scatter plot presents lots of distinct data points on a single chart. The chart can then be enhanced with analytics like cluster analysis or trend lines.
+
+Let's explore the association between the lengths of wing and tail of hawks across the species. The following steps create a simple scatter plot in Tableau. 
+
+**Step 1**: drag the two numerical variables to column and row fields.
+
+**Step 2**: Change the two aggregated variable (by default) to `dimension` (see the left hand side screenshot).
+
+**Step 3**: Color code the species (drag `spcies` to the **color** mark).
+
+**Step 4**: Choose the categorical variables to define filters to explore the association of subset of the data (partial association) using drop-down menu, radio button, or slider, etc.
+
+<center>
+  <table border="0">
+	<col style="width:47%">
+	<col style="width:6%">
+	<col style="width:47%">
+   <tr>
+    <td><img src ="https://github.com/pengdsci/sta553/blob/main/Tableau/TBLscatterPlot01.png?raw=true" width = 300 height = 250></td>
+    <td>
+    </td>
+    <td><img src ="https://github.com/pengdsci/sta553/blob/main/Tableau/TBLscatterPlot02.png?raw=true" width = 300 height = 250></td>
+   </tr>
+  </table>
+</center>
+
+
+## Bubble Chart
+
+Although bubbles aren’t technically their own type of visualization, using them as a technique adds detail to scatter plots or maps to show the relationship between three or more measures. Varying the size and color of circles creates visually compelling charts that present large volumes of data at once.
+
+A bubble chart is modified from a regular scatter plot. We next use the  above scatter plot as a base plot and make the point size be proportional to the value of variable `wing`.
+
+**Step 1**: create a basic scatter plot (following steps 1-4 in the previous section of scatter plot).
+
+**Step 2**: drag variable `wing` to **size** icon (Marks panel).
+
+**Step 3**: right **color** icon in Marks panel to adjust transparency and modify the point border to make partially overlapped points distinguishable.
+
+**Step 4**: convert `year` to a string variable and add `sex` and `year` to filter.
+
+**Step 5**: Change the default display of year from `select menu` to **drop down menu** and `sex` to **radio button**
+
+
+<center>
+  <table border="0">
+	<col style="width:47%">
+	<col style="width:6%">
+	<col style="width:47%">
+   <tr>
+    <td><img src ="https://github.com/pengdsci/sta553/blob/main/Tableau/TBLbubblePlot01.png?raw=true" width = 300 height = 250></td>
+    <td>
+    </td>
+    <td><img src ="https://github.com/pengdsci/sta553/blob/main/Tableau/TBLbubblePlot02.png?raw=true" width = 300 height = 250></td>
+   </tr>
+  </table>
+</center>
+
+
+## Treemap
+
+Treemaps relate different segments of your data to the whole. As the name of the chart suggests, each rectangle in a treemap is subdivided into smaller rectangles, or sub-branches, based on its proportion to the whole. They make efficient use of space to show percent total for each category.
+
+
+## Maps
+
+Maps are a no-brainer for visualizing any kind of location information, whether it’s postal codes, state abbreviations, country names, or your own custom geocoding. If you have geographic information associated with your data, maps are a simple and compelling way to show how location correlates with trends in your data. Let's look at a small data set with geo-information. The data set can be found at <https://raw.githubusercontent.com/pengdsci/datasets/main/Realestate.csv>. We first download this data and save it to a local folder so we can connect the data to Tableau.
+
+The following steps will create a map to view spatial distribution of properties in the bay area.
+
+
+**Step 1**. Drag `longitude` and `latitude` to row and column fields respectively.
+
+**Step 2**. Click `Show me` and select the World Map in the list of the template plots.
+
+**Step 3**. Go to the top menu bar, click `Map` to select a background map.
+
+**Step 4**. click the `Color` shelf in the Marks field, change default color to an appropriate color.
+
+**Step 5**. Choose appropriate color.
+
+**Step 6** select appropriate variable to determine the point size .
+
+**Step 7** drag variable you want to display in the hover text.
+
+The following screenshot show the above steps.
+
+
+<center><img src ="https://raw.githubusercontent.com/pengdsci/sta553/main/Tableau/TBLRealEstMap.png" width = 750 height = 500> </center>
+
+\
+
+The actual map is available on the Tableau Public Server at <https://public.tableau.com/app/profile/cpeng/viz/Book1_16487389941160/Sheet4?publish=yes>
+
+
+
+
+
+
+## Density Maps
+
+Density maps reveal patterns or relative concentrations that might otherwise be hidden due to an overlapping mark on a map—helping you identify locations with greater or fewer numbers of data points. Density maps are most effective when working with a data set containing many data points in a small geographic area.
+
+Let's use the POC (US gas station data) as example to how deal with many data points. The data can be found at: <https://github.com/pengdsci/datasets/raw/main/POC.csv>. We first download this data file and save it into a local folder and then connect Tableau to this data.
+
+The following suggested steps will create a density map for the US gas stations.
+
+**Step 1**. Convert `xcoord` and `ycoord` to longitude and latitude (see the left screenshot below).
+
+**Step 2**. Drag `xcoord` and `ycoord` to row and column fields respectively.
+
+**Step 3**. In drop-down menu of the Marks field, select `density`.
+
+**Step 4**. Go to the top menu bar, click `Map` to select a background map.
+
+**Step 5**. click the `Color` shelf in the Marks field, change default color to an appropriate color.
+
+
+<center>
+  <table border="0">
+	<col style="width:47%">
+	<col style="width:6%">
+	<col style="width:47%">
+   <tr>
+    <td><img src ="https://raw.githubusercontent.com/pengdsci/sta553/main/Tableau/TBLpocLong.png" width = 300 height = 250></td>
+    <td>
+    </td>
+    <td><img src ="https://raw.githubusercontent.com/pengdsci/sta553/main/Tableau/TBLpoc-density.png" width = 300 height = 250></td>
+   </tr>
+  </table>
+</center>
+
+
+
+
+
+
+
+
+# Basic Charts with Derived Variables 
+
+Tableau has a lot built-in function that can be used to defined derived variables. This section use several examples to illustrate how to use some of the commonly used functions for creating statistical graphics. The complete list of these built-in functions can be found at <https://help.tableau.com/current/pro/desktop/en-us/functions_all_alphabetical.htm>
+
+
+## Histogram with A Normal Density Curve
+
+We use variable `weight` as an example to create a histogram and then place a normal density on the top of it.
+
+
+<iframe><src = "https://public.tableau.com/views/US-States-Facts/Sheet1?:embed=true"></iframe>
+
+
+<iframe align = "center" width = "800" height = "600" src="https://public.tableau.com/views/US-States-Facts/Sheet1?:language=en-US&:display_count=n&:origin=viz_share_link"/>
+
+
+
+
+
+
+
+
+
+
+<https://www.youtube.com/watch?v=GrT0wlQ2LZQ> fancy pie charts
+
+https://public.tableau.com/views/US-States-Facts/Sheet1?:language=en-US&:display_count=n&:origin=viz_share_link
+
+
+ 
+<https://public.tableau.com/views/US-States-Facts/Sheet1?:language=en-US&publish=yes&:display_count=n&:origin=viz_share_link>
+
+
+
+<https://www.youtube.com/watch?v=iFGt6j7GZX0> density curve
+
+
+<https://www.youtube.com/watch?v=JvE2q0hWIIo>
+
+
+
+<https://www.youtube.com/watch?v=IIH19j_YG24>  Excellent video!
+
+
+<https://www.youtube.com/watch?v=BcKMPRpHqZ0> Dashboard
+
+<https://www.youtube.com/watch?v=ZfpUzp8mBSw> Donut chart
+
+<https://www.youtube.com/watch?v=gWZtNdMko1k&list=PLWPirh4EWFpGXTBu8ldLZGJCUeTMBpJFK> 91-video tutorials

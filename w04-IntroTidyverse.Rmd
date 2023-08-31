@@ -1,0 +1,754 @@
+---
+title: "Data Management with Tidyverse"
+author: "Cheng Peng"
+date: " "
+output:
+  html_document: 
+    toc: yes
+    toc_depth: 4
+    fig_width: 6
+    fig_caption: yes
+    number_sections: yes
+    theme: readable
+  word_document: 
+    toc: yes
+    toc_depth: 4
+    fig_caption: yes
+    keep_md: yes
+  pdf_document: 
+    toc: yes
+    toc_depth: 4
+    fig_caption: yes
+    number_sections: yes
+    fig_width: 5
+    fig_height: 4
+---
+<style type="text/css">
+
+div#TOC li {
+    list-style:none;
+    background-image:none;
+    background-repeat:none;
+    background-position:0;
+}
+h1.title {
+  font-size: 20px;
+  color: DarkRed;
+  text-align: center;
+}
+h4.author { /* Header 4 - and the author and data headers use this too  */
+    font-size: 18px;
+  font-family: "Times New Roman", Times, serif;
+  color: DarkRed;
+  text-align: center;
+}
+h4.date { /* Header 4 - and the author and data headers use this too  */
+  font-size: 18px;
+  font-family: "Times New Roman", Times, serif;
+  color: DarkBlue;
+  text-align: center;
+}
+h1 { /* Header 3 - and the author and data headers use this too  */
+    font-size: 22px;
+    font-family: "Times New Roman", Times, serif;
+    color: darkred;
+    text-align: center;
+}
+h2 { /* Header 3 - and the author and data headers use this too  */
+    font-size: 18px;
+    font-family: "Times New Roman", Times, serif;
+    color: navy;
+    text-align: left;
+}
+
+h3 { /* Header 3 - and the author and data headers use this too  */
+    font-size: 15px;
+    font-family: "Times New Roman", Times, serif;
+    color: navy;
+    text-align: left;
+}
+
+h4 { /* Header 4 - and the author and data headers use this too  */
+    font-size: 18px;
+    font-family: "Times New Roman", Times, serif;
+    color: darkred;
+    text-align: left;
+}
+</style>
+
+```{r setup, include=FALSE}
+# code chunk specifies whether the R code, warnings, and output 
+# will be included in the output files.
+if (!require("tidyverse")) {
+   install.packages("tidyverse")
+   library(tidyverse)
+}
+if (!require("knitr")) {
+   install.packages("knitr")
+   library(knitr)
+}
+# knitr::opts_knit$set(root.dir = "C:/Users/75CPENG/OneDrive - West Chester University of PA/Documents")
+# knitr::opts_knit$set(root.dir = "C:\\STA490\\w05")
+
+knitr::opts_chunk$set(echo = TRUE,       
+                      warning = FALSE,   
+                      result = TRUE,   
+                      message = FALSE)
+```
+
+\
+
+\
+
+\
+
+\
+
+
+# Introduction
+
+Data visualization is a form of data analysis (also called visual analytics). This means we need to prepare data sets that are appropriate for visualizations. Recall the following work flow of data visualizations mentioned in earlier notes. 
+
+<br>
+<center><img src="https://github.com/pengdsci/sta553/raw/main/DataManagement/Workflow.png"  height="300" width="450"></center>
+<br>
+
+
+The major data management tasks are data aggregation and extraction.
+
+* **Information Aggregation** - combining information in different relational data sets to make an integrated single data set for data visualization.
+
+* **Information Extraction** - subsetting a single data set to make small data sets that have specific information for creating a visualization.
+
+The base R package has some powerful and easy-to-use functions to perform these types of data management.
+
+
+# Data Cleaning and Preparation for Visualization
+
+
+## Data Cleaning
+
+Data cleaning refers to the process of making a data set possibly from different sources of `raw data` for modeling, visualization, and relevant analysis. The major tasks include: 
+
+* Removing unnecessary variables
+* Deleting duplicate rows/observations
+* Addressing outliers or invalid data
+* Dealing with missing values
+* Standardizing or categorizing values
+* Correcting typographical errors
+
+
+## Data Preparation for Visualization
+
+For a specific data analysis such as modeling or data visualization, we need to create an analytic data set based on clean data sets.
+
+**Formatting/Conversion** 
+
+* Formatting columns appropriately (numbers are treated as numbers, dates as dates)
+* Convert values into appropriate units
+
+**Filtering/Subsetting**
+
+* Filter your data to focus on the specific data that interests you.
+* Group data and create aggregate values for groups (Counts, Min, Max, Mean, Median, Mode)
+* Extract values from complex columns
+
+**Aggregation/Merging**
+
+* Combine variables to create new columns
+* Merge different relational data sets
+
+
+# Basic Data Management: Merging Data Sets
+
+There are different packages in R that have various functions capable of doing data management. In this note, we introduce the commonly used functions in base R and `tidyverse`.
+
+## Merge Data Sets
+
+It is very common that the information we are interested in resides in different data sources. In order to merge different data sets, there must be at least one variable "key" that links to different data sets. 
+
+There are several different operations in SQL to create different types of the merged data set. The following are the most commonly used ones.
+
+<br>
+<center><img src="https://github.com/pengdsci/sta553/raw/main/DataManagement/joins.png"  height="280" width="350"></center>
+<br>
+
+The next figure shows the basic operations with tiny tables illustrating the operations.
+
+<br>
+<center><img src="https://github.com/pengdsci/sta553/raw/main/DataManagement/JoinExamples.png"  height="450" width="550"></center>
+<br>
+
+## Merging Data in Base R 
+
+The base R function `merge()` can be used to perform different joins. To illustrate, we use the tiny toy data set in the above figure to show you how to use `merge()` function.
+
+* Defining Data Frames
+```{r}
+employee = data.frame(EmpID = c(1,2,3), EmpName = c("Rajendra", "Kusum", "Akshita"))
+city = data.frame(ID = c(1,2,7,8), City =c("Jaipur", "Delhi", "Raipur", "Bangalore"))
+```
+
+
+* Inner Join
+
+```{r}
+innerjoin = merge(x=employee, city, by.x = 'EmpID', by.y ='ID', all = FALSE)
+innerjoin
+```
+
+* Outer Join
+
+```{r}
+innerjoin = merge(x = employee, y = city, by.x = 'EmpID', by.y ='ID', all = TRUE)
+innerjoin
+```
+
+
+* Left Join
+
+```{r}
+leftjoin = merge(x = employee, y = city, by.x = 'EmpID', by.y ='ID', all.x = TRUE)
+leftjoin 
+```
+
+
+* Right Join
+
+```{r}
+rightjoin = merge(x = employee, y = city, by.x = 'EmpID', by.y ='ID', all.y = TRUE)
+rightjoin
+```
+
+## Merging Data with Mutating Joins in **dplyr**
+
+The package **dplyr** has the following four join functions corresponding to the options in the base R function 'merge()`.
+
+The mutating joins add columns from y to x, matching rows based on the keys:
+
+* `inner_join()`: includes all rows in x and y.
+
+* `left_join()`: includes all rows in x.
+
+* `right_join()`: includes all rows in y.
+
+* `full_join()` (also called **outer join**): includes all rows in x or y (also called outer join)..
+
+If a row in x matches multiple rows in y, all the rows in y will be returned once for each matching row in x.
+
+To use mutating joins, we first rename key variables so that primary keys have the same name.
+
+```{r}
+employee.new = employee
+employee.new$ID = employee$EmpID  # adding the new renamed ID
+employee.new = employee.new[, -1]     # drop the old ID variable
+employee.new
+```
+
+* Inner Join
+
+```{r}
+inner_join(employee.new, city, by = "ID")
+```
+
+* Left Join
+
+```{r}
+left_join(employee.new, city, by = "ID")
+```
+
+
+* right Join
+
+```{r}
+right_join(employee.new, city, by = "ID")
+```
+
+* Full (Outer) Join
+
+```{r}
+full_join(employee.new, city, by = "ID")
+```
+
+##  Use of Pipe Operator `%>%` with Mutating Joins
+
+The pipe operator, written as `%>%` takes the output of one function and passes it into another function as an argument. This allows us to link a sequence of analysis steps using functions in `dplyr` and `tidyr` in data wrangling.
+
+
+* Inner Join
+```{r}
+pipe.innerjoin <- employee %>% inner_join(city, by = c("EmpID" = "ID"))
+pipe.innerjoin
+```
+
+* Full (Outer) Join
+```{r}
+pipe.outerjoin <- employee %>% full_join(city, by = c("EmpID" = "ID"))
+pipe.outerjoin
+```
+
+
+* Left Join
+```{r}
+pipe.leftjoin <- employee %>% left_join(city, by = c("EmpID" = "ID"))
+pipe.leftjoin
+```
+
+
+* Right Join
+```{r}
+pipe.rightjoin <- employee %>% right_join(city, by = c("EmpID" = "ID"))
+pipe.rightjoin
+```
+
+
+# Basic Data Management: Subsetting Data 
+
+Another important data management task is to subset data sets to extract the desired information for analyses and visualization.
+
+Two operations are used to subset a data set: select/drop columns and select rows that meet certain conditions.
+
+The working data set in the section is the well-known `iris` data set that has 4 numerical variables (attributes of iris flowers) and a categorical variable (species of iris flowers).
+
+
+## Accessors in R `[`, `[[` and `$`
+
+When subsetting a data set, it is unavoidable to access the value(s) of certain variable(s). Three R accessors are commonly used in R coding.
+
+* `[` subsetting a data set
+
+This R accessor is probably the most commonly used. When we want a subset of an object using `[`. Remember that when we take a subset of the object you get `the same type` of thing. Thus, the subset of a vector will be a vector, the subset of a list will be a list and the subset of a data.frame will be a data.frame.
+ 
+* `[[` extracting one item
+
+The double square brackets are used to extract one element from potentially many. For vectors yield vectors with a single value; data frames give a column vector; for a list, one element:
+
+For example, 
+
+```{r}
+letters[[3]]            # extracts the third element in the vector of all lower case letters
+iris[["Petal.Length"]]  # extract the variable named 'Petal.Length' in the data frame.
+```
+
+The double square bracket looks as if we are asking for something deep within a container. We are not taking a slice but reaching to get at the one thing at the core.
+
+* Interact with `$`
+
+The accessor that provides the least unique utility is also probably used the most often used. `$` is a special case of `[[` in which we access a single item by actual name. The following are equivalent:
+
+```{r}
+iris$Petal.Length
+iris[["Petal.Length"]]
+```
+
+
+
+
+
+
+
+
+
+
+
+## Subsetting Data in Base R
+
+**Selecting/Dropping Columns**
+
+Subsetting a data set by selecting or dropping a subset of variables (columns) from a data set is straightforward. 
+
+For example, we can define a subset of the `iris` data set by selecting all numerical variables.
+
+```{r}
+iris.names = names(iris)
+iris0 = iris[, iris.names[1:4]]
+iris0
+```
+
+We can also create the same data set by dropping variables in the original data set. For example
+
+```{r}
+iris02 = iris[, -5]
+iris02
+```
+**Selection/Dropping Rows**
+
+This is also relatively straightforward. The basic idea is to identify row IDs to select or drop the corresponding rows. The R function `which()` can this trick!
+
+The following example illustrates the way of using `which()` to subsetting data.
+
+1. Selecting One Species of Iris Flowers
+
+```{r}
+setosa.id = which(iris$Species == "setosa")
+setosa.flower = iris[setosa.id,]
+setosa.flower
+```
+
+2. Selecting Two Species of Iris Flowers
+
+The following three code chunks create the same data set.
+
+Method 1:
+
+```{r}
+not.setosa.id01 = which(iris$Species != "setosa")
+not.setosa.flower01 = iris[not.setosa.id01,]
+not.setosa.flower01
+```
+
+Method 2:
+
+```{r}
+not.setosa.id02 = which(iris$Species == "virginica" | iris$Species =="versicolor")
+not.setosa.flower02 = iris[not.setosa.id02,]
+not.setosa.flower02
+```
+Method 3:
+
+```{r}
+not.setosa.id03 = which(iris$Species %in% c("versicolor", "virginica"))
+not.setosa.flower03 = iris[not.setosa.id01,]
+not.setosa.flower03
+```
+
+
+## Subsetting Data with `dplyr`
+
+**dplyr** provides helper tools for the most common data manipulation tasks. It is built to work directly with data frames and has the ability to work directly with data stored in an external database. We can conduct queries on the database directly and pull back into R only what we need for analysis.
+
+Since selecting/dropping variables is straightforward (particularly when using %>%). Next, we provide a few examples showing how to use `filter()` to select/drop rows with certain conditions.
+
+* Filtering by one criterion
+```{r}
+filter(iris, Species == "setosa")
+```
+
+```{r}
+filter(iris, Sepal.Length > 6)
+```
+
+* When multiple expressions are used, they are combined using `&` (logical AND) or `|` (logical OR)
+
+```{r}
+filter(iris, Species == "setosa" & Sepal.Length > 5 )
+```
+
+
+```{r}
+filter(iris, Species == "setosa" | Sepal.Length > 7 )
+```
+
+* To refer to column names that are stored as strings, use the `.data` pronoun:
+
+```{r}
+vars <- c("Sepal.Length", "Petal.Length")
+cond <- c(6, 5)
+subset.iris <- iris %>%
+  filter(
+    .data[[vars[[1]]]] > cond[[1]],
+    .data[[vars[[2]]]] < cond[[2]]
+  )
+subset.iris
+```
+
+
+## Variable Definition and Variable Type Conversion
+
+* Define New Variables
+
+Defining new variables based on the existing variables is straightforward in R using the basic arithmetic and mathematical operations. When using `%>%`, `dplyr()` is used to define new variables.
+
+
+* Variable Type Conversion
+
+Type conversions in R work as you would expect. For example, adding a character string to a numeric vector converts all the elements in the vector to the character.
+
+1. Use `is.foo` to test for data type foo. Returns TRUE or FALSE
+
+`is.numeric(), is.character(), is.vector(), is.matrix(), is.data.frame()`
+
+2. Use `as.foo` to explicitly convert it.
+
+`as.numeric(), as.character(), as.vector(), as.matrix(), as.data.frame)`
+
+
+
+
+# Importing/Exporting Data
+
+## Importing Dara
+
+There are different functions in various R libraries to read data to R.
+
+* Base R and Libraries Come with Base R 
+
+R loading functions in {utils}: `read.table()`, `read.csv()`,  `read.csv2()`, `read.delim()`, and `read.delim2()`
+
+* Functions in {tidyverse}
+
+As a part of {tidyverse}, the library {readr} has several functions to read the data in common formats.
+
+`read_table(), read_delim(), read_csv(), read_csv2(), read_tsv()`
+
+* Read data set generated by other programs such as SAS, SPSS, etc.
+
+Several libraries are useful to load special formats of data to R. Three important libraries are
+
+`{xlsx, Hmisc, foreign}`.
+
+
+
+## Exporting Data
+
+We have learned how to use `dplyr` to extract information from or summarize your raw data, we may want to export these new data sets to share them with other people or for archival.
+
+Similar to the `read_csv()` function used for reading CSV files into R, there is a `write_csv()` function that generates CSV files from data frames.
+
+Let's assume our data set under the name, `final_data`,  is ready, we can save it as a CSV file in our `data` folder using the following code.
+
+`write_csv(final_data, file = "data/final_data.csv")`
+
+
+
+# **Overview of `Tidyverse` (Optional)**
+
+There are several R libraries that have powerful tools for data wrangling and information extraction. Tidyverse is a collection of essential R packages for data science. There 8 packages under the `tidyverse umbrella` that help us in performing and interacting with the data.  
+
+## Packages for Data Wrangling and Transformation
+
+* **dplyr** provides helper tools for the most common data manipulation tasks. It is built to work directly with data frames and has the ability to work directly with data stored in an external database. We can conduct queries on the database directly, and pull back into R only what we need for analysis.
+
+* **tidyr** addresses the common problem of wanting to reshape the data with a sophisticated layout for plotting and usage by different R functions. 
+
+
+* **stringr** deals with string variables. It plays a big role in processing raw data into a cleaner and easily understandable format. 
+
+* **forcats** is dedicated to dealing with categorical variables or factors. Anyone who has worked with categorical data knows what a nightmare they can be.
+  
+## Packages for Data Import and Management
+
+* **tibble** is a new modern data frame with nicer behavior around printing, subsetting, and factor handling. It keeps many important features of the original data frame and removes many of the outdated features. 
+
+* **readr** package is recently developed to deal with reading in large flat files quickly. The package provides replacements for functions like `read.table()` and `read.csv().` The analogous functions in {readr} are `read_table()` and `read_csv()`. 
+
+## Functional Programming with Library **{purrr}**
+  
+* **purrr** is a new package that fills in the missing pieces in R’s functional programming tools. This is not a coding class. We will not use ‘purrr’ in this class.
+
+## Data Visualization and Exploration
+
+**ggplot2** is a powerful and flexible R package for producing elegant graphics. The concept behind `ggplot2` divides plot into three different fundamental parts: `Plot = data + Aesthetics + Geometry`.
+
+The principal components of every plot can be defined as follow:
+
+* **Aesthetics** is used to indicate x and y variables. It can also be used to control the color, the size or the shape of points, the height of bars, etc.
+
+* **Geometry** defines the type of graphics (histogram, box plot, line plot, density plot, dot plot, etc.)
+
+This will be one of the primary tools for this class.
+
+
+
+
+
+
+# Data Management with `dplyr`  (Optional)
+
+What we can do in the standard SQL can also be done with `dyplr`. For the convenience of illustration, we use a simple well-known built-in `iris data set`.
+
+
+## Common `dplyr` Functions
+
+The following is the list of functions in `dplyr`.
+
+* **select()**: sub-setting columns.
+
+To select columns of a data frame, use `select()`. The first argument to this function is the data frame (`iris`), and the subsequent arguments are the columns to keep. For example
+
+```{r}
+iris.petal = select(iris, Petal.Length, Petal.Width, Species)
+str(iris.petal)
+```
+To select all columns except certain ones, put a “-” in front of the variable to exclude it. For example, we **exclude** Petal information and only **keep** Sepal information, we can use the following code
+
+```{r}
+iris.sepal = select(iris, -Petal.Length, -Petal.Width)
+str(iris.sepal)
+```
+
+This will select all the variables in surveys except for `Petal.Length`,  and `Petal.Width`.
+
+* **filter()**: sub-setting rows on conditions.
+
+For example, if we only select one species `Versicolor`, we can use the following code.
+
+```{r}
+versicolor = filter(iris, Species =="versicolor")
+summary(versicolor)
+```
+
+If we subset a data set by selecting a certain number of columns and row with multiple conditions, pipe operator `%>%` will make subsetting easy. For example, if we only want to study `sepal width` and `length` of  `setosa` where petal length is less than 1.5. The following code using `%>%` 
+
+```{r}
+resulting.subset <- iris %>%
+             filter(Petal.Length < 1.5, Species =="setosa") %>%
+             select(Sepal.Length, Sepal.Width, Species)
+summary(resulting.subset)
+```
+
+Note that, multiple conditional statements are separated by `,` or `&`. Using `%>%`, we don't need to include the data set as the first argument.
+
+
+* **mutate()**: creating new columns by using information from other columns.
+
+Frequently we want to create new columns based on the values in existing columns. For example, we want to define two ratios of the sepal and petal widths and sepal and petal lengths. For this, we’ll use mutate().
+
+```{r}
+expanded.data <- iris %>%
+             mutate(length.ratio = Sepal.Length/Petal.Length,
+                    width.ratio = Sepal.Width/Petal.Width)
+summary(expanded.data)
+```
+
+* **group_by()** and **summarize()**: creating summary statistics on grouped data.
+
+‘group_by()’ is often used together with ‘summarize()’, which collapses each group into a single-row summary of that group. ‘group_by()’ takes as arguments the column names that contain the categorical variables for which you want to calculate the summary statistics.
+
+The following code yields a set of summarized statistics including the mean of sepal width and length as well as the correlation coefficients in each of the three species.
+
+```{r}
+summary.stats <- iris %>%
+             group_by(Species) %>%
+             summarize(sepal.width.avg = mean(Sepal.Width),
+                       sepal.length.avg = mean(Sepal.Length),
+                       corr.sepal = cor(Sepal.Length, Sepal.Width)) 
+summary.stats
+```
+
+All R functions such as `min()`, `max()`, , that yield summarized statistics can be used with `summarize()`. We can also filter out some observations before we compute the summary statistics.
+
+```{r}
+summary.stats.filtering <- iris %>%
+             filter(Petal.Length < 5) %>%
+             group_by(Species) %>%
+             summarize(sepal.width.avg = mean(Sepal.Width),
+                       sepal.length.avg = mean(Sepal.Length),
+                       corr.sepal = cor(Sepal.Length, Sepal.Width)) 
+summary.stats.filtering
+```
+
+* **arrange()**: sorting results.
+
+To sort in descending order, we need to add the `desc()` function. If we want to sort the results by decreasing the order of mean weight.
+
+```{r}
+summary.stats.sort <- iris %>%
+             filter(Petal.Length < 5) %>%
+             group_by(Species) %>%
+             summarize(sepal.width.avg = mean(Sepal.Width),
+                       sepal.length.avg = mean(Sepal.Length),
+                       corr.sepal = cor(Sepal.Length, Sepal.Width)) %>%
+              arrange(desc(corr.sepal))
+summary.stats.sort
+```
+
+The resulting data set can also be sorted by multiple variables.
+
+
+* **count()**: counting discrete values.
+
+When working with data, we often want to know the number of observations found for each factor or combination of factors. For this task, `dplyr` provides `count()`. For example, if we wanted to count the number of rows of data for each species after we filter out all records with Petal Length < 5, we would do:
+
+```{r}
+summary.count <- iris %>%
+             filter(Petal.Length < 5) %>%
+             group_by(Species) %>%
+             summarize(count = n(), sort = TRUE) 
+summary.count
+```
+
+If we wanted to count a combination of factors, say `factor A` and `factor B`, we would specify the first and the second factor as the arguments of `count(factor A, factor B)`.
+
+
+## Reshaping Functions in `tidyr`
+
+The `tidyr` package complements `dplyr` perfectly. It boosts the power of dplyr for data manipulation and pre-processing. To illustrate how to use these functions, we consider defining a subset from `iris` that contains only two variables: Sepal Length and Species.
+
+```{r}
+life.expectancy <-read.csv("https://stat553.s3.amazonaws.com/Tidyverse/life_expectancy_years+.csv")
+life.expectancy[1:5, 1:10]
+```
+
+`sub.iris` is called a **long table**. We can reshape this **long table** to a **wide table** using `spread()` function.
+
+
+* **gather()**: The function “gathers” multiple columns from the data set and converts them into key-value pairs. `gather()` takes four principal arguments:
+
+  + data set
+  + the key column variable we wish to create from column names.
+  + the values column variable we wish to create and fill with values associated with the key.
+  
+`The names of the columns we use to fill the key variable (or to drop)`.
+
+Here we exclude `country` from being `gather()`ed.
+
+```{r}
+life.expectancy.long <- life.expectancy %>%
+  gather(key = "Year",       # the column names of the wide table
+         value = "lifeExp",  # the numerical values of the table
+         - country,          # drop country variable: its value will not be gathered (stacked)!
+         na.rm = TRUE)       # removing records with missing values
+##
+head(life.expectancy.long)
+```
+
+We can use `substr()` to remove `X` from the variable `Year` as shown in the following code.
+
+```{r}
+correct.life.exp.data <- life.expectancy.long %>%
+                      mutate(year = substr(Year,2,5)) %>%
+                      select(-Year)
+head(correct.life.exp.data)
+```
+
+
+For illustrative purposes, we look at a small subset of the iris data set.
+ 
+```{r}
+ mini.iris <- iris[c(1, 51, 101), ]
+ mini.iris
+```
+
+We list (`select`) the columns to be stacked explicitly as arguments of `gather()` in the following code.
+
+```{r}
+mini.iris.w2l <- mini.iris %>%
+          gather(key = "flower.att", value = "measurement",
+           Sepal.Length, Sepal.Width, Petal.Length, Petal.Width)
+mini.iris.w2l
+```
+
+We can also use `"-"` operator to exclude the column(s) to be `gather()ed` to make the code cleaner.
+
+```{r}
+mini.iris.w2l0 <- mini.iris %>%
+          gather(key = "flower.att", value = "measurement", -Species)
+mini.iris.w2l0
+```
+
+
+* **spread()**: takes two columns and “spreads” them into multiple columns. It takes three principal arguments:
+
+  + the data
+  + the key column `(categorical)` variable whose values will become new column names.
+  + the value column `(numerical or categorical)` variable whose values will fill the new column variables.
+
+Further arguments include filling which, if set, fills in missing values with the value provided.
+
+
+```{r}
+mini.iris.l2w <- mini.iris.w2l %>%
+  spread(key = "flower.att", value = "measurement")
+head(mini.iris.l2w)
+```

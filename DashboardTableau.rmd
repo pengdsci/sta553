@@ -1,0 +1,191 @@
+---
+title: "Dashboard with Tableau"
+author: "Cheng Peng"
+date: "West Chester University"
+output: 
+  html_document: 
+    number_sections: yes
+    toc: yes
+---
+
+<style type="text/css">
+div#TOC li {
+    list-style:none;
+    background-image:none;
+    background-repeat:none;
+    background-position:0;
+}
+h1.title {
+  font-size: 24px;
+  color: DarkRed;
+  text-align: center;
+}
+h4.author { 
+  /* Header 4 - and the author and data headers use this too  */
+  font-size: 18px;
+  font-family: "Times New Roman", Times, serif;
+  color: DarkRed;
+  text-align: center;
+}
+h4.date { 
+  /* Header 4 - and the author and data headers use this too  */
+  font-size: 18px;
+  font-family: "Times New Roman", Times, serif;
+  color: DarkBlue;
+  text-align: center;
+}
+h1 { 
+    /* Header 3 - and the author and data headers use this too  */
+    font-size: 22px;
+    font-family: "Times New Roman", Times, serif;
+    color: darkred;
+    text-align: center;
+}
+h2 { 
+    /* Header 3 - and the author and data headers use this too  */
+    font-size: 18px;
+    font-family: "Times New Roman", Times, serif;
+    color: navy;
+    text-align: left;
+}
+h3 { 
+    /* Header 3 - and the author and data headers use this too  */
+    font-size: 15px;
+    font-family: "Times New Roman", Times, serif;
+    color: darkred;
+    font-face: bold;
+    text-align: left;
+}
+h4 { 
+    /* Header 4 - and the author and data headers use this too  */
+    font-size: 18px;
+    font-family: "Times New Roman", Times, serif;
+    color: darkred;
+    text-align: left;
+}
+   /* center maps using chunk option: fig.align='center' */
+.html-widget {
+    margin: auto;
+}
+</style>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+\
+
+\
+
+# Introduction
+
+\
+
+This note outlines the design of dashboards using Tableau. The data set is to be used in this case study. The visualization with be created using Tableau. 
+
+We first load the working data to R and perform a simple exploratory data analysis and then decide what specific visualizations will be created.
+
+The description of the data can be found at: <https://github.com/pengdsci/sta553/raw/main/dash/mushroom-description.pdf>
+
+The data set can be found at: <https://github.com/pengdsci/sta553/raw/main/dash/mushroom-data.csv>
+
+```{r}
+mushroom = read.csv("https://github.com/pengdsci/sta553/raw/main/dash/mushroom-data.csv")
+names(mushroom)
+```
+
+Three numerical variables are summarized in the following.
+
+```{r}
+summary(mushroom[,c(2,10,11)])
+```
+ 
+```{r}
+char.var = mushroom[,-c(2,10,11)]
+names(char.var)
+```
+
+```{r}
+list(class = table(char.var$class),
+     cap.shape = table(char.var$cap.shape),
+     cap.surface = table(char.var$cap.surface),
+     cap.color = table(char.var$cap.color),
+     does.bruise.or.bleed = table(char.var$does.bruise.or.bleed),
+     gill.attachment = table(char.var$gill.attachment),
+     gill.spacing = table(char.var$gill.spacing),
+     gill.color = table(char.var$gill.color),
+     stem.root = table(char.var$stem.root),
+     stem.surface = table(char.var$stem.surface),
+     stem.color = table(char.var$stem.color),
+     veil.type = table(char.var$veil.type),
+     veil.color = table(char.var$veil.color),
+     has.ring = table(char.var$has.ring),
+     ring.type = table(char.var$ring.type),
+     spore.print.color = table(char.var$spore.print.color),
+     habitat = table(char.var$habitat),
+     season = table(char.var$season)
+)
+```
+
+The above frequency table indicates that several categorical variables have a significantly high percentage of missing values. Since we only perform visual analytics to illustrate how to use Tableau to create dashboards, we will not perform any data management for modeling purposes.
+
+
+# Design Dashboards With Tableau
+
+We briefly introduced the basic statistics charts using Tableau. In this note, we choose both categorical and quantitative variables in the working data set to construct individual charts with Tableau and then use these charts to construct a dashboard. 
+
+## Individual Charts
+
+We will construct five descriptive charts: a two-way contingency table, donuts chart (a variation pie chart), scatter plot, box plots, and histogram. 
+
+## Reactive Dashboard
+
+We will use four individual charts to construct a dashboard that includes a reactive filter to update all charts in the dashboard.
+
+
+# Tableau Story Point
+
+Tableau can create a form presentation of the existing individual chart so we can tell the story based on the Tableau charts.
+
+
+# Assignments #5
+
+This assignment focuses on Tableau dashboards and story points. You can choose a data set that has both numerical and categorical variables so you can create several charts such as histograms, scatter plots, frequency tables, pie charts, etc. using both types of variables. 
+
+**The Minimum Requirements**:
+
+1. Choose a data set with at least two numerical variables so you can construct a histogram and scatter plots.
+
+2. The data set should have at least three categorical variables so you can create pie charts, donuts charts, and box plots.
+
+3. You should use at least one filter that updates all charts in the dashboard (reactive dashboard).
+
+4. Use appropriate tiles and axis labels for each individual chart and a meaningful title for the dashboard.
+
+5. Adjust the margins of the individual chart and make the dashboard tidy and informative.
+
+6. Create a story point and provide informative captions for storytelling.
+
+7. (optional) if you have geo-information in your data set, you can create maps including animated maps.
+
+8. (optional) if you want to use more advanced topics such as derived variables and parameters to enhance your dashboard, you are very welcome to do so.
+
+**Submission Requirements**:
+
+1. Publish your dashboard and story point on the Tableau Public server.
+
+2. Write a simple HTML and put both Tableau dashboard and story-point on the same web page using the code provided by Tableau to embed into a web page using the template given below.
+
+
+
+**HTML Template and Publish It on GitHub**
+
+1. The HTML template of the assignment: <https://raw.githubusercontent.com/pengdsci/sta553/main/dash/index-html-template>
+
+2. After finishing writing the HTML, you need to save it as `index.html` in a local folder and upload it to the root directory, say, `STA553 `.
+
+3. Configuration: settings ==> pages ==> main ==> root. The URL will then be something like
+
+<https://pengdsci.github.io/sta553/>.
+
+

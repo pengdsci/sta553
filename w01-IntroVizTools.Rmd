@@ -1,0 +1,479 @@
+---
+title: "Open-Source Tools for Data Visualization"
+author: "Cheng Peng"
+date: "West Chester University"
+output:
+  html_document: default
+  html_notebook: default
+editor_options:
+  chunk_output_type: inline
+---
+<style type="text/css">
+
+div#TOC li {
+    list-style:none;
+    background-image:none;
+    background-repeat:none;
+    background-position:0;
+}
+h1.title {
+  font-size: 24px;
+  color: DarkRed;
+  text-align: center;
+}
+h4.author { /* Header 4 - and the author and data headers use this too  */
+    font-size: 18px;
+  font-family: "Times New Roman", Times, serif;
+  color: DarkRed;
+  text-align: center;
+}
+h4.date { /* Header 4 - and the author and data headers use this too  */
+  font-size: 18px;
+  font-family: "Times New Roman", Times, serif;
+  color: DarkBlue;
+  text-align: center;
+}
+h1 { /* Header 3 - and the author and data headers use this too  */
+    font-size: 22px;
+    font-family: "Times New Roman", Times, serif;
+    color: darkred;
+    text-align: center;
+}
+h2 { /* Header 3 - and the author and data headers use this too  */
+    font-size: 18px;
+    font-family: "Times New Roman", Times, serif;
+    color: navy;
+    text-align: left;
+}
+
+h3 { /* Header 3 - and the author and data headers use this too  */
+    font-size: 15px;
+    font-family: "Times New Roman", Times, serif;
+    color: darkred;
+    font-face: bold;
+    text-align: left;
+}
+
+h4 { /* Header 4 - and the author and data headers use this too  */
+    font-size: 18px;
+    font-family: "Times New Roman", Times, serif;
+    color: darkred;
+    text-align: left;
+}
+/* Tab features */
+.nav>li>a {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    color: #990000;
+}
+.nav-pills>li.active>a, .nav-pills>li.active>a:hover, .nav-pills>li.active>a:focus {
+    color: #ffffff;
+    background-color: #990000;
+}
+/*
+nav-pills>li:nth-child(2) {
+    background: green;
+ }
+ */
+</style>
+
+```{r setup, include=FALSE}
+# code chunk specifies whether the R code, warnings, and output 
+# will be included in the output files.
+if (!require("tidyverse")) {
+   install.packages("tidyverse")
+   library(tidyverse)
+}
+if (!require("knitr")) {
+   install.packages("knitr")
+   library(knitr)
+}
+if (!require("cowplot")) {
+   install.packages("cowplot")
+   library(cowplot)
+}
+if (!require("latex2exp")) {
+   install.packages("latex2exp")
+   library(latex2exp)
+}
+if (!require("plotly")) {
+   install.packages("plotly")
+   library(plotly)
+}
+if (!require("gapminder")) {
+   install.packages("gapminder")
+   library(gapminder)
+}
+if (!require("png")) {
+    install.packages("png")             # Install png package
+    library("png")
+}
+if (!require("RCurl")) {
+    install.packages("RCurl")             # Install RCurl package
+    library("RCurl")
+}
+if (!require("colourpicker")) {
+    install.packages("colourpicker")              
+    library("colourpicker")
+}
+if (!require("gganimate")) {
+    install.packages("gganimate")              
+    library("gganimate")
+}
+if (!require("gifski")) {
+    install.packages("gifski")              
+    library("gifski")
+}
+if (!require("magick")) {
+    install.packages("magick")              
+    library("magick")
+}
+if (!require("grDevices")) {
+    install.packages("grDevices")              
+    library("grDevices")
+}
+if (!require("jpeg")) {
+    install.packages("jpeg")              
+    library("jpeg")
+}
+# knitr::opts_knit$set(root.dir = "C:/Users/75CPENG/OneDrive - West Chester University of PA/Documents")
+# knitr::opts_knit$set(root.dir = "C:\\STA490\\w05")
+
+knitr::opts_chunk$set(echo = TRUE,       
+                      warning = FALSE,   
+                      result = TRUE,   
+                      message = FALSE)
+```
+
+
+# {.tabset .tabset-fade .tabset-pills}
+
+<BR><BR>
+This note introduces software programs and platforms to be used for this data visualization course.
+<BR><BR>
+
+## DataViz
+
+<BR><BR>
+
+```{echo, fig.align='center'}
+w <- ggplot(gapminder, aes(gdpPercap, lifeExp, 
+                  size = pop, colour = country)) +
+           geom_point(alpha = 0.7, show.legend = FALSE) +
+           scale_colour_manual(values = country_colors) +
+           scale_size(range = c(2, 12)) +
+           scale_x_log10() +
+           # break down the previous single plot by continent 
+            facet_wrap(~continent) +
+           # Here comes the gganimate specific bits
+           labs(title = 'Year: {frame_time}', 
+                x = 'GDP per capita', y = 'life expectancy') +
+           transition_time(year) +
+           ease_aes('linear')
+###
+animate(w, renderer = gifski_renderer())
+```
+<br>
+<center><img src="https://github.com/pengdsci/sta553/blob/main/image/lifeExpContinent02.gif?raw=true"  height="400" width="550"></center>
+<br>
+
+## R & RStudio
+<BR>
+### 1. What is R?
+<BR>
+<center><a href="https://www.r-project.org/"><img src = "https://www.r-project.org/Rlogo.png" width = 100 height = 100></a></center>
+<BR>
+R is a language and environment for statistical computing and graphics. It is a GNU project which is similar to the S language and environment which was developed at Bell Laboratories (formerly AT&T, now Lucent Technologies) by John Chambers and colleagues. R can be considered as a different implementation of S. There are some important differences, but much code written for S runs unaltered under R. 
+
+R is an integrated suite of software facilities for data manipulation, calculation and graphical display. It includes
+
+* an effective data handling and storage facility,
+* a suite of operators for calculations on arrays, in particular matrices,
+* a large, coherent, integrated collection of intermediate tools for data analysis,
+* graphical facilities for data analysis and display either on-screen or on hardcopy, and
+* a well-developed, simple and effective programming language which includes conditionals, loops, user-defined recursive functions and input and output facilities.
+
+-- <https://www.r-project.org/about.html>
+
+### 2. RStudio
+<BR>
+<center><a href="https://www.rstudio.com/products/rstudio/"><img src = "https://www.rstudio.com/assets/img/logo.svg" width = 100 height = 100></a></center>
+<BR>
+
+RStudio is an integrated development environment (IDE) for R. It includes a console, syntax-highlighting editor that supports direct code execution, as well as tools for plotting, history, debugging and workspace management.
+
+There are two versions of RStudio: RStudio Desktop and RStudio Server. Both versions have free open source and commercial editions. We use the free open source edition of RStudio Desktop that has the following features:
+
+* Access RStudio locally
+* Syntax highlighting, code completion, and smart indentation
+* Execute R code directly from the source editor
+* Quickly jump to function definitions
+* View content changes in real-time with the Visual Markdown Editor
+* Easily manage multiple working directories using projects
+* Integrated R help and documentation
+* Interactive debugger to diagnose and fix errors
+* Extensive package development tools
+
+### 3. The Relationship betweem R and RStudio
+
+R and RStudio are two distinctly different applications that serve different purposes. R is a programming language used for statistical computing while RStudio uses the R language to develop statistical programs.
+
+R and RStudio are not separate versions of the same program, and cannot be substituted for one another. R may be used without RStudio, but RStudio may not be used without R.
+
+
+
+## Tableau Public
+
+### 1. About Tableau
+
+Tableau is a powerful and fastest growing data visualization tool used in the Business Intelligence Industry. The great thing about Tableau software is that it doesn’t require any technical or any kind of programming skills to operate. Tableau suite has different products that causes confusions to new users.
+
+<br>
+<center><img src="https://github.com/pengdsci/sta553/blob/main/image/TableWhatis1.png?raw=true"  height="350" width="300"></center>
+<br>
+
+* **Tableau Desktop** has a rich feature set and allows you to code and customize reports. <font color = "red"><b>It is not free (actually pretty expensive)! </font></b>
+
+* **Tableau Public** creates workbooks that cannot be saved locally, in turn, it should be saved to the Tableau’s `public server` in the cloud which can be viewed and accessed by anyone. You need to download it and install it on your computer to design workbooks offline and then save them to Tableau’s `public server`. <font color = "red"><b>It is totally free!</font></b>
+
+* **Tableau Server** is specifically used to share the workbooks, visualizations that are created in the Tableau Desktop application across the organization. <font color = "red"><b>It is NOT free! </font></b>. <font color = "blue"><b>However, the public server is free.</font></b>
+
+* **Tableau Online** has all the similar functionalities of the Tableau Public, but the data is stored on servers hosted in the cloud which are maintained by the Tableau group. That means you design workbooks on the Tableau's public server. <font color = "blue"><b>It is also free!</b></font>
+
+* <font color = "red"><b>**Tableau Reader** is a free tool </b></font> which allows you to view the workbooks and visualizations created using Tableau Desktop or Tableau Public. 
+
+
+## Shiny Server
+
+### What is shiny.io?
+
+`Shinyapps.io` is an easy to use, scalable place to put `Shiny applications` so that other people can use them over the web without having to set up a Shiny Server. 
+
+`Shinyapps.io` is not completely free but have a free version with limited. We can register a free account for practice purposes. The following is the brief information about `Shinyapps.io`.
+
+<br>
+<center><img src="https://github.com/pengdsci/sta553/blob/main/image/ShinyPricingInfo.png?raw=true"  height="250" width="600"></center>
+<br>
+
+### Register An Account with shiny.io
+
+If you don't have an account with `shinyapps.io`, you need to register an account. Otherwise log into the account to publish your ShinyApps. The following two hyperlink buttons provide the links to the appropriate webpages.
+
+<BR><BR>
+<center>
+<a href="https://www.shinyapps.io/admin/#/login" target="popup"                           onclick="window.open('https://www.shinyapps.io/admin/#/login')"><img src="https://github.com/pengdsci/sta553/blob/main/image/Signin.png?raw=true"  height="30" width="60"></a> 
+<a href="https://www.shinyapps.io/admin/#/signup" target="popup"                         onclick="window.open('https://www.shinyapps.io/admin/#/signup')"><img src="https://github.com/pengdsci/sta553/blob/main/image/Register.png?raw=true"  height="30" width="65"></a>
+</center>
+<BR>
+
+You can also find the official web page at
+<a href="https://www.shinyapps.io/" target="popup"                         onclick="window.open('https://www.shinyapps.io/')">https://www.shinyapps.io/</a>
+<BR>
+
+### Requirements
+
+Your deed to install recent version of You’ll need `R` itself, `RStudio`, and the `knitr` package on your machine.
+
+### Steps for Publishing ShinyApps
+
+* In RStudio, create a new R ShinyApps (e.g., `myshinyapps.R`) document by choosing `File` | `New File` | `Shiny Web Apps`.
+<br>
+<center><img src="https://github.com/pengdsci/sta553/blob/main/image/ShinyFileCreation.png?raw=true"  height="180" width="400"></center>
+<br>
+
+* Click  <img src="https://github.com/pengdsci/sta553/blob/main/image/runapp.png?raw=true" height="22" width="85"> button in top right toolbar to preview the shinyapp.
+
+* In the preview window, click <img src="https://github.com/pengdsci/sta553/blob/main/image/publish.png?raw=true" height="22" width="85"> button.
+
+
+## RPubs
+
+### What is RPubs?
+<br>
+<center><img src="https://github.com/pengdsci/sta553/blob/main/image/RPubsBanner.png?raw=true"  height="250" width="600"></center>
+<br>
+
+### Register An Account With RPubs
+
+First of all, you need to sign up an account with RPubs if you don't have one. Otherwise, sign in your existing RPubs account. The following two hyperlink buttons will bring you to the appropriate web site.
+<BR><BR>
+
+<center>
+<a href="https://rpubs.com/auth/login" target="popup"                           onclick="window.open('https://rpubs.com/auth/login')"><img src="https://github.com/pengdsci/sta553/blob/main/image/Signin.png?raw=true"  height="30" width="60"></a> 
+<a href="https://rpubs.com/users/new" target="popup"                         onclick="window.open('https://rpubs.com/users/new')"><img src="https://github.com/pengdsci/sta553/blob/main/image/Register.png?raw=true"  height="30" width="65"></a>
+</center>
+
+<BR>
+
+### Requirements
+
+Your deed to install recent version of You’ll need `R` itself, `RStudio`, and the `knitr` package on your machine.
+
+### Steps for Pulishing on RPubs
+
+* In RStudio, create a new R Markdown document by choosing `File` | `New` | `R Markdown`.
+
+* Click the `Knit HTML` button in the doc toolbar to preview your document.
+
+* In the preview window, click <img src="https://github.com/pengdsci/sta553/blob/main/image/publish.png?raw=true" height="22" width="85"> button.
+
+
+## Github
+
+### What is Github?
+
+GitHub is a social networking site for programmers to share their code. Many companies and organizations use to facilitate project management and collaboration. It is the most prominent source code host, with over 60 millions of new repositories.
+
+Mos importantly, it is free. We can also use this resource to host web pages. Many images and data sets that I used are stored on Github.
+
+<br>
+<center><img src="https://github.com/pengdsci/sta553/blob/main/image/github.png?raw=true"  height="360" width="550"></center>
+<br>
+
+
+### Register A Github Account
+
+You can use the following two buttons to sign up an an account with Github or sign in an existing Github account.
+
+<center>
+<a href="https://github.com/login" target="popup"                           onclick="window.open('https://github.com/login')"><img src="https://github.com/pengdsci/sta553/blob/main/image/Signin.png?raw=true"  height="30" width="60"></a> 
+<a href="https://github.com/signup?ref_cta=Sign+up&ref_loc=header+logged+out&ref_page=%2F&source=header-home" target="popup"                         onclick="window.open('https://github.com/signup?ref_cta=Sign+up&ref_loc=header+logged+out&ref_page=%2F&source=header-home')"><img src="https://github.com/pengdsci/sta553/blob/main/image/Register.png?raw=true"  height="30" width="65"></a>
+</center>
+<BR>
+
+### Getting Started With Github
+
+We will use screenshots to demonstrate how to create repository, folders, and files.
+
+1. After you logged into your account, you click "continue for free" button located in the botton of the following page (screenshot)
+
+<br>
+<center><img src="https://github.com/pengdsci/sta553/blob/main/image/FreeGithub.png?raw=true"  height="250" width="550"></center>
+<br>
+
+2. Now you see your Github front page. Click the green button "create repository" on the left panel. Our first repository is called "sta553"
+
+<br>
+<center><img src="https://github.com/pengdsci/sta553/blob/main/image/GithubFrontPage.png?raw=true"  height="280" width="550"></center>
+<br>
+
+3. To organize file in the repository `sta553`, We want to folders for different files. To create a folder under `sta553`, click hyperlink `creating a new file`
+
+<br>
+<center><img src="https://github.com/pengdsci/sta553/blob/main/image/Create1stFolder.png?raw=true"  height="290" width="550"></center>
+<br>
+
+4. The first folder to create is called `data` folder which will be used to store data files. After typing "data/", a new box appears under "data" folder, type the first file name - readme, and the content of the file (see the screenshot). In the end, click the green button "commit new file" to complete the creation of the first folder in repository `data`.
+
+<br>
+<center><img src="https://github.com/pengdsci/sta553/blob/main/image/Create1stFileIn1stFolder.png?raw=true"  height="360" width="550"></center>
+<br>
+
+5. To load data file to the `data` folder, we click drop down menu on the top right corner and select `upload files`
+
+<br>
+<center><img src="https://github.com/pengdsci/sta553/blob/main/image/CreateNextFolder.png?raw=true"  height="300" width="650"></center>
+<br>
+
+6. To create other folders under `sta553`, we click `Creating New File`, we can create a new folder `image` similarly.
+
+<br>
+<center><img src="https://github.com/pengdsci/sta553/blob/main/image/CreateNewImageFolder.png?raw=true"  height="290" width="600"></center>
+<br>
+
+7. To create a new repository,Click the drop down menu on the top right corner and select `New repository` to create new repository.
+
+<br>
+<center><img src="https://github.com/pengdsci/sta553/blob/main/image/CreateNewRepos.png?raw=true"  height="280" width="600"></center>
+<br>
+
+
+## SAS OnDemand
+
+### 1. What is SAS OnDemand (SAS Studio)
+
+SAS OnDemand provides **free** data management and data analysis tools. The advantage of SAS OnDemand is that it does not require any installation and it runs on the cloud via the internet and process data by connecting to the SAS server in the cloud. In other words, your computer is only used as a monitor since it does not use any resources (memory and CPU) of your computer.
+
+<br>
+<center><img src="https://github.com/pengdsci/sta553/blob/main/image/SASEntryPage.png?raw=true"  height="280" width="400"></center>
+<br>
+
+Click `Access` to enter into the SAS OnDemand login page.
+
+### 2. Sign-in / Sign-up
+
+If you have already created your SAS Profile, use the email or user ID and the password to log into the SAS OnDemand page. 
+
+<br>
+<center><img src="https://github.com/pengdsci/sta553/blob/main/image/SASLogin.png?raw=true"  height="280" width="400"></center>
+<br>
+
+
+### 3. Create An SAS Profile
+
+If you don't have an SAS profile, click the link`Don't have a SAS profile?`, you will have the following pop-up dialogue box. Click `Create profile`, then you will see a pop-up sign-up page. You then following the direction to create your SAS profile.
+
+<br>
+<center><img src="https://github.com/pengdsci/sta553/blob/main/image/SAS1stVisit.png?raw=true"  height="80" width="300"></center>
+<br>
+
+
+### 4. Log Into SAS Academic OnDemand
+
+Provide the your profile information to log into the OnDemand page, you will see the link to SAS Studio user interface and your account information as well. 
+
+<br>
+<center><img src="https://github.com/pengdsci/sta553/blob/main/image/SASProfileFrontPage.png?raw=true"  height="280" width="400"></center>
+<br>
+
+Once you created an SAS profile, you will have 5 GB free storage. 
+
+### 5. SAS Studio User Interfacce
+
+In the `Applications` tab, click `SAS Studio`, you see the SAS Studio user interface in a separate page (it may take a little bit time to initialize your account if you use it for the first time).
+
+<br>
+<center><img src="https://github.com/pengdsci/sta553/blob/main/image/SASStudioUI.png?raw=true"  height="280" width="500"></center>
+<br>
+
+The above screenshot was taken from my SAS course webpage. For those who learned SAS using the classical SAS, you will see SAS Studio is much more convenient and easier to use. 
+
+### **A Cautionary Note On Data Security**
+
+<font color = "red">SAS Studio (Academic OnDemand) is installed on SAS servers hosted in the Microsoft Azure Cloud. Although SAS claims that your assigned storage is private and secured, it is suggested avoiding uploading `sensitive data` to you private storage on SAS server since SAS does not release the level of security for the storage.</font>
+
+
+## R Viz Libraries
+
+The following libraries will be used throughout this class.
+
+### 1. Tidyverse 
+
+### 2. ggplot2
+
+Ggplot2 is a system for creating charts based on the Grammar of Graphics. It proved to be one of the most powerful R libraries for visualization.
+
+
+### 3. plotly
+
+`plotly` is an online platform for data visualization in R (also available in Python). This package creates interactive web-based plots using `plotly.js` library. Plotly gives users an opportunity to interact with graphs, change their scale and point out the necessary record. The library also supports graph hovering. Moreover, one can easily add Plotly in knitr/R Markdown or Shiny apps.
+
+
+### 4. leaflet
+
+Leaflet is a well-known package based on JavaScript libraries for interactive maps. It is widely used for mapping and working with the customization and design of interactive maps. Besides, Leaflet provides an opportunity to make these maps mobile-friendly.
+
+### 5. mapview
+
+### 6. tmap
+
+### 7. Other infrequently used packages
+
+`ggmap`, `map`, `dygraph`, 
+
+
+
+
+
+

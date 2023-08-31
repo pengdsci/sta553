@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>                                    <!-- open html tag: required  -->
+  <head>                                  <!-- open page header: required -->
+    <meta charset="utf-8">
+    <title>My First Web Page</title>      <!-- page title appears on the tab -->
+  </head>                                 <!-- close page header: required -->
+  <body>       <!-- open html body: required -->
+    <!-- All contents of the web page MUST be placed between <body> </body> -->
+    <!-- The following img tag is an example. -->
+    <img src="images/wculogo.jpeg" alt="wcu-logo" width = "100" height = "100"> 
+  </body>                                <!-- close html body: required -->
+</html> 

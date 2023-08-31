@@ -1,0 +1,676 @@
+---
+title: "Interactive Statistics Graphics with plotly"
+author: "Cheng Peng"
+date: "West Chester University"
+output:
+  pdf_document: default
+  html_notebook: default
+  html_document: default
+editor_options:
+  chunk_output_type: inline
+---
+<style type="text/css">
+
+div#TOC li {
+    list-style:none;
+    background-image:none;
+    background-repeat:none;
+    background-position:0;
+}
+h1.title {
+  font-size: 24px;
+  color: DarkRed;
+  text-align: center;
+}
+h4.author { /* Header 4 - and the author and data headers use this too  */
+    font-size: 18px;
+  font-family: "Times New Roman", Times, serif;
+  color: DarkRed;
+  text-align: center;
+}
+h4.date { /* Header 4 - and the author and data headers use this too  */
+  font-size: 18px;
+  font-family: "Times New Roman", Times, serif;
+  color: DarkBlue;
+  text-align: center;
+}
+h1 { /* Header 3 - and the author and data headers use this too  */
+    font-size: 22px;
+    font-family: "Times New Roman", Times, serif;
+    color: darkred;
+    text-align: center;
+}
+h2 { /* Header 3 - and the author and data headers use this too  */
+    font-size: 18px;
+    font-family: "Times New Roman", Times, serif;
+    color: navy;
+    text-align: left;
+}
+
+h3 { /* Header 3 - and the author and data headers use this too  */
+    font-size: 15px;
+    font-family: "Times New Roman", Times, serif;
+    color: navy;
+    text-align: left;
+}
+
+h4 { /* Header 4 - and the author and data headers use this too  */
+    font-size: 18px;
+    font-family: "Times New Roman", Times, serif;
+    color: darkred;
+    text-align: left;
+}
+</style>
+
+```{r setup, include=FALSE}
+# code chunk specifies whether the R code, warnings, and output 
+# will be included in the output files.
+if (!require("tidyverse")) {
+   install.packages("tidyverse")
+   library(tidyverse)
+}
+if (!require("knitr")) {
+   install.packages("knitr")
+   library(knitr)
+}
+if (!require("cowplot")) {
+   install.packages("cowplot")
+   library(cowplot)
+}
+if (!require("latex2exp")) {
+   install.packages("latex2exp")
+   library(latex2exp)
+}
+if (!require("plotly")) {
+   install.packages("plotly")
+   library(plotly)
+}
+if (!require("gapminder")) {
+   install.packages("gapminder")
+   library(gapminder)
+}
+if (!require("png")) {
+    install.packages("png")             # Install png package
+    library("png")
+}
+if (!require("RCurl")) {
+    install.packages("RCurl")             # Install RCurl package
+    library("RCurl")
+}
+if (!require("colourpicker")) {
+    install.packages("colourpicker")              
+    library("colourpicker")
+}
+if (!require("gganimate")) {
+    install.packages("gganimate")              
+    library("gganimate")
+}
+if (!require("gifski")) {
+    install.packages("gifski")              
+    library("gifski")
+}
+if (!require("magick")) {
+    install.packages("magick")              
+    library("magick")
+}
+if (!require("grDevices")) {
+    install.packages("grDevices")              
+    library("grDevices")
+}
+if (!require("jpeg")) {
+    install.packages("jpeg")              
+    library("jpeg")
+}
+# knitr::opts_knit$set(root.dir = "C:/Users/75CPENG/OneDrive - West Chester University of PA/Documents")
+# knitr::opts_knit$set(root.dir = "C:\\STA490\\w05")
+
+knitr::opts_chunk$set(echo = TRUE,       
+                      warning = FALSE,   
+                      result = TRUE,   
+                      message = FALSE)
+```
+
+
+# {.tabset}
+
+## Plotly
+
+Plotly has a rich and complex set of features. The most common features are:
+
+* Tooltip “hover” info
+* Zoom in and out of graphs
+* Users can export graphs as an image
+* Integrating multiple graphs
+* Template hover info
+* Animations and moving graphics
+
+One can feed a `ggplot` to `plotly` to render ggplot via `plotly`. Comparing to the base R plotting function `plot()`, `plot_ly()` is more technical and  poorly documented. However, the following factors may make `plotly` the best option:
+
+* graphs presented in a digital/online format
+* users interact with the graph
+* more customizable than ggplot 
+* rendering graphics in a higher-resolution
+
+In this note, we introduce the basic statistical graphics using the `plotly` package. `plotly` graphics automatically contain interactive elements that allow users to modify, explore, and experience the visualized data in new ways. 
+
+The coding effort is similar to that of SAS ODS graphics. To use `plot_ly()`, we need to install (if not done) and load the `plotly` package. We use the well-known iris data set in the following plots. A nice `plotly` cheat sheet can be found at <https://stat553.s3.amazonaws.com/plotly/r_plotly_cheat_sheet.pdf>
+
+## ScatterPlot
+
+### The Default Plot
+
+First, we make a simple interactive scatter plot using sepal length and width. We can view the information about the variables and color coding information in the hover text. The labels of axes and legend titles and label are default.
+
+```{r}
+plot_ly(
+    data = iris,
+    x = ~Sepal.Length,  # Horizontal axis 
+    y = ~Sepal.Width,   # Vertical axis 
+    color = ~factor(Species),  # must be a numeric factor
+     type = "scatter",
+     mode = "markers")
+```
+
+### Addiing Additional Information Through `hovertemplate`
+
+We can also add additional information to the plot to enhance interactivity of the plot. For example, we can (1) modify the point size using the value of a numerical variable variable; (2) add text to the hover text using `text` option to show the class label; (3) formulate the hover text using `hovertemplate` option.
+
+```{r}
+plot_ly(
+    data = iris,
+    x = ~Sepal.Length,  # Horizontal axis 
+    y = ~Sepal.Width,   # Vertical axis 
+    color = ~factor(Species),  # must be a numeric factor
+     text = ~Species,     # show the species in the hover text
+     ## using the following hovertemplate() to add the information of the
+     ## two numerical variable to the hover text.
+     hovertemplate = paste('<i><b>Sepal Width<b></i>: %{y}',
+                           '<br><b>Sepal Length</b>:  %{x}',
+                           '<br><b>%{text}</b>'),
+     alpha  = 0.9,
+     size = ~Sepal.Length,
+     type = "scatter",
+     mode = "markers")
+```
+
+### Enhancing the Plot with Layout() Function
+
+Titles and axis labels are important in any visualization, to include a meaningful titles, informative labels , and annotations to the plotly plot, we can use layout() function. The following code only gives you some design idea you can use to enhance your plotly charts. The detailed list of configurations can be found from the plotly's reference page at <https://plotly.com/r/reference/layout/>
+
+
+```{r, fig.align='center', fig.width=8, fig.height=8}
+plot_ly(
+    data = iris,
+    x = ~Sepal.Length,  # Horizontal axis 
+    y = ~Sepal.Width,   # Vertical axis 
+    color = ~factor(Species),  # must be a numeric factor
+     text = ~Species,     # show the species in the hover text
+     ## using the following hovertemplate() to add the information of the
+     ## two numerical variable to the hover text.
+     hovertemplate = paste('<i><b>Sepal Width<b></i>: %{y}',
+                           '<br><b>Sepal Length</b>:  %{x}',
+                           '<br><b>%{text}</b>'),
+     alpha  = 0.9,
+     size = ~Sepal.Length,
+     type = "scatter",
+     mode = "markers"
+   ) %>%
+    layout(  
+      ## graphic size
+      with = 700,
+      height = 700,
+      ### Title 
+      title =list(text = "Sepal Length vs Sepal Width", 
+                          font = list(family = "Times New Roman",  # HTML font family  
+                                        size = 18,
+                                       color = "red")), 
+      ### legend
+      legend = list(title = list(text = 'species',
+                                 font = list(family = "Courier New",
+                                               size = 14,
+                                              color = "green")),
+                    bgcolor = "ivory",
+                    bordercolor = "navy",
+                    groupclick = "togglegroup",  # one of  "toggleitem" AND "togglegroup".
+                    orientation = "v"  # Sets the orientation of the legend.
+                    
+                    ),
+      ## margin of the plot
+      margin = list(
+              b = 120,
+              l = 50,
+              t = 120,
+              r = 50
+      ),
+      ## Background
+      plot_bgcolor ='#f7f7f7', 
+      ## Axes labels
+             xaxis = list( 
+                    title=list(text = 'Sepal Length',
+                               font = list(family = 'Arial')),
+                    zerolinecolor = 'red', 
+                    zerolinewidth = 2, 
+                    gridcolor = 'white'), 
+            yaxis = list( 
+                    title=list(text = 'Sepal Width',
+                               font = list(family = 'Arial')),
+                    zerolinecolor = 'purple', 
+                    zerolinewidth = 2, 
+                    gridcolor = 'white'),
+       ## annotations
+       annotations = list(  
+                     x = 0.7,   # between 0 and 1. 0 = left, 1 = right
+                     y = 0.9,   # between 0 and 1, 0 = bottom, 1 = top
+                  font = list(size = 12,
+                              color = "darkred"),   
+                  text = "The point size is proportional to the sepal length",   
+                  xref = "paper",  # "container" spans the entire `width` of the plot. 
+                                   # "paper" refers to the width of the plotting area only.  
+                  yref = "paper",  #  same as xref
+               xanchor = "center", #  horizontal alignment with respect to its x position
+               yanchor = "bottom", #  similar to xanchor  
+             showarrow = FALSE  
+           )
+    )
+      
+  
+
+```
+
+```{r}
+myPlotlyLayout <- function(){
+  layout(  
+      ## graphic size
+      with = 700,
+      height = 700,
+      ### Title 
+      title =list(text = "Sepal Length vs Sepal Width", 
+                          font = list(family = "Times New Roman",  # HTML font family  
+                                        size = 18,
+                                       color = "red")), 
+      ### legend
+      legend = list(title = list(text = 'species',
+                                 font = list(family = "Courier New",
+                                               size = 14,
+                                              color = "green")),
+                    bgcolor = "ivory",
+                    bordercolor = "navy",
+                    groupclick = "togglegroup",  # one of  "toggleitem" AND "togglegroup".
+                    orientation = "v"  # Sets the orientation of the legend.
+                    
+                    ),
+      ## margin of the plot
+      margin = list(
+              b = 120,
+              l = 50,
+              t = 120,
+              r = 50
+      ),
+      ## Background
+      plot_bgcolor ='#f7f7f7', 
+      ## Axes labels
+             xaxis = list( 
+                    title=list(text = 'Sepal Length',
+                               font = list(family = 'Arial')),
+                    zerolinecolor = 'red', 
+                    zerolinewidth = 2, 
+                    gridcolor = 'white'), 
+            yaxis = list( 
+                    title=list(text = 'Sepal Width',
+                               font = list(family = 'Arial')),
+                    zerolinecolor = 'purple', 
+                    zerolinewidth = 2, 
+                    gridcolor = 'white'),
+       ## annotations
+       annotations = list(  
+                     x = 0.7,   # between 0 and 1. 0 = left, 1 = right
+                     y = 0.9,   # between 0 and 1, 0 = bottom, 1 = top
+                  font = list(size = 12,
+                              color = "darkred"),   
+                  text = "The point size is proportional to the sepal length",   
+                  xref = "paper",  # "container" spans the entire `width` of the plot. 
+                                   # "paper" refers to the width of the plotting area only.  
+                  yref = "paper",  #  same as xref
+               xanchor = "center", #  horizontal alignment with respect to its x position
+               yanchor = "bottom", #  similar to xanchor  
+             showarrow = FALSE  
+           )
+  )
+       }
+```
+
+```{r, fig.align='center', fig.width=8, fig.height=8}
+plot_ly(
+    data = iris,
+    x = ~Sepal.Length,  # Horizontal axis 
+    y = ~Sepal.Width,   # Vertical axis 
+    color = ~factor(Species),  # must be a numeric factor
+     text = ~Species,     # show the species in the hover text
+     ## using the following hovertemplate() to add the information of the
+     ## two numerical variable to the hover text.
+     hovertemplate = paste('<i><b>Sepal Width<b></i>: %{y}',
+                           '<br><b>Sepal Length</b>:  %{x}',
+                           '<br><b>%{text}</b>'),
+     alpha  = 0.9,
+     size = ~Sepal.Length,
+     type = "scatter",
+     mode = "markers"
+   ) 
+```
+
+
+
+
+### Redering A GGPLOT with `ggplotly`
+
+We can also render a ggplot in using ggplotly to bring interactivity to the plot.
+
+
+```{r, fig.align='center'}
+myplot.theme_new <- function() {
+  theme(
+    #ggplot margins
+     plot.margin = margin(t = 50,  # Top margin
+                          r = 30,  # Right margin
+                          b = 30,  # Bottom margin
+                          l = 30), # Left margin
+    ## ggplot titles
+    plot.title = element_text(face = "bold", 
+                              size = 12,
+                              family = "sans", 
+                              color = "navy",
+                              hjust = 0.5,
+                              margin=margin(0,0,30,0)), # left(0),right(1)
+    # add border 1)
+    panel.border = element_rect(colour = NA, 
+                                fill = NA, 
+                                linetype = 2),
+    # color background 2)
+    panel.background = element_rect(fill = "#f6f6f6"),
+    # modify grid 3)
+    panel.grid.major.x = element_line(colour = 'white', 
+                                      linetype = 3, 
+                                      size = 0.5),
+    panel.grid.minor.x = element_blank(),
+    panel.grid.major.y =  element_line(colour = 'white', 
+                                       linetype = 3, 
+                                       size = 0.5),
+    panel.grid.minor.y = element_blank(),
+    # modify text, axis and colour 4) and 5)
+    axis.text = element_text(colour = "navy", 
+                             #face = "italic", 
+                             size = 7,
+                             #family = "Times New Roman"
+                             ),
+    axis.title = element_text(colour = "navy", 
+                              size = 7,
+                              #family = "Times New Roman"
+                              ),
+    axis.ticks = element_line(colour = "navy"),
+    # legend at the bottom 6)
+    legend.position = "bottom",
+    legend.key.size = unit(0.6, 'cm'), #change legend key size
+    legend.key.height = unit(0.6, 'cm'), #change legend key height
+    legend.key.width = unit(0.6, 'cm'), #change legend key width
+    #legend.title = element_text(size=8), #change legend title font size
+    legend.title=element_blank(),  # remove all legend titles
+    legend.key = element_rect(fill = "white"),
+    #####
+    legend.text = element_text(size=8)) #change legend text font size
+}
+```
+
+
+
+```{r, fig.align='center', fig.width=6, fig.height=5}
+# Change histogram plot line colors by groups
+p <- ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width,
+                              color = factor(Species)), linetype = Species) +
+             geom_point(size = 2, alpha = 0.7) +
+             stat_smooth(method = lm, se=FALSE, size = 0.3) +
+             scale_color_manual(values=c("dodgerblue4", "darkolivegreen4", "darkorchid3")) +
+             labs(
+                 x = "Sepal Length",
+                 y = "Sepal Width",
+                 title = "Association between Sepal Length and Width") +
+             myplot.theme_new() + 
+              annotate(geom="text" , 
+                       x=6.8, 
+                       y=2,
+                       label=paste("The Pearson correlation coefficient r = ",                          
+                                   round(cor(iris$Sepal.Length, iris$Sepal.Width),3)), 
+                          size = 2,
+                          color = "navy") + 
+               coord_fixed(1)    ## This changes the aspect ratio of the graph
+ggplotly(p)
+```
+
+
+
+```{r, fig.align='center', fig.width=6, fig.height=5}
+# Change histogram plot line colors by groups
+p <- ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width,
+                      color = factor(Species)), linetype = Species) +
+             # to add more information about the variables in the data set
+             # use labels to denote the variable names inside the function aes()
+             aes(label=Species, label2=Petal.Length, label3=Petal.Width) +
+             geom_point(size = 2, alpha = 0.7) +
+             stat_smooth(method = lm, se=FALSE, size = 0.3) +
+             scale_color_manual(values=c("dodgerblue4", "darkolivegreen4", "darkorchid3")) +
+             labs(
+                 x = "Sepal Length",
+                 y = "Sepal Width",
+                 title = "Association between Sepal Length and Width") +
+             myplot.theme_new() + 
+              annotate(geom="text" , 
+                       x=6.8, 
+                       y=2,
+                       label=paste("The Pearson correlation coefficient r = ",                          
+                                   round(cor(iris$Sepal.Length, iris$Sepal.Width),3)), 
+                          size = 2,
+                          color = "navy") + 
+               coord_fixed(1)    ## This changes the aspect ratio of the graph
+ggplotly(p)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+## Barplot
+
+We will create a summarized data set to make bar plots. We define a data set to store the mean of sepal length and sepal width by species using the `dyplr` and `tidyr` approaches.
+
+```{r}
+barplotdata <- iris %>%
+  group_by(Species) %>%
+  summarize(sepal.l.avg = mean(Sepal.Length),
+            sepal.w.avg = mean(Sepal.Width),
+            petal.l.avg = mean(Petal.Length),
+            petal.w.avg = mean(Petal.Width))
+kable(head(barplotdata))
+```
+
+Next, we draw a group bar chart.
+
+```{r}
+plot_ly(
+  data = barplotdata,
+   x = ~Species,
+   y = ~sepal.l.avg,
+   type = "bar",
+   name = "sepal.len.avg" ) %>%
+    add_trace(y=~sepal.w.avg, name = "sepal.wid.avg") %>%
+    add_trace(y=~petal.l.avg, name = "petal.len.avg") %>%
+    add_trace(y=~petal.w.avg, name = "petal.wid.avg") %>%
+    layout( yaxis = list(title ="Mean"),
+            title = "Frequency distribution of Iris attributes")
+```
+
+## Histogram
+
+```{r}
+plot_ly(
+  data = iris,
+   x = ~ Sepal.Length,
+   type = "histogram",
+   nbinsx = 10, 
+   name = "sepal.length",
+   alpha = .5,
+   marker = list(line = list(color = "darkgray",  width = 2)) ) %>%
+   ## adding additional histograms and stack them
+    add_histogram(x = ~Sepal.Width,
+                name = "sepal.width", nbinsx = 10, alpha = 0.5,
+                marker = list(line = list(color = "darkgray",  width = 2))) %>%
+    add_histogram(x = ~Petal.Length,
+                name = "petal.length",nbinsx = 10, alpha = 0.5,
+                marker = list(line = list(color = "darkgray",  width = 2))) %>%
+    add_histogram(x = ~Petal.Width,
+                name = "petal.lwidth",nbinsx = 10, alpha = 0.5,
+                marker = list(line = list(color = "darkgray",  width = 2))) %>%
+  layout(barmode = "overlay",
+         title = "Histogram of Iris Attribute",
+         xaxis = list(title = "Iris Attributes",
+                      zeroline = TRUE),
+         yaxis = list(title = "Count",
+                      zeroline =TRUE))
+```
+
+## Boxplot
+
+Drawing a boxplot is straightforward in `plotly`.
+
+```{r}
+plot_ly(
+  data = iris,
+  y = ~ Sepal.Length,
+  x = ~Species,
+  type = "box",
+  color = ~Species,
+  boxpoints = "all",
+  boxmean = TRUE,
+  showlegend = FALSE ) %>%
+   layout(title = "Histogram of Iris Attribute",
+         xaxis = list(title = "Species",
+                      zeroline = TRUE),
+         yaxis = list(title = "Sepal Length",
+                      zeroline =TRUE))
+```
+
+
+## Pie Chart
+
+We first define a subset from the iris data by filtering out observation with a sepal length less than 5. The pie chart will be created to see the distribution of species in the subset of the iris data. Keep in mind that the pie chart is constructed based on a frequency table.
+
+
+```{r}
+# define a working data set
+subiris <- iris[iris$Sepal.Length > 5,5]
+## create a frequency table in the form of data frame.
+piedata = data.frame(cate =as.vector(unique(subiris)), 
+                     freq = as.vector(table(subiris)))
+# define a color vector
+colors <- c('rgb(211,94,96)', 'rgb(128,133,133)', 'rgb(144,103,167)')
+# make a pie chart
+plot_ly(piedata, labels = ~cate, values = ~freq, type = 'pie',
+        textposition = 'inside',
+        textinfo = 'label + percent',
+        insidetextfont = list(color = '#FFFFFF'),
+        hoverinfo = 'text',
+        marker = list(colors = colors,
+                      line = list(color = '#FFFFFF', width = 1)),
+                      #The 'pull' attribute can also be used to create space between the sectors
+        showlegend = FALSE) %>% 
+         layout(title = 'Distribution of Species',
+                xaxis = list(showgrid = FALSE, zeroline = FALSE, 
+                             showticklabels = FALSE),
+                yaxis = list(showgrid = FALSE, zeroline = FALSE, 
+                             showticklabels = FALSE))
+```
+
+## Density Curve
+
+Assume that we want to compare the distribution of the sepal length of the tree iris flowers. One way to do this comparison is to plot the three estimated density curves.
+
+```{r}
+# define three densities
+sepal.len.setosa <- iris[which(iris$Species == "setosa"),]
+setosa <- density(sepal.len.setosa$Sepal.Length)
+sepal.len.versicolor <- iris[which(iris$Species == "versicolor"),]
+versicolor <- density(sepal.len.versicolor$Sepal.Length)
+sepal.len.virginica <- iris[which(iris$Species == "virginica"),]
+virginica <- density(sepal.len.virginica$Sepal.Length)
+# plot density curves
+fig <- plot_ly(x = ~virginica$x, y = ~virginica$y, 
+               type = 'scatter', mode = 'lines', 
+               name = 'virginica', 
+               fill = 'tozeroy')  %>% 
+           # adding more density curves
+       add_trace(x = ~versicolor$x, y = ~versicolor$y, 
+                 name = 'versicolor', fill = 'tozeroy')  %>% 
+       add_trace(x = ~setosa$x, y = ~setosa$y, 
+                 name = 'setosa', fill = 'tozeroy')  %>%   
+       layout(xaxis = list(title = 'Sepal Length'),
+              yaxis = list(title = 'Density'))
+fig
+```
+
+## Serial Plot
+
+```{r}
+stock <- read.csv('https://raw.githubusercontent.com/pengdsci/sta553.html/main/data/finance-charts-apple.csv')
+##
+fig <- plot_ly(stock, type = 'scatter', mode = 'lines')    %>%
+       add_trace(x = ~Date, y = ~AAPL.High)    %>%
+       layout(showlegend = F, 
+              title='Time Series with Rangeslider',
+              xaxis = list(rangeslider = list(visible = T)))  %>%
+       layout(xaxis = list(zerolinecolor = '#ffff',
+                      zerolinewidth = 2,
+                      gridcolor = 'ffff'),
+              yaxis = list(zerolinecolor = '#ffff',
+                      zerolinewidth = 2,
+                      gridcolor = 'ffff'),
+              plot_bgcolor='#e5ecf6', width = 900)
+fig
+```
+
+## Plotly Maps
+
+Several map libraries are available in R. In this example, we use the `plot_geo()` function from `plotly` to plot on a map.
+
+
+```{r}
+## preparing data
+poc <- read_csv("https://raw.githubusercontent.com/pengdsci/sta553.html/main/data/POC.csv")[,c(7,8,9, 17)]
+poc.site <- poc[poc$POC == 1,]
+# geo styling
+geostyle <- list(scope = 'usa',
+                 projection = list(type = 'albers usa'),
+                 showland = TRUE,
+                 landcolor = toRGB("gray95"),
+                 subunitcolor = toRGB("gray85"),
+                 countrycolor = toRGB("gray85"),
+                 countrywidth = 0.5,
+                 subunitwidth = 0.5
+               )
+## plotting map
+fig <- plot_geo(poc.site, lat = ~ycoord, lon = ~xcoord) %>%
+       add_markers(text = ~ SITE_DESCRIPTION, 
+                   color = "red", 
+                   symbol = I("circle"), 
+                   size = I(8), 
+                   hoverinfo = "text" )   %>%
+        layout( title = 'POC Risk Sites', geo = geostyle)
+fig
+```
+
+
+

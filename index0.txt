@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>                                    <!-- open html tag: required  -->
+  <head>                                  <!-- open page header: required -->
+    <title>My First Web Page</title>      <!-- page title appears on the tab -->
+  </head>                                 <!-- close page header: required -->
+  <body>                                  <!-- open html body: required -->
+    <!-- All contents of the web page MUST be placed between <body> </body> -->
+    <center><h1><font color="darkblue"> Welcome to My Web Page</font></h1></center>
+    <br>      
+    <center><img src="images/wculogo.jpg" alt="wcu-logo" width = "400" height = "120"></center> 
+      <!-- contact information  -->
+      <center><font color = "navy" face="Comic sans MS" size=" 2">
+      Phone: xxx-xxx-xxxx <br>
+      Email: xxx@gmail.com
+      </font></center>
+    <br>
+    <br>
+    <table border = 0 bordercolor="darkgreen" bgcolor='#f6f6f6'  width=70%  align = center> 
+        <tr>
+            <TD>
+                <h3><font color = "darkred">Short Bio</font></h3>
+            </TD>
+            <TD>
+               <font color = "red" face="Comic sans MS" size=" 3">
+                  <p> write your short bio here.....</p>
+                </font>
+            </TD>
+        </tr>
+        
+         <tr>
+            <TD>
+                <h3><font color = "darkred">Experience</font></h3>
+            </TD>
+            <TD>
+               <font color = 'purple' face="WildWest" size="4">
+                  <p> write your professional experience here.....</p>
+               </font>
+            </TD>
+        </tr>
+        
+         <tr>
+            <TD>   
+              <h3><font color = "darkred">Projects</font></h3>
+            </TD>
+            <TD>
+               <p> list your project here.....</p>
+                <li>Project #1: <a href="projects/VizFoundation.pdf"> Principles of Visualization</a></li>
+            </TD>
+        </tr>
+        
+        <tr>
+          <TD>
+            <h3><font color = "darkred">Skills</font></h3>
+          </TD>
+          <TD>
+             <p> list your skills here.....</p>
+          </TD>
+        </tr>        
+        
+        
+        
+    </table>   
+      
+  </body>                                 <!-- close html body: required -->
+</html> 

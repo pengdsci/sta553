@@ -1,0 +1,333 @@
+---
+title: "STA553-Data Visualization"
+author: "Instructor: Cheng Peng"
+date: "Spring 2022"
+output:
+  pdf_document: 
+    toc: no
+    toc_depth: 4
+    fig_caption: yes
+    number_sections: yes
+    fig_width: 5
+    fig_height: 4
+  word_document: 
+    toc: no
+    toc_depth: 4
+    fig_caption: yes
+    keep_md: yes
+  html_document: 
+    toc: no
+    toc_depth: 4
+    fig_width: 6
+    fig_height: 4
+    fig_caption: yes
+    number_sections: yes
+    theme: readable
+---
+<style type="text/css">
+div#TOC li {
+    list-style:none;
+    background-image:none;
+    background-repeat:none;
+    background-position:0;
+}
+h1.title {
+  font-size: 20px;
+  color: DarkRed;
+  text-align: center;
+}
+h4.author { /* Header 4 - and the author and data headers use this too  */
+    font-size: 18px;
+  font-family: "Times New Roman", Times, serif;
+  color: DarkRed;
+  text-align: center;
+}
+h4.date { /* Header 4 - and the author and data headers use this too  */
+  font-size: 18px;
+  font-family: "Times New Roman", Times, serif;
+  color: DarkBlue;
+  text-align: center;
+}
+h1 { /* Header 3 - and the author and data headers use this too  */
+    font-size: 22px;
+    font-family: "Times New Roman", Times, serif;
+    color: darkred;
+    text-align: center;
+}
+h2 { /* Header 3 - and the author and data headers use this too  */
+    font-size: 18px;
+    font-family: "Times New Roman", Times, serif;
+    color: navy;
+    text-align: left;
+}
+
+h3 { /* Header 3 - and the author and data headers use this too  */
+    font-size: 15px;
+    font-family: "Times New Roman", Times, serif;
+    color: navy;
+    text-align: left;
+}
+
+h4 { /* Header 4 - and the author and data headers use this too  */
+    font-size: 18px;
+    font-family: "Times New Roman", Times, serif;
+    color: darkred;
+    text-align: left;
+}
+</style>
+
+
+# Contact Information
+
+* Email: cpeng@wcupa.edu
+* Office: 111 UNA 25
+* Phone: 610-436-2369
+* Office Hours: 
+
+
+|    Day    |      Time      |      Location       |
+|:----------|:---------------|:--------------------|
+|Tuesday    | 3:00 AM-5:00 AM| R111, UNA25 and ZOOM|
+|Wednesday  | 3:00 PM-5:00 PM| R111, UNA25 and ZOOM|
+|Thursday   | 3:00 AM-5:00 AM| R111, UNA25 and ZOOM|
+|By appointment|             |      ZOOM only      |
+
+
+* **ZOOM Link**: Available on the course web page and D2L as well.
+
+* **Course Web Page**: [https://wcusta553.s3.amazonaws.com/STA553.html](https://wcusta553.s3.amazonaws.com/STA553.html)
+
+* **Classroom**: 25 University Avenue 125
+
+
+# Course Description
+
+This course focuses on the principles of data visualization and addresses questions about what, why, and how to visualize. Topics include visualization design elements such as colors, shapes, and movements, etc.; data exploratory visualization; statistical graphics and model visualization; process visualization; dashboard design; and the ethics of data visualization. The course will also introduce some commonly used visualization tools.
+
+
+# Learning Objectives and Outcomes
+
+## **Learning Outcomes** 
+
+After finishing this course, students should be able to 
+
+* Design and create statistical graphics using the basic principles of visualization.
+
+* Conduct exploratory data analysis using various tools.
+
+* Critically evaluate visualizations and suggest improvements and refinements
+
+* Design and evaluate interactive visualization tools.
+
+* Create web-based interactive visualization.
+
+
+# Logistics and Required Materials
+
+* **Textbooks (optional):** No required textbook for this class. 
+ 
+  
+* **Class Notes:** Class notes will be provided. 
+
+* **Computational Tools:** 
+
+  + Primary Programming languages and Software: R and Tableau Public
+  + Platforms: RStudio, Github, Shiny
+  + Typesetting: LaTex and Markdown
+
+* **Coverage:** See the list of tentative topics
+
+
+# Assessments
+
+## Assessment Components
+
+The course grade consists of the following components:
+
+  + Bi-weekly assignments (60%)
+  + Class attendance and participation (10%)
+  + Project presentation (30%)
+
+## Grade Scales
+
+
+The final course grade will be calculated based on the above components. A letter grade will be assigned according to the following scale.
+
+
+|  Grade | 	Quality Points |	Percentage Equivalents |	Interpretation |
+|:------ |:--------------|:--------------------|:----------------------|
+|A	|4.00	|[93%, 100%]|Superior graduate attainment                    |
+|A-	|3.67	|[90%, 93%)	|                                                |
+|B+	|3.33	|[86%, 90%)	|Satisfactory graduate attainment                |
+|B	|3.00	|[83%, 86%)	|                                                |
+|B-	|2.67	|[80%, 83%) |                                             	 |
+|C+	|2.33	|[76%, 80%) |	Attainment below graduate expectations         |
+|C	|2.00	|[73%, 76%)	|                                                |
+|C-	|1.67	|[70%, 73%)	|                                                |
+|F	|0	|< 70%	|Failure                                               |
+
+D grades are not used. Refer to the Graduate Catalog for the description of NG (No Grade), W, & other grades.
+
+
+# Class Policies
+
+## Attendance and Participation
+
+Attendance in the class is mandatory. Actively participating in class discussion is required in this class and is one of the components of the final course grade. 
+
+## Late Homework and Assignments
+
+Late assignments will be accepted. However, all late assignments will be subject to a small penalty deduction.
+
+
+# Tentative Topics
+
+**Week 1: Introduction and Logistics**
+
+*	Logistics: Programming language, software and platforms
+*	Outline of the course
+* Data foundation visualization
+*	Basic of R, RStudio and RMarkdown
+
+**Week 2: Review of Base R Programming**
+              
+*	Basics of R: data types, control and loops, user-defined functions
+*	Base R Graphics: base R graphic functions
+* Basic chart types
+
+
+**Week 3:  Foundations of Data Visualization**
+               
+*	Principles of data visualization
+*	Building blocks of data visualization: Marks and Channels
+*	Design elements in visualizations: visual encoding and color scheme
+* Ethics of data visualization
+
+**Week 4. Data Management for Visualization**
+
+*	Important base R commands for data management
+*	Dyplr commands
+*	Tidy data and code: joins and pipe operator (%>%)
+
+**Week 5. Basic ggplots**
+
+* Components of ggplot()
+*	Basic Statistical graphics with ggplot()
+  +	charts for single variable
+  + charts for two variables
+
+**Week 6: Interactive Charts with plotly()**
+             
+*	plotly package and syntax
+*	interactive statistical charts 
+*	Plotly map – a simple example of interactive map
+
+**Week 7.  Visualizing Spatial Patterns with Maps**
+  
+*	Basic types of maps: choropleth and scatter map
+*	R map libraries 
+* Choropleth map for aggregated data
+* Scatter map for individual level data
+
+**Week 8.  Introduction to Tableau**
+             
+*	Tableau Public and Tableau Online
+* Getting started with Tableau
+* Basic Statistical Charts with Tableau
+*	Creating Maps for spatial patterns
+* Publish Visualizations on Tableau's free server
+
+**Week 9. Interactive Visualization with Tableau**
+     
+*	 The design and use of dashboards 
+*  Static dashboard/real-time dashboard
+*  Animated charts
+*  Advanced Mapping Techniques
+
+**Week 10. Interactive Spatial Patterns-Advanced Maps**
+
+Create interactive maps using some of the following R libraries 
+
+* Leaflet()
+* Plotly()
+* Mapview()
+* Tmap()
+
+  
+**Week 11. Introduction to R Shiny**
+
+* Concepts of web development: front- and back-end development
+* Web-based information visualization
+* R Shiny apps skeleton: UI and server
+* Getting started with R shiny Application - visualizing distributions
+
+**Week 12. Visual Exploratory Analysis with Shiny Dashboard**
+
+* Basic layout and widget of shiny apps
+* Interactive and animated chart with shiny apps
+* Basic shiny dashboard
+
+**Week 13. Dynamic visual designs in Shiny**
+
+*	More are input widgets
+*	Conditional panel design
+* A comprehensive example: descriptive statistics	
+
+
+**Week 14. Process Visualization**
+
+* Basics of process visualization
+* Goals: Process improvement and optimization
+* process visualization tools
+
+
+
+
+
+
+# University Policies and Resources
+
+## ACADEMIC & PERSONAL INTEGRITY
+
+It is the responsibility of each student to adhere to the university’s standards for academic integrity. Violations of academic integrity include any act that violates the rights of another student in academic work, that involves misrepresentation of your own work, or that disrupts the instruction of the course. Other violations include (but are not limited to): cheating on assignments or examinations; plagiarizing, which means copying any part of another’s work and/or using ideas of another and presenting them as one’s own without giving proper credit to the source; selling, purchasing, or exchanging of term papers; falsifying of information; and using your own work from one class to fulfill the assignment for another class without significant modification. Proof of academic misconduct can result in automatic failure and removal from this course. For questions regarding Academic Integrity, the No-Grade Policy, Sexual Harassment, or the Student Code of Conduct, students are encouraged to refer to the Department Graduate Handbook, the Graduate Catalog, the Ram’s Eye View, and the University website at www.wcupa.edu.
+
+
+
+## STUDENTS WITH DISABILITIES
+
+If you have a disability that requires accommodations under the Americans with Disabilities Act (ADA), please present your letter of accommodations and meet with me as soon as possible so that I can support your success in an informed manner. Accommodations cannot be granted retroactively. If you would like to know more about West Chester University’s Services for Students with Disabilities (OSSD), please visit them at 223 Lawrence Center. The OSSD hours of Operation are Monday – Friday, 8:30 a.m. – 4:30 p.m. Their phone number is 610-436-2564, their fax number is 610-436-2600, their email address is ossd@wcupa.edu, and their website is at [www.wcupa.edu/ussss/ossd](www.wcupa.edu/ussss/ossd).
+
+
+## EXCUSED ABSENCES POLICY
+
+Students are advised to carefully read and comply with the excused absences policy, including absences for university-sanctioned events, contained in the WCU Graduate Catalog. In particular, please note that the “responsibility for meeting academic requirements rests with the student,” that this policy does not excuse students from completing required academic work, and that professors can require a “fair alternative” to attendance on those days that students must be absent from class in order to participate in a University-Sanctioned Event.
+
+
+## REPORTING INCIDENTS OF SEXUAL VIOLENCE
+
+West Chester University and its faculty are committed to assuring a safe and productive educational environment for all students. In order to comply with the requirements of Title IX of the Education Amendments of 1972 and the University’s commitment to offering supportive measures in accordance with the new regulations issued under Title IX, the University requires faculty members to report incidents of sexual violence shared by students to the University's Title IX Coordinator. The only exceptions to the faculty member's reporting obligation are when incidents of sexual violence are communicated by a student during a classroom discussion, in a writing assignment for a class, or as part of a University-approved research project. Faculty members are obligated to report sexual violence or any other abuse of a student who was, or is, a child (a person under 18 years of age) when the abuse allegedly occurred to the person designated in the University Protection of Minors Policy. Information regarding the reporting of sexual violence and the resources that are available to victims of sexual violence is set forth at: [https://www.wcupa.edu/_admin/diversityEquityInclusion/sexualMisconduct/default.aspx](https://www.wcupa.edu/_admin/diversityEquityInclusion/sexualMisconduct/default.aspx)
+
+
+
+
+## INCLUSIVE LEARNING ENVIRONMENT AND ANTI-RACE STATEMENT 
+ 
+Diversity, equity, and inclusion are central to West Chester University’s mission as reflected in our [Mission Statement, Values Statement, Vision Statement](https://www.wcupa.edu/_admin/diversityEquityInclusion/changeBeginsHere.aspx) and [Strategic Plan: Pathways to Student Success](https://protect-us.mimecast.com/s/ovVXCwplD5TRj6yghld0bL?domain=wcupa.edu). We disavow racism and all actions that silence, threaten, or degrade historically marginalized groups in the U.S. We acknowledge that all members of this learning community may experience harm stemming from forms of oppression including but not limited to classism, ableism, heterosexism, sexism, Islamophobia, anti-Semitism, and xenophobia, and recognize that these forms of oppression are compounded by racism. 
+ 
+ 
+Our core commitment as an institution of higher education shapes our expectation for behavior within this learning community, which represents diverse individual beliefs, backgrounds, and experiences. Courteous and respectful behavior, interactions, and responses are expected from all members of the University. We must work together to make this a safe and productive learning environment for everyone. Part of this work is recognizing how race and other aspects of who we are shape our beliefs and our experiences as individuals. It is not enough to condemn acts of racism. For real, sustainable change, we must stand together as a diverse coalition against racism and oppression of any form, anywhere, at any time. 
+
+
+Resources for education and action are available through WCU’s [Office for Diversity, Equity, and Inclusion](https://www.wcupa.edu/_admin/diversityEquityInclusion/changeBeginsHere.aspx) (ODEI), DEI committees within departments or colleges, the student [ombudsperson](https://www.wcupa.edu/_services/STU/studentOmbuds/), and centers on campus committed to doing this work (e.g., [Dowdy Multicultural Center](https://www.wcupa.edu/_services/multicultural/), [Center for Women and Gender Equity](https://www.wcupa.edu/_services/stu.wce/), and the [Center for Trans and Queer Advocacy](https://www.wcupa.edu/_services/transAndQueer/)).
+
+
+Guidance on how to report incidents of discrimination and harassment is available at the University’s [Office of Diversity, Equity and Inclusion](https://www.wcupa.edu/_admin/diversityEquityInclusion/).
+
+
+## EMERGENCY PREPAREDNESS
+
+All students are encouraged to sign up for the University’s free WCU ALERT service, which delivers official WCU emergency text messages directly to your cell phone.  For more information, visit [www.wcupa.edu/wcualert](www.wcupa.edu/wcualert). To report an emergency, call the Department of Public Safety at 610-436-3311.
+
+## ELECTRONIC MAIL POLICY
+
+It is expected that faculty, staff, and students activate and maintain regular access to University-provided e-mail accounts. Official university communications, including those from your instructor, will be sent through your university e-mail account. You are responsible for accessing that mail to be sure to obtain official University communications. Failure to access will not exempt individuals from the responsibilities associated with this course.

@@ -1,0 +1,584 @@
+---
+title: "Foundations of Data Visualization"
+author: "Cheng Peng"
+date: ''
+output:
+  beamer_presentation: 
+    slide_level: 3
+    includes:
+      in_header: wcu-RMD-slide-template.txt
+    theme: Goettingen
+    fonttheme: professionalfonts
+    colortheme: beaver
+    fig_width: 3
+    fig_height: 2
+  slidy_presentation: 
+    fig_width: 4
+    fig_height: 2
+    incremental: yes
+  powerpoint_presentation:
+    toc: yes
+fontsize: 10pt
+subtitle: (A Brief Overview)
+---
+
+```{r setup, echo = FALSE, include=FALSE}
+if (!require("knitr")) {
+   install.packages("knitr")
+   library(knitr)
+}
+if (!require("datarium")) {
+   install.packages("datarium")
+   library(datarium)
+}
+if (!require("ggplot2")) {
+   install.packages("ggplot2")
+   library(ggplot2)
+}
+knitr::opts_chunk$set(echo = TRUE,       
+                      warning = FALSE,   
+                      result = TRUE,   
+                      message = FALSE,
+                      fig.align='center', 
+                      fig.pos = 'ht')
+```
+
+
+## Why Visualization
+
+* Plots of Anscombe’s quartet.
+
+\vspace{5mm}
+\begin{figure}
+  \includegraphics[width=60mm,scale=0.5]{\string image/Anscombe.png}
+\end{figure}
+\vspace{2mm}
+
+
+
+## Agenda
+
+* Brief history of data viz.
+
+\vspace{3mm}
+* Overview of dataviz process
+
+\vspace{3mm}
+* Principles of dataviz
+
+\vspace{3mm}
+* Building blocks of dataviz.
+
+\vspace{3mm}
+* Color coding and usage guidelines
+
+\vspace{3mm}
+* A general framework for creating better charts
+
+\vspace{3mm}
+* Purpose and types of dataviz
+
+\vspace{3mm}
+* Specific visualization Skills
+
+
+
+## Dataviz in past 50 Years
+
+**1970s** - Foundation of modern dataviz
+
+* John Tukey pioneers the use of visualization with computers (exploratory and confirmatory visualization).
+
+\vspace{4mm}
+**1980s** - The science of visualization
+
+* Edward Tufte's work combines statistics with visual design principles
+* Cleveland and McGill's work on measuring graphical perception
+* Mackinlay's work carries visualization theories to digital age
+
+\vspace{4mm}
+**1990s-2000s**: The computer-driven scientific visualization thrives
+
+\vspace{4mm}
+**2010s**: The social internet, cheap and easy-to-use software, and massive volumes of data democratize the practice of visualization.
+
+* Rensink and Harrison establish science around graphic perception
+
+
+## Visualization Process
+
+* Understand Visualization
+  - Dataviz is a process
+  - Dataviz is new language built on the science and art.
+
+\vspace{2mm}
+* Prepare Visualization
+  - Manage and clean data 
+  - Talk and listening
+  - Sketch and prototype
+
+\vspace{2mm}
+* Create Visualization
+  - Is the information conceptual or data driven?
+  - Am I declaring or exploring something?
+  - Types of visualization
+
+\vspace{2mm}
+* Refine Visualization
+  - to make impressive charts
+  - to make persuasive charts
+  
+\vspace{2mm}
+* Present and Practice Visualization
+  - to persuade audience
+  - to make better charts
+
+
+## Gestalt Principles
+
+The principles describe the various ways we tend to visually
+assemble individual objects into groups and are highly relevant to 
+the design of charts and graphs.  
+
+\vspace{5mm}
+
+* Objects will be perceived in their simplest form
+
+\vspace{5mm}
+
+* Humans naturally follow lines and curves
+
+\vspace{5mm}
+
+* The mind will attempt to fill in detail that isn't actually there.
+
+\vspace{5mm}
+
+\vspace{2mm}
+\begin{figure}
+  \includegraphics[width=90mm,scale=0.5]{\string image/gestalt-law.png}
+\end{figure}
+\vspace{2mm}
+
+## Gestalt Design Principles
+
+* **Closure**: Elements are typically grouped together if they are a part of an entity
+
+\vspace{5mm}
+* **Proximity**: Elements are typically grouped together based on their immediacy
+
+\vspace{5mm}
+* **Similarity**: Elements similar to one another tend to be grouped together
+
+\vspace{5mm}
+\begin{figure}
+  \includegraphics[width=90mm,scale=0.5]{\string image/GestaltDesign01.png}
+\end{figure}
+\vspace{2mm}
+
+
+##
+
+\vspace{5mm}
+* **Continuity**: Elements that are arranged on a line or curve are perceived to be more related than elements not on the line or curve.
+
+\vspace{5mm}
+* **Common Fate**: When elements coordinate movement together, we tend to relate them to each other.
+
+\vspace{5mm}
+* **Focal point**: When an element or elements stands out visually, it captures and holds our attention first.
+
+\vspace{5mm}
+\begin{figure}
+  \includegraphics[width=80mm,scale=0.5]{\string image/GestaltDesign02.png}
+\end{figure}
+\vspace{2mm}
+
+
+## Pre-attentative Attributes
+
+* A preattentive visual property is one which is processed in spatial memory without our conscious action. 
+
+\vspace{3mm}
+\begin{figure}
+  \includegraphics[width=50mm,scale=0.5]{\string image/PreAttentative.png}
+\end{figure}
+\vspace{3mm}
+
+* It takes less than 500 milliseconds for the eye and the brain to process a preattentive property
+
+
+## Visual Encoding
+
+* The visual encoding is the way in which data is mapped into visual structures made of marks and channels. 
+
+\vspace{5mm}
+* Data visualization is the graphical representation of information and data built based on visual structures.  
+
+\vspace{5mm}
+
+* Marks and Channels - Building blocks of visualization
+
+  + **Marks** (geometric primitives) represent items or links - basic graphical element in an image.
+  
+  + **Channels** (aka channel variables) change appearance of marks based on attributes - independent of the dimensionality of the geometric primitive.
+
+\vspace{5mm}
+  
+* By using marks and channels to create visual elements like charts, graphs, and maps, data visualization tools provide an accessible way to see and understand trends, outliers, and patterns in data.
+  
+  
+## Marks
+
+* **Marks for items**
+  
+\vspace{6mm}
+\begin{figure}
+  \includegraphics[width=90mm,scale=0.5]{\string image/marks4Item.png}
+\end{figure}
+\vspace{6mm}  
+  
+  
+* **Marks for links** 
+  
+ \vspace{5mm}
+\begin{figure}
+  \includegraphics[width=60mm,scale=0.5]{\string image/marks4Link.png}
+\end{figure}
+\vspace{3mm} 
+  
+  
+## Channels
+
+Control appearance proportional to or based on attributes.
+
+ \vspace{5mm}
+\begin{figure}
+  \includegraphics[width=90mm,scale=0.5]{\string image/channels.png}
+\end{figure}
+\vspace{3mm} 
+  
+
+## Expressiveness & Effectiveness
+
+ **Expressiveness**
+
+\vspace{3mm}
+
+* visual encoding should express all of, and only, the information in the
+dataset attributes
+
+\vspace{3mm}
+
+* simple one - lie factor (the ratio of the information "in the chart" and the information "in data" )
+
+\vspace{3mm}   
+
+ **Effectiveness**
+
+\vspace{3mm}
+* importance of the attribute should match the salience of the channel
+
+\vspace{3mm}
+* simple one - data-ink ratio (the ratio of "ink in data" and "ink in the chart")
+\vspace{3mm}
+
+ **Chart Junk**  
+
+\vspace{3mm}
+* Unnecessary visual elements in charts that distracts the viewer from the information
+
+## More on Channels
+
+ \vspace{5mm}
+**More on Channels**: Expressiveness Types and Efectiveness Ranks
+
+
+\begin{figure}
+  \includegraphics[width=100mm,scale=0.5]{\string image/ChannelEffectExpress.png}
+\end{figure}
+\vspace{3mm} 
+  
+## Color for Viz
+
+* Color improves a chart’s aesthetic quality, expressiveness, hence, its ability to effectively communicate about its data.
+
+\vspace{3mm}
+
+* **Categorical Pallet**: Categorical colors help users map non-numeric meaning to objects in a visualization. 
+
+\vspace{1mm}
+\begin{figure}
+  \includegraphics[width=60mm,scale=0.5]{\string image/categoricalPallet.png}
+\end{figure}
+\vspace{2mm} 
+
+* **Sequential Pallet**: Sequential colors have numeric meaning. 
+
+\vspace{1mm}
+\begin{figure}
+  \includegraphics[width=60mm,scale=0.5]{\string image/SequentPallet.png}
+\end{figure}
+\vspace{3mm}
+
+* **Divergent Pallet**: Diverging colors also have numeric meaning.  
+
+\vspace{1mm}
+\begin{figure}
+  \includegraphics[width=60mm,scale=0.5]{\string image/DivergPallet.png}
+\end{figure}
+\vspace{3mm}
+
+
+## Color Guidelines
+
+Guidelines of using colors with different types of data.
+
+\vspace{5mm}
+\begin{figure}
+  \includegraphics[width=100mm,scale=0.5]{\string image/ColorGuideline.png}
+\end{figure}
+\vspace{3mm}
+
+
+## Do's & Don'ts 
+
+\vspace{5mm}
+\begin{figure}
+  \includegraphics[width=80mm,scale=0.5]{\string image/dos-donts01.png}
+\end{figure}
+\vspace{3mm}
+
+##
+
+\vspace{5mm}
+\begin{figure}
+  \includegraphics[width=80mm,scale=0.5]{\string image/dos-donts02.png}
+\end{figure}
+\vspace{3mm}
+
+
+##
+
+\vspace{5mm}
+\begin{figure}
+  \includegraphics[width=80mm,scale=0.5]{\string image/dos-donts03.png}
+\end{figure}
+\vspace{3mm}
+
+
+## Color Deficiency
+
+\vspace{6mm}
+* ABout 8% - 10 % of men and 1% of women have color vision deficiency.
+
+\vspace{4mm}
+* Red-green is common (deuteranope and protanope two subcategories). 
+
+\vspace{4mm}
+* Blue-yellow is possible (tritanope is most common in this category)
+
+\vspace{7mm}
+\begin{figure}
+  \includegraphics[width=80mm,scale=0.5]{\string image/colorblind.png}
+\end{figure}
+\vspace{3mm}
+
+## Controlling Color
+
+Practical guidelines of using colors in dataviz.
+
+\vspace{2mm}
+* **Use less color** - keep the number of colors minimum.
+
+\vspace{2mm}
+* **Use gray** -  It doesn’t draw the eye the way stronger colors do and is the default color in software.
+
+\vspace{2mm}
+* **Complement / contrast** - When variables are inherently similar, use similar or
+complementary colors. When they are in opposition, use contrasting colors.
+
+\vspace{2mm}
+* **Stick to the variables** - using color for text decoration is distracting.
+
+\vspace{2mm}
+* **Think how, not which** - It is more important to think about how to use color than which color is used.
+
+\vspace{2mm}
+* **Consider the color-blind**.
+
+
+## 
+
+Comparing poor chart and better chart.
+
+\vspace{5mm}
+\begin{figure}
+  \includegraphics[width=100mm,scale=0.5]{\string image/ControllingColors.png}
+\end{figure}
+\vspace{3mm}
+
+
+## Crafting for Clarity
+
+Some guidelines to achieve a clear design.
+
+\vspace{2mm}
+* **Take stuff away** - think about every mark on your chart and ask, Is this necessary to make your point? 
+
+\vspace{2mm}
+* **Remove redundancy** - A headline that reads “Sales vs. Revenue” just repeats the axis
+labels.
+
+\vspace{2mm}
+* **Limit color and eye travel** - Color is powerful—and distracting.
+
+\vspace{2mm}
+* **Know how people think** - The brain works on heuristics. It is important to respect convention — and take advantage of it.
+
+\vspace{2mm}
+* **Describe ideas, not structure** - Use text, headlines, captions, and other visual markers to highlight ideas or insights rather than to describe the visualization’s architecture.
+
+\vspace{2mm}
+* **Align everything** - This simple guideline is supremely effective at
+creating visual order. 
+
+
+##
+
+Comparing poor chart and better chart.
+
+\vspace{5mm}
+\begin{figure}
+  \includegraphics[width=70mm,scale=0.5]{\string image/OverdoneLineChart.png}
+\end{figure}
+\vspace{3mm}
+
+
+## Choosing Chart Type
+
+Guidelines for selecting appropriate chart type.
+
+\vspace{2mm}
+* **Know the basic categories** - The simplest way to begin is to understand your intent.
+
+\vspace{2mm}
+* **Listen to how you describe things** - Find someone to chat with about your data and
+the idea you want to convey.
+
+\vspace{2mm}
+* **Rely on your workhorses** - Understand that more specialized and unusual chart types will require more effort on the part of your viewers.
+
+\vspace{2mm}
+* **Don’t forget tables** - Sometimes all the individual data points in a set matter more than a trend or what comprises them.
+
+\vspace{2mm}
+* **Good writers are great readers** - good chart makers are great chart consumers. It is important to find inspiration in others’ visualizations to improve you visualizations.
+
+
+##
+
+According to the applications, there are four basic types of charts.
+
+\vspace{5mm}
+* **Comparisons** - Some keywords: before/after, categories compare, contrast over time, peaks, rank, trend, types, etc.
+
+\vspace{3mm}
+\begin{figure}
+  \includegraphics[width=90mm,scale=0.5]{\string image/comparisons.png}
+\end{figure}
+\vspace{3mm}
+
+\vspace{3mm}
+* **Comparisons and Distributions** - Some keywords: alluvial, cluster, distributed, from/to, plotted, points, spread, spread over, relative to, transfer, etc.
+
+\vspace{3mm}
+\begin{figure}
+  \includegraphics[width=80mm,scale=0.5]{\string image/distributioncomparisons.png}
+\end{figure}
+\vspace{3mm}
+
+
+##
+
+
+\vspace{5mm}
+* **Compositions** - Some Keywords: components, divvied up, group, makes up, of the whole, parts, percentage, pieces, portion, proportion, slices, subsections, total, etc.
+
+\vspace{3mm}
+\begin{figure}
+  \includegraphics[width=80mm,scale=0.5]{\string image/compositions.png}
+\end{figure}
+\vspace{3mm}
+
+\vspace{3mm}
+* **Maps, Networks, and Logics** - Some keywords: cluster, complex connections, group, hierarchy, if/then, network, organize, paths, places , relationships, routes, structure, space, yes/no, etc.
+
+\vspace{3mm}
+\begin{figure}
+  \includegraphics[width=90mm,scale=0.5]{\string image/networks.png}
+\end{figure}
+\vspace{3mm}
+
+##
+
+**Whisky data** contains information of 42 records of whiskys brands. Six variables including age, cost, character, flavor, and region. Choose an appropriate chart to visualize the data. 
+
+\vspace{3mm}
+\begin{figure}
+  \includegraphics[width=100mm,scale=0.5]{\string image/PoorScatterPlot.png}
+\end{figure}
+\vspace{3mm}
+
+\vspace{3mm}
+\footnotesize Data Source: \color{blue}\url{https://raw.githubusercontent.com/pengdsci/sta553/main/DatavizPrinciple/whisky.csv}
+
+
+## Practicing Persuation
+
+The guidelines for building persuasion into your charts.
+
+\vspace{3mm}
+* **Shift the context question** - before making a chart, asking yourself what you try to say, to whom, and where.
+
+\vspace{3mm}
+* **Emphasize and isolate** - shine a bright light on the most salient information. Limit the number of places an audience can focus. Move their eyes to where you want them to go.
+
+\vspace{3mm}
+* **Consider your reference points** - The ultimate form of isolation is to remove any information that doesn’t directly support your point. Try to avoid multiple interpretations.
+
+\vspace{3mm}
+* **Point things out** - It doesn’t take much to move someone’s eyes. Pointers, demarcations, and simple labels signal to an audience what matters. 
+
+\vspace{3mm}
+* **Lure** - Upending expectations can be powerfully persuasive. Evidence to the contrary is challenging and will foster discussion: Here’s what you think our data looks like; here’s how it actually looks. 
+
+
+##
+
+\vspace{3mm}
+\begin{figure}
+  \includegraphics[width=80mm,scale=0.5]{\string image/UpendingVisual.png}
+\end{figure}
+\vspace{3mm}
+
+
+## Steps for Good Charts
+
+**Talk and Listen** - Put aside your data and find someone in the domain to have a conversation to set your context. Address questions like
+
+* Who is this for? 
+* What do you want them to do after seeing this? 
+* How will it be displayed? 
+* If you could show them only one thing, what would it be? 
+* Will it be surprising or affirming? 
+
+\vspace{3mm}
+**Sketch** - As you’re talking, start to sketch possible approaches. Go fast. The key is to keep moving. You want to be generative, creating ideas rapidly. Continue talking through the process, and as new ideas and visual words come up, jot them down.
+
+\vspace{3mm}
+**Prototype** - Whereas sketching is fast and open, prototyping is a bit slower and more deliberate. Use color purposefully. Sketching is generative; prototyping is iterative. Hone your chart until it approaches good.
+
+
+
+

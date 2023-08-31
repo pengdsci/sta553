@@ -1,0 +1,286 @@
+---
+title: "Creating and Using Shapefiles"
+author: "Cheng Peng"
+date: "West Chester University "
+output:
+  html_document: 
+    toc: yes
+    toc_depth: 4
+    fig_width: 6
+    number_sections: yes
+    theme: readable
+    fig_height: 4
+  word_document: 
+    toc: yes
+    toc_depth: 4
+    fig_caption: yes
+    keep_md: yes
+  pdf_document: 
+    toc: yes
+    toc_depth: 4
+    fig_caption: yes
+    number_sections: yes
+    fig_width: 5
+    fig_height: 4
+---
+<style type="text/css">
+
+div#TOC li {
+    list-style:none;
+    background-image:none;
+    background-repeat:none;
+    background-position:0;
+}
+h1.title {
+  font-size: 24px;
+  color: DarkRed;
+  text-align: center;
+}
+h4.author { /* Header 4 - and the author and data headers use this too  */
+    font-size: 18px;
+  font-family: "Times New Roman", Times, serif;
+  color: DarkRed;
+  text-align: center;
+}
+h4.date { /* Header 4 - and the author and data headers use this too  */
+  font-size: 18px;
+  font-family: "Times New Roman", Times, serif;
+  color: DarkBlue;
+  text-align: center;
+}
+h1 { /* Header 3 - and the author and data headers use this too  */
+    font-size: 22px;
+    font-family: "Times New Roman", Times, serif;
+    color: darkred;
+    text-align: center;
+}
+h2 { /* Header 3 - and the author and data headers use this too  */
+    font-size: 18px;
+    font-family: "Times New Roman", Times, serif;
+    color: navy;
+    text-align: left;
+}
+
+h3 { /* Header 3 - and the author and data headers use this too  */
+    font-size: 15px;
+    font-family: "Times New Roman", Times, serif;
+    color: navy;
+    text-align: left;
+}
+
+h4 { /* Header 4 - and the author and data headers use this too  */
+    font-size: 18px;
+    font-family: "Times New Roman", Times, serif;
+    color: darkred;
+    text-align: left;
+}
+</style>
+
+```{r setup, include=FALSE}
+# code chunk specifies whether the R code, warnings, and output 
+# will be included in the output files.
+if (!require("tidyverse")) {
+   install.packages("tidyverse")
+   library(tidyverse)
+}
+if (!require("knitr")) {
+   install.packages("knitr")
+   library(knitr)
+}
+if (!require("cowplot")) {
+   install.packages("cowplot")
+   library(cowplot)
+}
+if (!require("latex2exp")) {
+   install.packages("latex2exp")
+   library(latex2exp)
+}
+if (!require("plotly")) {
+   install.packages("plotly")
+   library(plotly)
+}
+if (!require("gapminder")) {
+   install.packages("gapminder")
+   library(gapminder)
+}
+if (!require("png")) {
+    install.packages("png")             # Install png package
+    library("png")
+}
+if (!require("RCurl")) {
+    install.packages("RCurl")             # Install RCurl package
+    library("RCurl")
+}
+if (!require("colourpicker")) {
+    install.packages("colourpicker")              
+    library("colourpicker")
+}
+if (!require("gifski")) {
+    install.packages("gifski")              
+    library("gifski")
+}
+if (!require("magick")) {
+    install.packages("magick")              
+    library("magick")
+}
+if (!require("grDevices")) {
+    install.packages("grDevices")              
+    library("grDevices")
+}
+### ggplot and extensions
+if (!require("ggplot2")) {
+    install.packages("ggplot2")              
+    library("ggplot2")
+}
+if (!require("gganimate")) {
+    install.packages("gganimate")              
+    library("gganimate")
+}
+if (!require("ggridges")) {
+    install.packages("ggridges")              
+    library("ggridges")
+}
+if (!require("sf")) {
+    install.packages("sf")              
+    library("sf")
+}
+if (!require("tigris")) {
+    install.packages("tigris")              
+    library("tigris")
+}
+if (!require("mapview")) {
+    install.packages("mapview")              
+    library("mapview")
+}
+# knitr::opts_knit$set(root.dir = "C:/Users/75CPENG/OneDrive - West Chester University of PA/Documents")
+# knitr::opts_knit$set(root.dir = "C:\\STA490\\w05")
+
+knitr::opts_chunk$set(echo = TRUE,       
+                      warning = FALSE,   
+                      result = TRUE,   
+                      message = FALSE)
+```
+
+\
+
+\
+
+\
+
+\
+
+# Introduction
+
+In this note, we use examples to illustrate how to create shapefiles and export built-in shape files from R.
+
+
+# Existing Base Map File and New Information
+
+We use the built-in world map file, `World` , from the package `sf`(simple features), a standardized way to encode spatial vector data. The `World` data set has 17 variables including country names and the corresponding abbreviations, population densities, geometry (information of geo-polygon with longitude and latitude), etc. The data set has 177 countries. We will use the country names to define a primary key merge the new data (with updated information) with the existing data.
+
+The new information to be included in the new data set is based on several data sets available at <https://projectdat.s3.amazonaws.com/datasets.html#week12> 
+
+The information we will add to the `World` data set is:
+
+1. Income from years 2000, 2005, 2010, 2015 and name them as inc00, inc05, inc10, inc15.
+
+2. Life expectancy from years 2000, 2005, 2010, 2015 and name them as life00, life05, life10, life15.
+
+3. Primary defined from the country names and their abbreviations.
+
+```{r}
+#data(World)
+World0 <- st_read(system.file("shapes/world.gpkg", package="spData"))
+```
+
+```{r}
+inc <- read.csv("https://projectdat.s3.amazonaws.com/income_per_person.csv")
+income <- data.frame(country = gsub(" ", "", inc$geo), inc00 = inc$X2000, inc05 = inc$X2005, inc10 = inc$X2010, inc15 = inc$X2015)
+###
+lifexp <- read.csv("https://projectdat.s3.amazonaws.com/life_expectancy_years.csv")
+life.exp <- data.frame(country =  gsub(" ", "", lifexp$geo), lif00 = lifexp$X2000, lif05 = lifexp$X2005, lif10 = lifexp$X2010, lif15 = lifexp$X2015)
+###
+pop <- read.csv("https://projectdat.s3.amazonaws.com/population_total.csv")
+popsize <- data.frame(country = gsub(" ", "", pop$geo), pop00 =pop$X2000, pop05 = pop$X2005, pop10 = pop$X2010, pop15 = pop$X2015)
+###
+region <- read.csv("https://projectdat.s3.amazonaws.com/countries_total.csv")
+regions <- data.frame(country =  gsub(" ", "", region$name), iso_a3 = region$alpha.3)
+###
+IncLifeExp <- merge(income, life.exp, by = 'country')
+IncLifeRegion <- merge(IncLifeExp, regions, by = 'country')
+IncLifRegPop <- merge(IncLifeRegion, popsize, by = 'country')
+IncLifRegPop$iso_a2 <- substr(IncLifRegPop$iso_a3, 1,2)
+###
+myWorld <- merge(World0, IncLifRegPop, by = 'iso_a2')
+```
+
+
+# Creating Shapefiles from Dataframes
+
+The next data set contains the geocode of the world capital cities. This information will be used to create pop-ups to include specific information in the data. The geocode of the capital city can be found at <https://www.kaggle.com/nikitagrec/world-capitals-gps>. I also placed a copy of the data set at <https://raw.githubusercontent.com/pengdsci/sta553/main/map/WorldCapitalGeocode.csv>
+
+
+
+```{r}
+geocode <-read.csv("https://raw.githubusercontent.com/pengdsci/sta553/main/map/WorldCapitalGeocode.csv")
+#geometry = paste('POINT (',CapitalLongitude ,',',CapitalLatitude,')')
+#geocode$geometry = geometry
+geocode$country <- gsub(" ", "", geocode$CountryName)
+capital <- st_as_sf(geocode, coords = c("CapitalLongitude", "CapitalLatitude"), crs = 4326)
+###
+IncLifeRegionCap <- merge(capital, IncLifeRegion, by = 'country')
+IncLifeRegCapPop <- merge(IncLifeRegionCap, popsize, by = 'country')
+```
+
+
+# Thematics Map with Created and Built-in Shapefiles
+
+In this section, we use thematic maps to illustrate how to use modified shapefile (with additional information) and shapefiles created from dataframes.
+
+## Example 1: Gapminder Data
+
+```{r fig.align='center', fig.height=6, fig.width=8}
+library(tmap)
+##
+tmap_mode("view")  # "view" gives interactive map; 
+#tmap_style("classic") ## tmap_style set to "classic"
+## other available styles are: "white", "gray", "natural", 
+## "cobalt", "col_blind", "albatross", "beaver", "bw", "watercolor"
+tmap_options(bg.color = "skyblue", 
+             legend.text.color = "white")
+##
+tm_shape(myWorld) +
+      tm_polygons("lifeExp", 
+                  legend.title = "Life Expectancy") +
+      tm_layout(bg.color = "gray", 
+                inner.margins = c(0, .02, .02, .02)) + 
+tm_shape(IncLifeRegCapPop) +
+      tm_symbols(col = "purple", 
+                 size = "pop15", 
+                 scale = .5,
+                 alpha = 0.5,
+                 popup.vars=c("CapitalName", "pop15", "inc00", "inc05", "inc10","inc15", "lif00","lif05","lif10", "lif15")) 
+```
+
+
+
+## Example 2: Philadelphia Neighborhood Shapefiles
+
+We can use the shapefile of any place to draw the base map of the place. For example, we can find the shapefile of the Philadelphia neighborhood at <https://www.opendataphilly.org/dataset/covid-vaccinations/resource/473c9589-111b-43c9-a4a2-2dbe91f6dd7b?inner_span=True> and draw the map of the Philadelphia neighborhood using the following map. 
+
+```{r}
+library(sf)
+philly <- st_read("/Users/chengpeng/Downloads/covid_vaccines_by_census_tract/covid_vaccines_by_census_tract.shp")
+```
+
+```{r fig.align='center', fig.height=6, fig.width=8}
+library(tmap)
+tm_shape(philly) +
+     tmap_options(check.and.fix = TRUE) +
+      tm_polygons(border.col = "red",
+                  border.alpha = 0.5) +
+      tm_layout(bg.color = "skyblue",
+                aes.color = c(fill = "skyblue", borders = "grey40",
+  dots = "black", lines = "red", text = "black", na = "grey70"),
+                inner.margins = c(0, .02, .02, .02)) 
+```

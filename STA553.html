@@ -1,0 +1,1087 @@
+
+<html lang="en" style="scroll-padding-top: 76px;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>STA553-viz</title>
+        <link href="./stat/bootstrap.min.css" rel="stylesheet">
+        <link href="./stat/font-awesome.min.css" rel="stylesheet">
+        <link href="./stat/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="./stat/github.min.css">
+        <link href="./stat/extra.css" rel="stylesheet">
+
+        <script async="" src="./stat/analytics.js.download"></script><script src="./stat/jquery-1.10.2.min.js.download" defer=""></script>
+        <script src="./stat/bootstrap.min.js.download" defer=""></script>
+        <script src="./stat/highlight.min.js.download"></script>
+        <script src="./stat/yaml.min.js.download"></script>
+        <script src="./stat/django.min.js.download"></script>
+        <script>hljs.initHighlightingOnLoad();</script>
+
+        <style>
+            div.a {
+              line-height: 90%;
+            }
+
+            .section {
+               background-color: white;
+               border: 0px solid black;
+               margin: 0px;
+               padding: 0px;
+               font-size: 28px;
+               font-weight: 450;
+               text-align: center;
+             }
+            .sub {
+               background-color: white;
+               border: 0px solid black;
+               margin: 0px;
+               padding: 5px;
+               font-size: 20px;
+               font-weight: 490;
+               text-align: left;
+             }
+
+           .graytoc {
+            background-color: LightCyan;
+            color:red;
+            font-weight: 300;
+           }
+
+        </style>
+			
+    </head>
+
+    <body class="homepage" style="">
+
+<!--####################################################-->
+<!-- VVVVVVVVVVVVVVVVV    TOP Panel   VVVVVVVVVVVVVVVVVV-->
+<!--####################################################-->
+    <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+             <a class="navbar-brand" href=""><br><center><b>STA 553 Data Visualization</b>
+			     <br> <sub> Dr. Cheng Peng </sub> </center> <br></a>
+             <!-- Expander button -->
+             <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse"><span class="navbar-toggler-icon"></span> </button>
+
+             <!-- Expanded navigation -->
+             <div id="navbar-collapse" class="navbar-collapse collapse">
+
+              <!-- Main navigation -->
+
+             <ul class="nav navbar-nav ml-auto">
+    
+<!--########################################################################-->
+<!--SSSSSSSSSSSSSSSSSSSSSS    Dropdown tag: Syllabus    SSSSSSSSSSSSSSSSSSSS-->
+<!--########################################################################-->
+                 <li class="navitem active"> <a href="https://wcusta553.s3.amazonaws.com/STA553.html"  target="popup" onclick="window.open('https://wcusta553.s3.amazonaws.com/STA553.html','name','width=900,height=500')" class="nav-link">Home</a></li>
+
+                 <li class="navitem active"> <a href="COVID.html"  target="popup" onclick="window.open('COVID.html','name','width=900,height=500')" class="nav-link">COVID-19 </a></li>
+
+               <li class="dropdown"><a href="" class="nav-link dropdown-toggle" data-toggle="dropdown"> Syllabus<b class="caret"></b></a>
+                   <ul class="dropdown-menu">
+                     <li class="navitem active"> <a href="STA553-Spring2022-Syllabus.html"  target="popup" onclick="window.open('STA553-Spring2022-Syllabus.html','name','width=900,height=500')"  class="dropdown-item">HTML</a></li>
+
+                    <li class="navitem active"> <a href="STA553-Spring2022-Syllabus.pdf"  target="popup" onclick="window.open('STA553-Spring2022-Syllabus.pdf','name','width=900,height=500')"  class="dropdown-item">PDF</a></li>
+                     </ul>
+               </li>
+                 <li class="navitem active"> <a href="https://d2l.wcupa.edu/d2l/login"  target="popup" onclick="window.open('https://d2l.wcupa.edu/d2l/login','name','width=900,height=500')" class="nav-link">D2L </a></li>
+                 
+                 <li class="navitem active"> <a href="https://wcupa.zoom.us/j/6840171840?pwd=ZC90eHk4OUJ5QUlnUzdCUEd2cW5VZz09"  target="popup" onclick="window.open('https://wcupa.zoom.us/j/6840171840?pwd=ZC90eHk4OUJ5QUlnUzdCUEd2cW5VZz09','name','width=900,height=500')"  class="nav-link">Zoom</a></li>
+
+<!--#######################################################################-->
+<!--SSSSSSSSSSS              Dropdown tag: Data Sets           SSSSSSSSSSSS-->
+<!--#######################################################################-->
+                 <li class="dropdown"><a href="" class="nav-link dropdown-toggle" data-toggle="dropdown"> Data Sets<b class="caret"></b></a>
+                   <ul class="dropdown-menu">                 
+             
+                       <li class="navitem active"> <a href="https://pengdsci.github.io/datasets/"  target="popup" onclick="window.open('https://pengdsci.github.io/datasets/','name','width=900,height=500')" class="dropdown-item">Data Sets </a></li>
+                       
+                                    
+                       <li class="navitem active"> <a href="https://vincentarelbundock.github.io/Rdatasets/articles/data.html"  target="popup" onclick="window.open('https://vincentarelbundock.github.io/Rdatasets/articles/data.html','name','width=900,height=500')" class="dropdown-item"> RDataSets </a></li>
+                       
+                        <li class="navitem active"> <a href="https://github.com/rfordatascience/tidytuesday"  target="popup" onclick="window.open('https://github.com/rfordatascience/tidytuesday','name','width=900,height=500')" class="dropdown-item"> TidyTuesday </a></li>                      
+                       
+                        <li class="navitem active"> <a href="https://github.com/rfordatascience/tidytuesday"  target="popup" onclick="window.open('https://github.com/rfordatascience/tidytuesday','name','width=900,height=500')" class="dropdown-item"> Tidy Tuesday repo </a></li>                      
+                       
+                            
+                       
+                     </ul>
+                  </li>                      
+                       
+<!--#######################################################################-->
+<!--SSSSSSSSSSS              Dropdown tag: Software            SSSSSSSSSSSS-->
+<!--#######################################################################-->
+                 <li class="dropdown"><a href="" class="nav-link dropdown-toggle" data-toggle="dropdown"> Software<b class="caret"></b></a>
+                       <ul class="dropdown-menu">
+                           
+                           <li class="navitem active"> <a href="https://dev.mysql.com/downloads/installer/"  target="popup" onclick="window.open('https://dev.mysql.com/downloads/installer/','name','width=900,height=500')"  class="dropdown-item"> MySQL </a></li>
+                               
+                           <li class="navitem active"> <a href="https://www.rstudio.com/products/rstudio/download/" target="popup" onclick="window.open('https://www.rstudio.com/products/rstudio/download/','name','width=900,height=500')"  class="dropdown-item"> RStudio </a></li>
+
+                           <li class="navitem active"> <a href="https://www.anaconda.com/products/individual"  target="popup" onclick="window.open('https://www.anaconda.com/products/individual','name','width=900,height=500')"  class="dropdown-item">Anaconda (Python tools)</a></li>
+
+                           <li class="navitem active"> <a href="https://miktex.org/download"  target="popup" onclick="window.open('https://miktex.org/download','name','width=900,height=500')"  class="dropdown-item">MikTex</a></li>
+
+                           <li class="navitem active"> <a href="https://public.tableau.com/en-us/s/download"  target="popup" onclick="window.open('https://public.tableau.com/en-us/s/download','name','width=900,height=500')"  class="dropdown-item">Tableau Public</a></li>
+
+                           <li class="navitem active"> <a href="https://www.sas.com/en_us/software/on-demand-for-academics.html"  target="popup" onclick="window.open('https://www.sas.com/en_us/software/on-demand-for-academics.html','name','width=900,height=500')"  class="dropdown-item">SAS Studio (OnDemand)</a></li>
+                           </ul>
+                    </li>
+                               
+<!--########################################################################-->
+<!--SSSSSSSSSSSSSSSSSSSSSS    Dropdown tag: Computing   SSSSSSSSSSSSSSSSSSSS-->
+<!--########################################################################-->
+
+               <li class="dropdown"><a href="" class="nav-link dropdown-toggle" data-toggle="dropdown"> Viz Tools<b class="caret"></b></a>
+                   <ul class="dropdown-menu">
+                     <li class="navitem active"> <a href="https://bookdown.org/yihui/rmarkdown/"  target="popup" onclick="window.open('https://bookdown.org/yihui/rmarkdown/','name','width=900,height=500')"  class="dropdown-item">RMarkdown</a></li>
+
+                    <li class="navitem active"> <a href="https://github.com/pengdsci"  target="popup" onclick="window.open('https://github.com/pengdsci','name','width=900,height=500')"  class="dropdown-item">Github</a></li>
+                               
+                    <li class="navitem active"> <a href="https://www.shinyapps.io/admin/#/login"  target="popup" onclick="window.open('https://www.shinyapps.io/admin/#/login','name','width=900,height=500')"  class="dropdown-item">Shinyapp.io</a></li>  
+                               
+                    <li class="navitem active"> <a href="https://rpubs.com/"  target="popup" onclick="window.open('https://rpubs.com/','name','width=900,height=500')"  class="dropdown-item">RPubs</a></li> 
+                     </ul>
+               </li>
+
+<!--######################################################################-->
+<!--SSSSSSSSSSSSSSSSSSSSSS    Dropdown tag: Contact   SSSSSSSSSSSSSSSSSSSS-->
+<!--######################################################################-->
+              <li class="dropdown"><a href="" class="nav-link dropdown-toggle" data-toggle="dropdown"> Contact <b class="caret"></b></a>
+                   <ul class="dropdown-menu">
+                     <li class="navitem active"> <a href="mailto: cpeng@wcupa.edu"  target="popup" onclick="window.open('mailto: cpeng@wcupa.edu','name','width=900,height=500')"  class="dropdown-item">My Email (link)</a></li>   
+                               
+                     <li class="navitem active"> <a href="https://wcupa.zoom.us/j/6840171840?pwd=ZC90eHk4OUJ5QUlnUzdCUEd2cW5VZz09"  target="popup" onclick="window.open('https://wcupa.zoom.us/j/6840171840?pwd=ZC90eHk4OUJ5QUlnUzdCUEd2cW5VZz09','name','width=900,height=500')"  class="dropdown-item">My Zoom (link)</a></li>
+                               
+                     <!--li class="navitem active"> <a href="" class="dropdown-item"><b>Office Hours</b></a> <font size=2, color="purple"> 
+                                  <center>Tu/TH 8AM-9:30AM<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;11AM-12PM </center></font></li-->
+                     <li class="navitem active"> <a href="" class="dropdown-item"><b>Office</b></a> <font size=2, color="purple"><center>R111, 25 Univ. Ave</center></font></li>
+                  </ul>
+              </li>
+<!--SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS-->
+               </ul>
+         </div>
+      </div>
+ </div>
+
+<!--####################################################-->
+<!-- VVVVVVVVVVVVVVVVV    TOC Panel   VVVVVVVVVVVVVVVVVV-->
+<!--####################################################-->
+<div class="container">
+            <div class="row">
+                <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary" style="top: 76px;">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+         <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+  <br><br>
+  <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+          <ul class="nav flex-column">
+            <li class="nav-item" data-level="1"><a href="" class="nav-link active">List of Weekly Topics</a>
+
+               <ul class="nav flex-column">
+                   <div class="a">
+                   <li class="nav-item" data-level="2"><a href="#week01" class="nav-link">1. DatViz outline and logistics </a></li>
+                   <li class="nav-item" data-level="2"><a href="#week02" class="nav-link">2. R & Base R Graphics</a></li>
+                   <li class="nav-item" data-level="2"><a href="#week03" class="nav-link">3. Principles of DataViz</a></li>
+                   <li class="nav-item" data-level="2"><a href="#week04" class="nav-link">4. Data Management for DataViz</a></li>
+                   <li class="nav-item" data-level="2"><a href="#week05" class="nav-link">5. ggplot Revisited</a> </li>	   
+                   <li class="nav-item" data-level="2"><a href="#week06" class="nav-link">6. Interactive Plot with plotly</a> </li>
+                   <li class="nav-item" data-level="2"><a href="#week07" class="nav-link">7. Visualizing Spatial Info - Maps</a></li>	   	     			    
+                   <li class="nav-item" data-level="2"><a href="#week08" class="nav-link">8. Advanced Maps</a></li>
+                   <li class="nav-item" data-level="2"><a href="#week09" class="nav-link">9. Basic Statistical Graphics with Tableau</a></li>
+                   <li class="nav-item" data-level="2"><a href="#week10" class="nav-link">10. Interactive Graphics and Tableau Dashboard</a></li>				    
+                   <li class="nav-item" data-level="2"><a href="#week11" class="nav-link">11. Getting Started With RShiny Apps</a> </li>
+	               <li class="nav-item" data-level="2"><a href="#week12" class="nav-link">12. Data Analysis with Shiny Apps</a> </li>
+                   <li class="nav-item" data-level="2"><a href="#week13" class="nav-link">13. R Shiny Flexdashboard</a> </li>
+                   <li class="nav-item" data-level="2"><a href="#week14" class="nav-link">14. Shinydashboard and Multiple Flexdashboard </a> </li>
+                   <li class="nav-item" data-level="2"><a href="#week15" class="nav-link">15. Final Project Information </a> </li>
+                 
+                   <!--li class="nav-item" data-level="2"><a href="#week15" class="nav-link">15. Project presentation</a> </li-->
+                   </div>
+                </ul>
+             </li>
+           </ul>
+
+        
+    </div>
+</div></div>
+
+
+<!--VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV-->
+<!-- VVVVVVVVVVVVVVVVV    Main Body   VVVVVVVVVVVVVVVVVV-->
+<!--VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV-->
+                               
+<br><br>                               
+<div class="col-md-9" role="main">
+
+<!--oooooooooooooooooooooooooooooooooooooooooooooooooo-->
+<!-- ooooooooooooooooo    Week #1   oooooooooooooooooo-->
+<!--oooooooooooooooooooooooooooooooooooooooooooooooooo-->
+<h3 id="week01" class="section"><center>Week 01: Course outline and logistics</center></h3>
+
+<hr><left>
+<b>TOPICS:</b> The following topics will be covered this week.<br> 
+<ul>
+<li> Logistics </li>
+   <ul>
+      <li> Course logistics, coverage, and policies</li>
+      <li> Software tools: R, Tableau Public</li>
+      <li> Platforms and supplementary software: RStudio, Github, LaTex</li>
+      <li> Primary R Libraries such as ggplot2, tydyverse, shiny, etc.</li>
+    </ul>
+                
+ <li> Introduction </li>
+    <ul>
+      <li> Goals for visualization
+      <li> Steps for Visualizing Data
+      <li> Data Foundations
+     </ul>
+ <li> Basics of R and RStudio</li>
+  <ul>
+    <li> R, RStudio, and relevant packages
+    <li> R Markdown for communications
+  </ul>                           
+                               
+<li> Class Notes</li>
+ <ul>
+ <li> Introduction to R Markdown |<a href="w01-IntroRMD.html" target="popup" 
+                          onclick="window.open('w01-IntroRMD.html', 'name','width=900,height=500')">
+                         HTML</a>| 
+      <a href="w01-IntroRMD.Rmd" target="popup" 
+                          onclick="window.open('w01-IntroRMD.Rmd', 'name','width=900,height=500')">
+                         RMD</a>|</li>   
+                               
+ <li> Data Viz Tools |<a href="w01-IntroVizTools.html" target="popup" 
+                          onclick="window.open('w01-IntroVizTools.html', 'name','width=900,height=500')">
+                         HTML</a>| 
+      <a href="w01-IntroVizTools.Rmd" target="popup" 
+                          onclick="window.open('w01-IntroVizTools.Rmd', 'name','width=900,height=500')">
+                         RMD</a>|</li>  
+ </ul>
+</ul>
+
+
+<b> ASSIGNMENTS</b>: Software Installation and Registration
+  <ul>
+  <li> Software Installation
+   <ul>
+      <li>Required Software: R, RStudio, LaTex(MikTex), Tableau Public </li>
+      <li>Required Registrations: Github, shinyapp.io, RPubs</li>
+   </ul>
+  <li><b> <font color = "red">No</font> D2L Written Submission Due  <font color = "red">This Week!</font></b>
+  </ul>
+</left><hr>
+
+                               
+                               
+<!-- Comment the following weekly contents                               
+                               
+<!--oooooooooooooooooooooooooooooooooooooooooooooooooo-->
+<!-- ooooooooooooooooo    Week #2   oooooooooooooooooo-->
+<!--oooooooooooooooooooooooooooooooooooooooooooooooooo-->
+                               
+<h3 id="week02"  class="section">Week 02: R Programming Review and Base R Graphics</h3>
+
+<hr><left>
+<b>TOPICS:</b> The following topics will be covered this week.<br>
+<ul>
+ <li> Basics of R Programming
+   <ul>
+      <li> Data types
+      <li> Control and loops
+      <li> R functions
+   </ul>   
+ <li> Base R Graphics
+    <ul>
+      <li> Base R graphic functions
+      <li> Basic charts
+  </ul>
+  <li> Class Notes
+    <ul>                           
+    <li> A brief review of R programming |<a href="w02-FunctionsFlowControl.html" target="popup" 
+                          onclick="window.open('w02-FunctionsFlowControl.html','name','width=900,height=500')">
+                               HTML</a> |     
+                          <a href="w02-FunctionsFlowControl.Rmd" target="popup" 
+                          onclick="window.open('w02-FunctionsFlowControl.Rmd','name', 'width=900,height=500')">
+                         RMD</a>|.
+        
+    <li> Base R Graphics |<a href="w02-BaseRGraphics.html" target="popup" 
+                          onclick="window.open('w02-BaseRGraphics.html','name','width=900,height=500')">
+                               HTML</a> |     
+                          <a href="w02-BaseRGraphics.Rmd" target="popup" 
+                          onclick="window.open('w02-BaseRGraphics.Rmd','name', 'width=900,height=500')">
+                         RMD</a>|.  
+        
+    <li> RMD Template |<a href="w02-RMDTemplate.Rmd" target="popup" 
+                          onclick="window.open('w02-RMDTemplate.Rmd','name', 'width=900,height=500')">
+                         RMD</a>|. 
+    </ul>
+
+</ul>
+
+<b>ASSIGNMENT:</b> Make a scatter plot based on the penguin data set <br>
+<ul>
+  <li> The information of the data set
+   <ul>
+      <li> <a href="w02-penguins.csv" target="popup" 
+            onclick="window.open('w02-penguins.csv','name',
+            'width=900,height=500')">Data Set (Penguins)</a>.
+      <li> <a href="w02-PenguinsDescription.pdf" target="popup" 
+            onclick="window.open('w02-PenguinsDescription.pdf','name',
+            'width=900,height=500')">Data Set Description (Penguins)</a>.
+   </ul>
+   <li> Steps for creating the visualization using the base plot functions
+    <ul>
+       <li> Download the penguins data set and then upload it to your Github data repository.
+       <li> Find an image of a penguin and upload the image to the Github repository.
+       <li> Read the data set to R from the Github data repository directly.
+       <li> Open an R Markdown document. You are encouraged to use my template for all assignments.
+       <li> Choose numerical variables (<font color = "red">Bill_length_mm</font> and <font color = "red">Flipper_length_mm</font>) from the penguins data set to make a scatter plot and color the points based on the species.
+       <li> The point size should be proportional to <font color = "red"> body_mass_g </font>of the corresponding penguin.
+       <li> insert the image of the penguin you uploaded to the Github repository to the scatter plot.
+       <li> add a legend to enhance the readability of your plot.
+       <li> make sure the axes of your plot are appropriately labeled. The title of plot should reflect the content in the plot.
+       <li> knit the RMD to HTML format and upload your HTML file to your Github repository.                             
+    </ul>
+    <li> Submission Requirements
+       <ul>
+        <li> URL of the HTML uploaded to your Github site.<br>
+             <font color = "red"><b>Caution</b></font>: if you click an HTML link in a Github repository, your web browser will render the HTML source code. To view the normal web page, you can prepend <font color = "blue">https://htmlpreview.github.io/?</font> to the actual URL. For example, I have an HTML in my Github repository with link: <a href="https://github.com/pengdsci/PythonCrashCourse/blob/main/NBModule01-Intro2Python.html">https://github.com/pengdsci/PythonCrashCourse/blob/main/NBModule01-Intro2Python.html</a>. The URL you are supposed to submit to D2L should be like: <a href="https://htmlpreview.github.io/?https://github.com/pengdsci/PythonCrashCourse/blob/main/NBModule01-Intro2Python.html">https://htmlpreview.github.io/?https://github.com/pengdsci/PythonCrashCourse/blob/main/NBModule01-Intro2Python.html </a>.
+                                  
+        <li> Upload your RMD source file to D2L dropbox.
+        <li> <font color = "red">A late submission will receive penalty points </font>(each assignment is worth 10 points).
+       </ul>                        
+   <li><b>D2L Submission Due: <font color = "red">11:59 PM, 2/13/2022</font></b> Please submit your work through D2L dropbox.
+ </ul>
+
+</left><hr>
+   <!--oooooooooooooooooooooooooooooooooooooooooooooooooo-->
+<!-- ooooooooooooooooo    Week #3   oooooooooooooooooo-->
+<!--oooooooooooooooooooooooooooooooooooooooooooooooooo-->
+<h3 id="week03" class="section"><center>Week 03: Foundations and Ethics of Data Visualization</center></h3>
+
+<hr><left>
+<b>TOPICS:</b> The following topics will be covered this week.<br> 
+<ul>
+                
+ <li> Foundations of Data Visualization </li>
+    <ul>
+      <li> Principles of data visualization
+      <li> Building blocks of data visualization: Marks and Channels
+      <li> Design elements in visualizations: visual encoding and color scheme
+      <li> Strategies for making good visualization</li>
+    </ul>
+ <li> Ethics of data visualization</li>
+  <ul>
+    <li> Basics of scientific ethics
+    <li> Avoiding 
+  </ul>                           
+                               
+<li> Class Notes</li>
+ <ul>
+ <li> Foundations of DataViz |<a href="w03-VizFoundation.pdf" target="popup" 
+                          onclick="window.open('w03-VizFoundation.pdf', 'name','width=900,height=500')">
+                         PDF Slides</a>| 
+                        <a href="w03-VizFoundation.Rmd" target="popup" 
+                          onclick="window.open('w03-VizFoundation.Rmd', 'name','width=900,height=500')">
+                         RMD</a>|</li>   
+                               
+ <li> Ethics in DataViz |<a href="w03-Ethics.pdf" target="popup" 
+                          onclick="window.open('w03-Ethics.pdf', 'name','width=900,height=500')">
+                         PDF Slides</a>| 
+                         <a href="w03-Ethics.Rmd" target="popup" 
+                          onclick="window.open('w03-Ethics.Rmd', 'name','width=900,height=500')">
+                         RMD</a>|</li>  
+    </ul>
+</ul>
+
+
+<b> ASSIGNMENTS</b>: Finalize the visualization based on the penguin data.
+  <ul>
+  <li> Review the notes for this week.
+  <li><b> Week #2 Assignment Due <font color = "red">Sunday, 2/13/2022</font></b>
+  </ul>
+</left><hr>
+
+    
+                               
+<!--oooooooooooooooooooooooooooooooooooooooooooooooooo-->
+<!-- ooooooooooooooooo    Week #4   oooooooooooooooooo-->
+<!--oooooooooooooooooooooooooooooooooooooooooooooooooo-->
+<h3 id="week04" class="section"><center>Week 04: Data Management for Data Visualizations</center></h3>
+
+<hr><left>
+<b>TOPICS:</b> The following topics will be covered this week.<br> 
+<ul>
+   <li> Data management task for data visualization</li>
+    <ul>
+      <li>Merging and joining relational data sets </li>
+      <li>Subsetting a data set by selecting rows and columns</li>
+    </ul>  
+  <li> Important base R commands for data management </li>
+    <ul>
+      <li> merge(), which(), and R object accessors </li>  
+    </ul>
+<li> Dplyr commands</li>
+    <ul>
+    <li> Mutating Joins and mutate()</li>
+    </ul>
+<li> Tidy data and code: joins and pipe operator (%>%)</li>                   
+<li> Class Notes</li>
+ <ul>
+ <li> Data Management for DataViz |<a href="w04-IntroTidyverse.html" target="popup" 
+                          onclick="window.open('w04-IntroTidyverse.html', 'name','width=900,height=500')">
+                         HTML</a>| 
+                        <a href="w04-IntroTidyverse.Rmd" target="popup" 
+                          onclick="window.open('w04-IntroTidyverse.Rmd', 'name','width=900,height=500')">
+                         RMD</a>|</li>    
+ </ul>
+
+</ul>
+
+
+<b> ASSIGNMENTS</b>: This assignment #2 has two components.
+  <ul>
+  <li> Use the principles of data visualization introduced in week #4 to refine the plot based on the iris data set. The elements you are expected to consider are
+      <ul>
+       <li> Marks and channels: point shapes, size, colors, etc.</li> 
+       <li> Legends and annotations (text and images): font size and face, colors, positions, etc. </li>
+       <li> Title and tick mark labels: font size and face, size, colors</li>   
+      </ul>
+  <li>Create a subset from the <font color = "blue">penguin</font> data set that satisfies the following conditions</li>
+      <ul>
+          <li>Delete all records with at least one missing component</li>
+          <li>Include <font color = "red">Adelie penguins</font> and <font color = "red">Gentoo penguins</font> from the <font color = "red">Biscoe</font> and <font color = "red">Torgersen</font> islands. </li>
+          <li>Include only penguins with <font color = "red">body_mass_g</font> less than 5000 grams but more than 3500 grams.</li>
+          <li>Rescale <font color = "red">body_mass_g</font> by dividing 4000 and rename it as <font color = "red">BMI = body_mass_g / 4000</font>.</li>
+          <li>Exclude variables <font color = "red">X(observation ID), sex, year, and body_mass_g</font> from the above subset. </li>
+          <li> Based on the above resulting data set,</li>
+          <ul>
+            <li> Create the same scatter plot as the one that you are asked to refine in component 1.</li>
+            <li> Write a paragraph to compare the relationship between the two variables across the species.</li>
+          </ul>
+      </ul>
+  <li><b> Week #2 Assignment Due: <font color = "red"><b>Sunday, 2/27/2022</b></font></b>
+  </ul>
+    
+</left><hr>
+   <!--oooooooooooooooooooooooooooooooooooooooooooooooooo-->
+<!-- ooooooooooooooooo    Week #5   oooooooooooooooooo-->
+<!--oooooooooooooooooooooooooooooooooooooooooooooooooo-->
+<h3 id="week05" class="section"><center>Week 05: ggplot revisited</center></h3>
+
+<hr><left>
+<b>TOPICS:</b> The following topics will be covered this week.<br> 
+<ul>
+                
+ <li> Foundations of Data Visualization </li>
+    <ul>
+       <li> Components of ggplot() </li>
+       <li> Basic Statistical graphics with ggplot() </li>
+       <li> Charts for single variable </li>
+       <li> Charts for two variables </li>
+    </ul>                           
+                               
+<li> Class Notes</li>
+ <ul>
+ <li> ggplot Revisted |<a href="w05-IntroGGplot.html" target="popup" 
+                          onclick="window.open('w05-IntroGGplot.html', 'name','width=900,height=500')">
+                         HTML</a>| 
+                        <a href="w05-IntroGGplot.Rmd" target="popup" 
+                          onclick="window.open('w05-IntroGGplot.Rmd', 'name','width=900,height=500')">
+                         RMD</a>|</li>    
+    </ul>
+
+</ul>
+
+
+<b> ASSIGNMENTS</b>: Finalize assignment #2 and prepare a data set for assignment #3.
+  <ul>
+      <li> Review the notes for this week [both ggplot() and gganimate() functions] </li>
+      <li> Prepare a single data set based on data set #12 on <a href="https://projectdat.s3.amazonaws.com/datasets.html"> Project Data Set Page</a> </li>
+      <ul>
+         <li> Reshape data set: <a href="https://projectdat.s3.amazonaws.com/income_per_person.csv">Income Per Person</a> to make a longitudinal data such that the resulting data set has three columns: country, year, and income. 
+         <li> Do the same for <a href="https://projectdat.s3.amazonaws.com/life_expectancy_years.csv">Life Expectancy in Years</a></li> so that the resulting data set has three columns: country, year, and life expectancy.
+         <li>Merge/join the above two longitudinal data sets to make a new data set, under name <b>LifeExpIncom</b> that has variables: country, year, lifeExp, and income.</li>
+          <li>Merge <b>LifeExpIncom</b> with <a href = "https://projectdat.s3.amazonaws.com/countries_total.csv"> country region</a> so that the final data set has information about income, life expectancy, and country region. </li>
+          <li>Merge <b>the previous resulting data set</b> with <a href = "https://projectdat.s3.amazonaws.com/population_total.csv"> population size</a> so that the final data set has information about income, life expectancy, population size, and country region. </li>
+      </ul>   
+      
+  <li><b> Assignment #2 Assignment Due: <font color = "red">Sunday, 2/27/2022</font></b>
+  </ul>
+</left><hr>   
+
+<!--oooooooooooooooooooooooooooooooooooooooooooooooooo-->
+<!-- ooooooooooooooooo    Week #6   oooooooooooooooooo-->
+<!--oooooooooooooooooooooooooooooooooooooooooooooooooo-->
+<h3 id="week06" class="section"><center>Week 06: Interactive Plots with plotly()</center></h3>
+
+<hr><left>
+<b>TOPICS:</b> The following topics will be covered this week. <br> 
+<ul>
+                
+ <li> Foundations of Data Visualization </li>
+    <ul>
+       <li> plotly package and syntax </li>
+       <li> interactive statistical charts </li>
+       <li> Plotly map – a simple example of the interactive map </li>
+    </ul>                           
+                               
+<li> Class Notes</li>
+ <ul>
+     <li> Interactive Plot with plotly() <font color = "red"> [updated version]</font> |<a href="w06-InteractiveStatisticsGraphics.html" target="popup" 
+                          onclick="window.open('w06-InteractiveStatisticsGraphics.html', 'name','width=900,height=500')">
+                         HTML</a>| 
+                        <a href="w06-InteractiveStatisticsGraphics.Rmd" target="popup" 
+                          onclick="window.open('w06-InteractiveStatisticsGraphics.Rmd', 'name','width=900,height=500')">
+                         RMD</a>|</li>    
+    </ul>
+
+</ul>
+
+
+<b> ASSIGNMENTS</b>: Assignment #3: Based on the life expectancy data set you prepared last week, select an appropriate plot(s) discussed this week to create a visualization displaying the relationship between income and life expectancy.
+  <ul>
+      <li> Make an interactive scatter plot to display the association between life expectancy and income for the year 2015. [required] </li>
+      <ul>
+         <li> Set the point size to be proportional to the population size </li>
+         <li> Use different colors for different countries. </li>
+         <li> Choose an appropriate transparency level so that overlapped points can be viewed. </li>
+         <li> Choose an appropriate color to highlight the point boundary so that partially overlapped points can be easily distinguished. </li>
+         <li> Include the country name and population size in the hover text. </li>
+       </ul>
+      
+      <li><font color = "red"> Make an animated scatter plot that shows pattern of change in the relationship between life expectancy and income over the years. [required]</font></li>  
+      <ul>
+         <li> Set the point size to be proportional to the population size </li>
+         <li> Use different colors for different regions. </li>
+         <li> Choose an appropriate transparency level so that overlapped points can be viewed. </li>
+         <li> Choose an appropriate color to highlight the point boundary so that partially overlapped points can be easily distinguished. </li>
+       </ul>
+          
+  <li><b> Assignment #3 Assignment Due: <font color = "red">Sunday, 3/13/2022</font></b>
+  </ul>    
+                                                       
+
+<hr><left>
+
+<!--oooooooooooooooooooooooooooooooooooooooooooooooooo-->
+<!-- ooooooooooooooooo    Week #7   oooooooooooooooooo-->
+<!--oooooooooooooooooooooooooooooooooooooooooooooooooo-->
+<h3 id="week07" class="section"><center>Week 07: Visualizing Spatial Information Using Maps</center></h3>
+
+<hr><left>
+<b>TOPICS:</b> The following topics will be covered this week. <br> 
+<ul>
+                
+ <li> R Maps </li>
+    <ul>
+       <li> Basic types of maps: choropleth and scatter map
+       <li> R map libraries
+       <li> Choropleth map for aggregated data
+       <li> Scatter map for individual-level data
+    </ul>                           
+                               
+<li> Class Notes</li>
+ <ul>
+ <li> Visualizing spatial information |<a href="w07-IntroRMaps.html" target="popup" 
+                          onclick="window.open('w07-IntroRMaps.html', 'name','width=900,height=500')">
+                         HTML</a>| 
+                        <a href="w07-IntroRMaps.Rmd" target="popup" 
+                          onclick="window.open('w07-IntroRMaps.Rmd', 'name','width=900,height=500')">
+                         RMD</a>|</li>      
+    </ul>
+
+</ul>
+
+<b> ASSIGNMENTS</b>: Assignment #3: Based on the life expectancy data set you prepared last week, select an appropriate plot(s) discussed this week to create a visualization displaying the relationship between income and life expectancy.
+  <ul>
+      <li> Make an interactive scatter plot to display the association between life expectancy and income for the year 2015. [required] </li>
+      <ul>
+         <li> Set the point size to be proportional to the population size </li>
+         <li> Use different colors for different countries. </li>
+         <li> Choose an appropriate transparency level so that overlapped points can be viewed. </li>
+         <li> Choose an appropriate color to highlight the point boundary so that partially overlapped points can be easily distinguished. </li>
+         <li> Include the country name and population size in the hover text or popu-ups. </li>
+       </ul>
+      
+      <li><font color = "blue"> Make an animated scatter plot that shows pattern of change in the relationship between life expectancy and income over the years. [required]</font></li>  
+      <ul>
+         <li> Set the point size to be proportional to the population size </li>
+         <li> Use different colors for different regions. </li>
+         <li> Choose an appropriate transparency level so that overlapped points can be viewed. </li>
+         <li> Choose an appropriate color to highlight the point boundary so that partially overlapped points can be easily distinguished. </li>
+       </ul>
+      
+     <li><font color = "red"> Choose an appropriate R map library to create an interactive map of the gas station data and show some information of each gas station on the map.</li>       
+     <ul>
+      <li> <a href ="https://projectdat.s3.amazonaws.com/datasets.html#week09">Gas Station Data Set </a></li>
+      <li> Take a random sample 500 gas stations from the US to plot on the map</li>
+      <li> The information to be included in the hover/popups: State, county, address and the zip code.</li>
+     </ul>
+      </font>
+      
+   <BR><BR>
+  <b>  <font color = "red">Assignment #3 Assignment Due:Sunday, 3/13/2022</font></b>
+  </ul>                                 
+                               
+<hr><left>                               
+ <!--oooooooooooooooooooooooooooooooooooooooooooooooooo-->
+<!-- ooooooooooooooooo    Week #8   oooooooooooooooooo-->
+<!--oooooooooooooooooooooooooooooooooooooooooooooooooo-->
+<h3 id="week08" class="section"><center>Week 08: Advanced Maps</center></h3>
+
+<hr><left>
+<b>TOPICS:</b> The following topics will be covered this week. <br> 
+<ul>
+                
+ <li> More R Maps </li>
+    <ul>
+       <li> Thematic Maps
+       <li> Shapefiles: creating new shapfile and modifying existing shapfile
+       <li> Case Studies: spatial data - aggregated and individual data
+    </ul>                           
+                               
+<li> Class Notes</li>
+ <ul>
+ <li> Visualizing spatial information [same as the last week's note] |<a href="w07-IntroRMaps.html" target="popup" 
+                          onclick="window.open('w07-IntroRMaps.html', 'name','width=900,height=500')">
+                         HTML</a>| 
+                        <a href="w07-IntroRMaps.Rmd" target="popup" 
+                          onclick="window.open('w07-IntroRMaps.Rmd', 'name','width=900,height=500')">
+                         RMD</a>|</li>    
+     
+      <li> More on Shapefiles |<a href="w07-MapDataCreation.html" target="popup" 
+                          onclick="window.open('w07-MapDataCreation.html', 'name','width=900,height=500')">
+                         HTML</a>| 
+                        <a href="w07-MapDataCreation.Rmd" target="popup" 
+                          onclick="window.open('w07-MapDataCreation.Rmd', 'name','width=900,height=500')">
+                         RMD</a>|</li>   
+     <li>HTML Slidy Presentation |<a href="InteractiveSlides.html" target="popup" 
+                          onclick="window.open('InteractiveSlides.html', 'name','width=900,height=500')">
+                         HTML</a>| 
+                        <a href="InteractiveSlides.Rmd" target="popup" 
+                          onclick="window.open('InteractiveSlides.Rmd', 'name','width=900,height=500')">
+                         RMD</a>| <font color="red"><b>[Updated]</b></font></li>
+      <li>HTML Slidy Presentation (manually modified with a Tableau chart)|<a href="InteractiveSlidesModified.html" target="popup" 
+                          onclick="window.open('InteractiveSlidesModified.html', 'name','width=900,height=500')">
+                         HTML</a>|     
+              <font color="red"><b>[Updated]</b></font></li>
+     
+     
+    </ul>
+</ul>
+
+
+<b> ASSIGNMENTS</b>: Assignment #4: Create interactive maps to show the 2020 presidential election results. 
+  <BR>
+   <font color = "red"><b>Part I.</b></font>
+  <ul>     
+     <li> <b>Data sets</b>: <font color = "red">|</font><a href = "https://pengdsci.github.io/datasets/countypresidential_election_2000-2020.csv"> Presidential Election Data</a><font color = "red">|</font> <a href="https://pengdsci.github.io/datasets/fips2geocode.csv"> FIPS to Geocode</a><font color = "red">|</font></li> 
+      <li>Data management tasks: </li>
+      <ul>
+      <li> Extract on 2020 presidential election data: <font color = "blue">year</font></li> 
+      <li> Only include Democrats and Republican votes: <font color = "blue">party</font></li>
+      <li> Include variables: state_po, county_name, county_fips, party, candidatevotes</li>
+      <li> Merge the above data with <font color = "blue"> FIPS to Geocode Data</font>using the FIPS as the primary key.</li>
+      <li> Create an interactive choropleth map to display the presidential election results at county level using two different colors to represent the two parties. You can choose any R library to accomplish this part of the assignment.</li>
+      </ul>
+<BR>
+  <b>  <font color = "red">Assignment #4 Assignment Due:Sunday, 4/3/2022</font></b>
+  </ul>                                 
+                
+
+<hr><left>                               
+ <!--oooooooooooooooooooooooooooooooooooooooooooooooooo-->
+<!-- ooooooooooooooooo    Week #9   oooooooooooooooooo-->
+<!--oooooooooooooooooooooooooooooooooooooooooooooooooo-->
+<h3 id="week09" class="section"><center>Week 09: Basic Statistical Charts with Tableau</center></h3>
+
+<hr><left>
+<b>TOPICS:</b> The following topics will be covered this week. <br> 
+<ul>
+ <li> Introduction to Tableau: please install Tableau Public on your computer and sign up an account with Tableau Public to save your visualization. </li>               
+ <li> Basic Statistical Charts </li>
+    <ul>
+       <li> Bar chart, pie chart, donut chart </li>
+       <li> Histogram and density curves</li>
+       <li> Time series plot (line plot)</li>
+       <li> Scatter plot and buble plot</li>
+       <li> Maps and tree maps</li>
+    </ul> 
+  <li> Derived variables and Tableau built-in functions
+  <li> Filters</li>
+<li> <b>Class Notes</b>: Setting up a web age on Github <font color="red"><b>[ Updated ]</b></font></li>
+ <ul>
+   <li>  Basics of HTML and teps for Hosting A web page on Github.  
+         
+       |<a href="SettingUpWebOnGit.html" target="popup" 
+        onclick="window.open('SettingUpWebOnGit.html', 'name','width=900,height=500')"> HTML</a>| 
+       <a href="SettingUpWebOnGit.Rmd" target="popup" 
+         onclick="window.open('SettingUpWebOnGit.Rmd', 'name','width=900,height=500')">
+                         RMD</a>|</li>   
+     
+     <li>Sample web page. 
+        |<a href="index.html" target="popup" 
+        onclick="window.open('index.html', 'name','width=900,height=500')"> HTML</a>| 
+       <a href="index.txt" target="popup" 
+         onclick="window.open('index.txt', 'name','width=900,height=500')">TXT</a>| 
+         <a href="https://pengdsci.github.io/cpeng/">https://pengdsci.github.io/cpeng/</a>| 
+     </li>
+     <li> Tableau working data set:
+     |<a href="https://github.com/pengdsci/sta553/raw/main/Tableau/GlobalSuperstore.xlsx" target="popup" 
+        onclick="window.open('https://github.com/pengdsci/sta553/raw/main/Tableau/GlobalSuperstore.xlsx', 'name','width=900,height=500')"> Superstore Data</a>| </li>
+     <li> A Brief Note on Basic Statistical Charts with Tableau
+            |<a href="w09-BasicChartsWithTableauUpdate.html" target="popup" 
+        onclick="window.open('w09-BasicChartsWithTableauUpdate.html', 'name','width=900,height=500')"> HTML</a>| 
+       <a href="w09-BasicChartsWithTableauUpdate.Rmd" target="popup" 
+         onclick="window.open('w09-BasicChartsWithTableauUpdate.Rmd', 'name','width=900,height=500')">
+                         RMD</a>|</li>
+     
+     </li>
+    </ul>
+</ul>
+
+
+<b> ASSIGNMENTS</b>: Assignment #4: Create interactive maps to show the 2020 presidential election results. 
+  <BR>
+   <font color = "red"><b>Part I.</b></font>
+  <ul>     
+      <li> <b>Data sets</b>: <font color = "red">|</font><a href = "https://pengdsci.github.io/datasets/countypresidential_election_2000-2020.csv"> Presidential Election Data</a><font color = "red">|</font> <a href="https://pengdsci.github.io/datasets/fips2geocode.csv"> FIPS to Geocode</a><font color = "red">|</font></li> 
+      <li>Data management tasks: </li>
+      <ul>
+      <li> Extract on 2020 presidential election data: <font color = "blue">year</font></li> 
+      <li> Only include Democrats and Republican votes: <font color = "blue">party</font></li>
+      <li> Include variables: state_po, county_name, county_fips, party, candidatevotes</li>
+      <li> Merge the above data with <font color = "blue"> FIPS to Geocode Data</font>using the FIPS as the primary key.</li>
+      <li> Create an interactive choropleth map to display the presidential election results at county level using two different colors to represent the two parties. You can choose any R library to accomplish this part of the assignment.</li>
+      </ul>
+  <BR>
+   <font color = "red"><b>Part II.</b></font>
+      <li> Use Tableau to create the map as described in <font color = "red"><b>Part I.</b></font> of this assignment.</li>  
+      <ul>
+       <li> Create the map with Tableau and publish it on Tableau's publicc server.</li>
+        <li> Embed the map into RMarkdown using the IMG tag (hence embed it to the knitted HTML file).</li>
+      </ul>
+      
+<BR>
+  <b>  <font color = "red">Assignment #4 Assignment Due:Sunday, 4/3/2022</font></b>
+  </ul>                                 
+                
+
+
+<hr><left>                               
+ <!--oooooooooooooooooooooooooooooooooooooooooooooooooo-->
+<!-- ooooooooooooooooo    Week #10   oooooooooooooooooo-->
+<!--oooooooooooooooooooooooooooooooooooooooooooooooooo-->
+<h3 id="week10" class="section"><center>Week 10: Inetractive Visualization and Dashboard with Tableau</center></h3>
+
+<hr><left>
+<b>TOPICS:</b> The following topics will be covered this week. <br> 
+<ul>         
+ <li> Interactive visualization: animation </li>
+ <li> Introduction to Dashbaord</li>  
+ <li> Dashbaord with Tableau</li>
+ <li> Tableau storytelling</li>
+ <li> Case Studies: dashboard and story point using the mushroom data</li>
+                                                     
+<li> Class Note</li>
+ <ul>
+   <li> A brief note and assignment: |<a href="w10-DashboardTableau.html" target="popup" 
+        onclick="window.open('w10-DashboardTableau.html', 'name','width=900,height=500')">
+                         HTML</a>| 
+                        <a href="w10-DashboardTableau.Rmd" target="popup" 
+                          onclick="window.open('w10-DashboardTableau.Rmd', 'name','width=900,height=500')">
+                         RMD</a>|</li>   
+         <li> <b>Working Data Sets</b>:
+           <font color = "red">|</font><a href="https://github.com/pengdsci/sta553/raw/main/Tableau/Animation_data.csv" target="popup" 
+        onclick="window.open('https://github.com/pengdsci/sta553/raw/main/Tableau/Animation_data.csv', 'name','width=900,height=500')">
+                         Life Expectancy Data (combined set in CSV format)</a><font color = "red">|</font>
+                        <a href="https://github.com/pengdsci/sta553/raw/main/Tableau/GlobalSuperstore.xlsx" target="popup" 
+                          onclick="window.open('https://github.com/pengdsci/sta553/raw/main/Tableau/GlobalSuperstore.xlsx', 'name','width=900,height=500')">
+                         Global SuperStore Data in xlsx format</a><font color = "red">|</font>
+                        <a href="https://github.com/pengdsci/sta553/raw/main/dash/mushroom-data.csv" target="popup" 
+                          onclick="window.open('https://github.com/pengdsci/sta553/raw/main/dash/mushroom-data.csv', 'name','width=900,height=500')">
+                         Mushroom Data</a><font color = "red">|</font>
+    
+     
+     
+        </li> 
+    </ul>
+</ul>
+
+
+<b> ASSIGNMENTS</b>: Assignment #5: Tableau Dashboard and Story Point. 
+  <BR>
+  <li> Details are in the last section of the class note.   
+  <li><font color = "red">Assignment #5 Assignment Due:Sunday, 4/17/2022</font></b>
+                                 
+                
+ 
+<hr><left>                               
+ <!--oooooooooooooooooooooooooooooooooooooooooooooooooo-->
+<!-- ooooooooooooooooo    Week #11   oooooooooooooooooo-->
+<!--oooooooooooooooooooooooooooooooooooooooooooooooooo-->
+<h3 id="week11" class="section"><center>Week 11: Getting Started with Shiny Apps</center></h3>
+
+<hr><left>
+<b>TOPICS:</b> The following topics will be covered this week. <br> 
+<ul>         
+ <li> What is R shiny? </li>
+ <li> R shiny IDE</li>  
+ <li> Structure of R shiny apps</li>
+ <li> Basics of UI design</li>
+ <li> Case Studies: My first Shiny App</li>
+                                                     
+<li> Class Note</li>
+ <ul>
+   <li> A brief note and assignment: |<a href="https://cpeng.shinyapps.io/w11-GettingStartedwithShiny/" target="popup" 
+        onclick="window.open('https://cpeng.shinyapps.io/w11-GettingStartedwithShiny/', 'name','width=900,height=500')">
+                         https://cpeng.shinyapps.io/w11-GettingStartedwithShiny/</a>| 
+                        <a href="w11-GettingStartedwithShiny.Rmd" target="popup" 
+                          onclick="window.open('w11-GettingStartedwithShiny.Rmd', 'name','width=900,height=500')">
+                         RMD</a>|</li>   
+   <li> <b>My Shiny Apps Galery for IntroStats</b>:
+                        <a href="https://introstatsapps.s3.amazonaws.com/IntroStatsApps.html" target="popup" 
+                          onclick="window.open('https://introstatsapps.s3.amazonaws.com/IntroStatsApps.html', 'name','width=900,height=500')">
+                            <font color = "blue"><b>IntroStatsApps Dev Page</b>|</font></a>>
+    
+     
+     
+        </li> 
+    </ul>
+</ul>
+
+
+<b> ASSIGNMENTS</b>: Assignment #6: R Shiny Apps. 
+  <BR>
+ <li> <font color = "red"><b>Part I:</b></font><br>
+  Pick up a commonly used probability distribution such as to generate a set of random numbers and then make an appropriate visualization to show the distribution. It is dependent on the types of distribution your choose, the visualization can be any of basic charts such as histogram, boxplots, probability distribution histogram, etc. The shiny app should be similar to case-study 1 in this week's class note.
+  <br>
+  <li><font color = "red">Assignment #6 Assignment Due: Wednesday, 5/04/2022</font></b>
+                                      
+
+<hr><left>                               
+ <!--oooooooooooooooooooooooooooooooooooooooooooooooooo-->
+<!-- ooooooooooooooooo    Week #12   oooooooooooooooooo-->
+<!--oooooooooooooooooooooooooooooooooooooooooooooooooo-->
+<h3 id="week12" class="section"><center>Week 12: Data Analysis with R Shiny Apps</center></h3>
+
+<hr><left>
+<b>TOPICS:</b> The following topics will be covered this week. <br> 
+<ul>         
+ <li> Plan for visual analysis </li>
+ <li> Front-end design - UI </li>
+ <li> Use of control widgets -  
+     |<a href="https://shiny.rstudio.com/tutorial/written-tutorial/lesson3/" target="popup" 
+        onclick="window.open('https://shiny.rstudio.com/tutorial/written-tutorial/lesson3/', 'name','width=900,height=500')">
+                         R Shiny official tutorial on control widgets</a>|</li>  
+ <li> Server side coding - basic statistics and R coding</li>
+ <li> Case Studies: Analysis of Iris Data</li>
+                                                     
+<li> Class Note</li>
+ <ul>
+   <li> A brief note and assignment: |<a href="https://cpeng.shinyapps.io/w12-DataAnalyShinyApps/" target="popup" 
+        onclick="window.open('https://cpeng.shinyapps.io/w12-DataAnalyShinyApps/', 'name','width=900,height=500')">
+                         https://cpeng.shinyapps.io/w12-DataAnalyShinyApps/</a>| 
+                        <a href="w12-DataAnalyShinyApps.Rmd" target="popup" 
+                          onclick="window.open('w12-DataAnalyShinyApps.Rmd', 'name','width=900,height=500')">
+                         RMD</a>|</li>   
+   <li> <b>My Shiny Apps Galery for IntroStats</b>:
+                        <a href="https://introstatsapps.s3.amazonaws.com/IntroStatsApps.html" target="popup" 
+                          onclick="window.open('https://introstatsapps.s3.amazonaws.com/IntroStatsApps.html', 'name','width=900,height=500')">
+                            <font color = "blue"><b>IntroStatsApps Dev Page</b>|</font></a>    
+        </li> 
+    </ul>
+</ul>
+
+      
+<b> ASSIGNMENTS</b>: Assignment #6: R Shiny Apps. 
+  <BR>
+ <li> <font color = "red"><b>Part I:</b></font><br>
+  Pick up a commonly used probability distribution such as to generate a set of random numbers and then make an appropriate visualization to show the distribution. It is dependent on the types of distribution your choose, the visualization can be any of basic charts such as histogram, boxplots, probability distribution histogram, etc. The shiny app should be similar to case-study 1 in this week's class note.
+  <br>
+     
+  <li> <font color = "blue"><b>Part II: Graphical Analysis of Penguin Data with the R Shiny App</b><br>
+  Perform an analysis of the <b>penguin data</b> that is similar to what I did for the <b>iris data</b>. There are two categorical variables in the penguin data: species and location. You use one or both of them to define filters.
+ </font>
+  <br>
+  <li><font color = "red">Assignment #6 Assignment Due: Wednesday, 5/04/2022</font></b>
+          
+ 
+<hr><left>                               
+ <!--oooooooooooooooooooooooooooooooooooooooooooooooooo-->
+<!-- ooooooooooooooooo    Week #13   oooooooooooooooooo-->
+<!--oooooooooooooooooooooooooooooooooooooooooooooooooo-->
+<h3 id="week13" class="section"><center>Week 13: Creating R Shiny Dashboards</center></h3>
+
+<hr><left>
+<b>TOPICS:</b> The following topics will be covered this week. <br> 
+<ul>         
+ <li> Components of a dashboard </li>
+ <li> library: <b>flexdashboard</b> </li>
+ <li> Components of flexdashboards</li>
+ <li> Storyline with flaxdashboard</li>
+ <li> <a href="https://rstudio.github.io/shinydashboard/index.html" target="popup" 
+     onclick="window.open('https://rstudio.github.io/shinydashboard/index.html', 'name','width=900,height=500')">Official Shiny Dashboard Tutorial</a></li>  
+ <li> Case Studies: Analysis of Iris Data</li>
+                                                     
+<li> Class Notes</li>
+ <ul>
+    <li> A brief note of flexdashboard: |<a href="w13-IntroShinyDashBoard.html" target="popup" 
+        onclick="window.open('w13-IntroShinyDashBoard.html', 'name','width=900,height=500')">
+                         HTML</a>| 
+                        <a href="w13-IntroShinyDashBoard.Rmd" target="popup" 
+                          onclick="window.open('w13-IntroShinyDashBoard.Rmd', 'name','width=900,height=500')">
+                         RMD</a>|</li>
+   <li> Case-study #1: flexdashboard |<a href="https://cpeng.shinyapps.io/w13-FlexDashboard/" target="popup" 
+        onclick="window.open('https://cpeng.shinyapps.io/w13-FlexDashboard/', 'name','width=900,height=500')">
+                         https://cpeng.shinyapps.io/w12-DataAnalyShinyApps/</a>| 
+                        <a href="w13-FlexDashboard.Rmd" target="popup" 
+                          onclick="window.open('w13-FlexDashboard.Rmd', 'name','width=900,height=500')">
+                         RMD</a>|</li>  
+   <li> Case-study #2: storyboard |<a href="w13-storyline-iris.html" target="popup" 
+        onclick="window.open('w13-storyline-iris.html', 'name','width=900,height=500')">
+                         HTML</a>| 
+                        <a href="w13-storyline-iris.Rmd" target="popup" 
+                          onclick="window.open('w13-storyline-iris.Rmd', 'name','width=900,height=500')">
+                         RMD</a>|</li>    
+   <li> <b>My Shiny Apps Galery for IntroStats</b>:
+                        <a href="https://introstatsapps.s3.amazonaws.com/IntroStatsApps.html" target="popup" 
+                          onclick="window.open('https://introstatsapps.s3.amazonaws.com/IntroStatsApps.html', 'name','width=900,height=500')">
+                            <font color = "blue"><b>IntroStatsApps Dev Page</b>|</font></a>    
+        </li> 
+    </ul>
+</ul>
+
+      
+<b> ASSIGNMENTS</b>: Assignment #6: R Shiny Apps. 
+  <BR>
+ <li> <font color = "red"><b>Part I: Getting Started with Shiny - Simulation</b><br>
+  Pick up a commonly used probability distribution such as to generate a set of random numbers and then make an appropriate visualization to show the distribution. It is dependent on the types of distribution your choose, the visualization can be any of basic charts such as histogram, boxplots, probability distribution histogram, etc. The shiny app should be similar to case-study 1 in this week's class note.
+  </font>
+  <br>
+     
+  <li> <font color = "#2B46B3"><b>Part II: Graphical Analysis of Penguin Data with the R Shiny App</b><br>
+  Perform an analysis of the <b>penguin data</b> that is similar to what I did for the <b>iris data</b>. There are two categorical variables in the penguin data: species and location. You use one or both of them to define filters.
+ </font>
+  <br>
+  <li> <font color = "#A60A0F"><b>Part III: Graphical Analysis of Penguin Data with the R Shiny Dashboard</b><br>
+  Create a shiny dashboard based the <b>penguin data</b>. I will not pose any restrictions in this dashboard design. 
+ </font>
+  <br><br>      
+  <li><font color = "red"><b>Assignment #6 Assignment Due: Wednesday, 5/04/2022</b></font>
+      
+      
+ <hr><left>      
+      
+ <!--oooooooooooooooooooooooooooooooooooooooooooooooooo-->
+<!-- ooooooooooooooooo    Week #14   oooooooooooooooooo-->
+<!--oooooooooooooooooooooooooooooooooooooooooooooooooo-->
+<h3 id="week14" class="section"><center>Week 14: Shinydashboard and Multipage Flexdashboard</center></h3>
+<hr><left>      
+
+The following topics are optional. The two brief notes are templates
+<br>
+<li>The iris dashboard uses library <b>shinydashboard</b>. The RMD document illustrates how to design <b>ui</b> and write the <b>server</b> side code. 
+    <a href="w15-ShinyDashboardExample.Rmd" target="popup" 
+       onclick="window.open('w15-ShinyDashboardExample.Rmd', 'name','width=900,height=500')">
+                         RMD</a></li>      
+      
+ <li>A template of flexdashboard with multiple pages and a global sidebar for input controls.  
+    <a href="w15-multiplePage-iris.Rmd" target="popup" 
+       onclick="window.open('w15-multiplePage-iris.Rmd', 'name','width=900,height=500')">
+                         RMD</a></li>     
+      
+ <hr><left>     
+ <!--oooooooooooooooooooooooooooooooooooooooooooooooooo-->
+<!-- ooooooooooooooooo    Week #15   oooooooooooooooooo-->
+<!--oooooooooooooooooooooooooooooooooooooooooooooooooo-->
+<h3 id="week15" class="section"><center>Week 15: Information about the Final Project </center></h3>
+<hr><left>
+      
+      
+      
+<font color = "blue"><b>Minimum Requirements</b></font><br>
+<ul>
+ <li> Choose <font color = "red"><b>a a publicly available data set</b> </font> that has at least two numerical and two categorical variables. </li> 
+ <li> The sample size is at least equal to 50 times the number of variables you will use in the visualizations.</li>
+ <li> Create a shiny app with the following components (using a tabset design) that is similar to the one we created this week.</li>
+     <ul>
+     <li> a tab that has an interactive plot displaying the relationship between two variables using any of the libraries we learned this semester. Note that information about an individual record should be displayed in a hover box.</li>
+     <li> a tab that has an interactive chart for the comparison of distributions of numerical variables or categorical variables. For example, charts could be histograms, bar charts, boxplots, pie charts, etc.</li>
+     <li> a tab that displays the regression results. </li>
+     <li> a tab that summarizes the inferential statistics in the regression model.
+     <li> <font color = "red">(optional)</font>. If your data set has geo-information, you can create an interactive map to show spatial patterns of your data.
+     </ul>
+   <li> You can develop the shiny app in either shiny IDE or using RMarkdown.</li>
+     <ul>
+        <li>If you create your shiny app in the shiny IDE (single or two-file version), you need to publish the app on hinyapps.io and provide the link to the app. </li>
+        <li>If you use the RMD to create the app, you should also publish the app and the RMD on shinyapps.io.</li>
+        <li>You need to submit the code to the D2L drop box.</li>
+    </ul>
+   <li> <font color = "red">Data set must be available on your Github repository so that I can run your code on my computer without modifying your code.</font></li>
+ </ul>
+  
+  <font color = "blue"><b>Grading Rubrics</b></font><br>
+   <ul>
+    <li> Overall Design - the principles of data visualization </li>
+       <ul>
+        <li> titles and labels</li>
+        <li> effective use of marks and channels</li>
+        <li> use of color schemes</li>
+        <li> high dimensional information - hover texts and popups</li>
+       </ul>
+       
+     <li> Functionalities</li>  
+       <ul>
+         <li> interactivity</li>
+         <li> responsiveness</li>
+         <li> reactivity (bonus)</li>
+         <li> user-friendly input controls</li>
+       </ul>
+       
+     <li> Aesthetic Appearance</li>
+       <ul>
+        <li> simplicity and intuitiveness</li>
+        <li> consistency and clarity in using graphical features</li>
+        <li> color coding and highlighting</li>
+        <li> effective use of font size and color in the texts, labels, titles, etc.</li>
+        <li> scales of axes: avoiding distortion, disinformation, and misinformation. </li>
+       </ul>     
+   </ul> 
+    
+   <font color = "blue"><b>Bonus for Experienced Visual Designers</b></font><br>    
+    You can develop a shiny dashboard using components in  the minimum requirement. 
+    You can add as many nice features as possible to the dashboard.  
+   <br>   
+   <br>
+  <font color = "red"><b>Project Due: Friday, 5/13/2022</b></font><br>    
+    <li> Please note that no late submission will be accepted!</li>
+   <br>
+      
+  <font color = "purple"><b>STA 533 Shiny Gallery</b></font><br>      
+    <li> The gallery will go-live on Saturday, 5/14/2022. The link will be posted here once the site is available.</li>
+                               
+<!--MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM-->
+</div>
+<!--XXXXXXXXXXXXXXXXXXXXXXXXXXX  FOOTER  XXXXXXXXXXXXXXXXXXXXXXX-->
+        <footer class="col-md-12">
+<hr>
+    <p class="text-center">Copyright &copy; 
+        <script>
+            var CurrentYear = new Date().getFullYear()
+            document.write(CurrentYear)
+        </script>
+       C. Peng. Last updated: 
+         <script> 
+            document.write(new Date().toLocaleDateString()); 
+         </script>
+
+ <a href='http://www.freevisitorcounters.com'>.</a> <script type='text/javascript' src='https://www.freevisitorcounters.com/auth.php?id=bdd86ca03bf3709e4523bf44ac939417956604f4'></script>
+<script type="text/javascript" src="https://www.freevisitorcounters.com/en/home/counter/832947/t/5"></script>   </p>
+</body>
+</html>

@@ -1,0 +1,310 @@
+---
+title: "Ethics in Data Visualization"
+author: "Cheng Peng"
+date: ''
+output:
+  beamer_presentation: 
+    slide_level: 3
+    includes:
+      in_header: wcu-RMD-slide-template.txt
+    theme: Goettingen
+    fonttheme: professionalfonts
+    colortheme: beaver
+    fig_width: 3
+    fig_height: 2
+  slidy_presentation: 
+    fig_width: 4
+    fig_height: 2
+    incremental: yes
+  powerpoint_presentation:
+    toc: yes
+fontsize: 10pt
+subtitle: (A Brief Overview)
+---
+
+```{r setup, echo = FALSE, include=FALSE}
+if (!require("knitr")) {
+   install.packages("knitr")
+   library(knitr)
+}
+if (!require("datarium")) {
+   install.packages("datarium")
+   library(datarium)
+}
+if (!require("ggplot2")) {
+   install.packages("ggplot2")
+   library(ggplot2)
+}
+knitr::opts_chunk$set(echo = TRUE,       
+                      warning = FALSE,   
+                      result = TRUE,   
+                      message = FALSE,
+                      fig.align='center', 
+                      fig.pos = 'ht')
+```
+
+
+
+## Ethical Versus Unethical Behaviors
+
+* Ethics or moral philosophy as a discipline “concerned with what is morally good and bad and morally right and wrong”
+
+\
+
+* A simple ethical behavior definition is ‘to do the right thing’.
+
+\
+
+* Ethics in the context of work is the set of moral standards and codes that guide the behavior and interactions of people within and across disciplines.
+
+\
+
+* Unethical behavior is an action that falls outside of what is considered right or proper for a person, a profession or an industry. The definition of "unethical" depends on ethical standards of individuals and the standards of their society.
+
+
+## Intentional Unethical Behaviors
+
+* **Intentional unethical** behavior occurs when people engage in actions they know to be wrong but are unaware of the biases and forces affecting their judgments.
+\vspace{3mm}
+
+  1. An authority demands obedience rather than a person’s character causes unethical behaviors. 
+  
+  \vspace{3mm}
+  2. The more room a situation provides for people to be able to justify their behavior, the more likely they are to behave unethically.
+  
+  \vspace{3mm}
+  3. The physical features of an environment can produce profound changes in behavior surrounding ethical and social norms.
+  
+  \vspace{3mm}
+  4. An in-group member behaves unethically and the behavior is visible to others, people follow suit.
+
+
+## Unintentional Unethical Behaviors
+
+* **Unintentional unethical behavior** occurs when people engage in unethical action beyond their awareness. There are three sources of ethical blind spots.
+
+  \vspace{3mm}
+  1. **Implicit Biases**: implicit attitudes, egocentric biases, over-discounting.
+  
+  \vspace{3mm}
+  2. **Temporal Distance from An Ethical Dilemma**: temporal inconsistencies prevent us from being as ethical as we desire to be.
+  
+  \vspace{3mm}
+  3. **Failure to Notice Others’ Unethical Behavior**: conflicts of interest, outcome bias, and intermediaries, etc.
+
+
+
+## Ethics of Data Visualization 
+
+* **Charts can be misleading**: Well-designed charts are empowering. However, they can also deceive viewers regardless of whether they are designed with ill-intent or not. Therefore, information and data visualization has ethical consequences. 
+
+
+* Ethical thinking is not only about intentions, but also about consequences.
+
+## Ethical Principles in Viz
+
+* **Three ethical principles** in creating and distributing visualizations: Transparency, Integrity, and Accountability.
+
+\vspace{3mm}
+* **Transparency** helps users effectively understand the data and glean new insights. A graphic that is confusing or misleading is unethical, regardless of intent, since it creates misunderstanding for the audience.
+
+\vspace{3mm}
+* **Integrity**: Act with honesty when creating and distributing visualizations and avoid bias in charts and graphs. Become an ethical creator and responsible purveyor of data visualizations.
+
+\vspace{3mm}
+* **Accountability**: Accepting responsibility for all decisions in creating data visualizations since a visualization has consequences. 
+
+
+## Poor Designs
+
+\vspace{2mm}
+\begin{figure}
+  \includegraphics[width=40mm,scale=0.5]{\string w15/PoorDesign.png}
+\end{figure}
+\vspace{2mm}
+
+
+\vspace{2mm}
+\begin{figure}
+  \includegraphics[width=40mm,scale=0.5]{\string w15/DistortedAxes.png}
+\end{figure}
+\vspace{2mm}
+
+
+## 
+
+* Display insufficient information or too much information: Too much data or too complex a chart can also cause misunderstanding.
+
+\vspace{2mm}
+\begin{figure}
+  \includegraphics[width=70mm,scale=0.5]{\string w15/ViolentCrimeRate.png}
+\end{figure}
+\vspace{2mm}
+
+
+##
+Wrong scale in the horizontal axis!
+
+\vspace{2mm}
+\begin{figure}
+  \includegraphics[width=100mm,scale=0.5]{\string w15/LifeExpectancy02.png}
+\end{figure}
+\vspace{2mm}
+
+
+
+## Wrong or Dubious Info
+
+* "Garbage in, garbage out"
+
+\vspace{3mm}
+* An argument may sound very solid and convincing, but if its premise is wrong, then the argument is wrong.
+
+\vspace{3mm}
+* A chart may look pretty, intriguing, or surprising, but if it encodes faulty data, then it’s a chart that lies.
+
+\vspace{3mm}
+* Graphs and charts might be automatically generated by the software, but we still have to make sure the output is right.
+
+\vspace{3mm}
+* How to spot the garbage before it gets in requires some technical understanding of the data and the content to visualize.
+
+
+## 
+
+* Spurious correlation between two variables
+
+\vspace{5mm}
+\begin{figure}
+  \includegraphics[width=100mm,scale=0.5]{\string w15/SpuriousCorrelation.png}
+\end{figure}
+\vspace{2mm}
+\vspace{3mm}
+
+
+##
+
+* In US, the result of presidential election is determined by the number of electoral votes won by each of the two candidates instead of the size of the territory or the number of voters.
+
+\vspace{5mm}
+\begin{figure}
+  \includegraphics[width=70mm,scale=0.5]{\string w15/PresdiElection.png}
+\end{figure}
+\vspace{2mm}
+\vspace{3mm}
+
+##
+
+* What's the issue?
+
+\vspace{5mm}
+\begin{figure}
+  \includegraphics[width=90mm,scale=0.5]{\string w15/WrongInterpretation.png}
+\end{figure}
+\vspace{2mm}
+\vspace{3mm}
+
+
+## 
+
+* The spurious positive association between cigarette consumption and life expectancy at a country-by-country level does not imply causation. Correlation is not equal to causation. Other factors such as affluence may be the cause. People in wealthier countries can afford to buy more cigarettes. They also tend to live longer due to access to better diets and health care.
+
+\vspace{5mm}
+\begin{figure}
+  \includegraphics[width=70mm,scale=0.5]{\string w15/LifeExpectancy.png}
+\end{figure}
+\vspace{2mm}
+
+
+##
+\vspace{2mm}
+\begin{figure}
+  \includegraphics[width=80mm,scale=0.5]{\string w15/LifeCigarette.png}
+\end{figure}
+\vspace{2mm}
+
+
+## Insufficient Data
+
+* The error margin in the above chart reflects the extent of uncertainty in the poll result. Typically, it is reported at 95% confidence level
+
+\vspace{5mm}
+\begin{figure}
+  \includegraphics[width=70mm,scale=0.5]{\string w15/Uncertainty.png}
+\end{figure}
+\vspace{2mm}
+
+##
+
+Adjusted or unadjusted data?
+
+\vspace{5mm}
+\begin{figure}
+  \includegraphics[width=100mm,scale=0.5]{\string w15/AdjustedDatViz.png}
+\end{figure}
+\vspace{2mm}
+
+
+## Concealling/Confusing Uncertainty
+
+* To avoid lying, charts need to be precise; but sometimes too much precision is detrimental to understanding.
+
+\vspace{3mm}
+* Data is often uncertain, and this uncertainty should be disclosed. Ignoring it may lead to faulty reasoning.
+
+\vspace{3mm}
+\begin{figure}
+  \includegraphics[width=70mm,scale=0.5]{\string w15/ConcellingConfusing.png}
+\end{figure}
+\vspace{2mm}
+
+
+## Suggesting Misleading Patterns
+
+* Good charts are useful because they untangle the complexity of numbers, making them more concrete and tangible.
+
+\vspace{3mm}
+* Charts can also lead us to spot patterns and trends that are dubious, spurious, or misleading, particularly when we pair them with the human brain’s tendency to read too much into what we see and to always try to confirm what we already believe.
+
+\vspace{3mm}
+\begin{figure}
+  \includegraphics[width=60mm,scale=0.5]{\string w15/SuggestingMisleadingInfo.png}
+\end{figure}
+\vspace{2mm}
+
+
+
+## 
+
+**Advices for Reading Charts**
+
+\vspace{3mm}
+* Good charts reveal realities that may otherwise go unnoticed.
+
+\vspace{3mm}
+* A chart shows only what it shows, and nothing else.
+
+\vspace{3mm}
+* Don’t read too much into a chart—particularly if you’re reading what you’d like to read.
+
+\vspace{3mm}
+* Different levels of thinking may require different levels of data aggregation.
+
+\vspace{3mm}
+* A good chart is a simplification of reality, and it reveals as much as it hides.
+
+\vspace{3mm}
+* The patterns or trends on this chart, on their own, should be sufficient to support the claims the author makes.
+
+
+##
+
+Insufficient information leads misleading charts.
+
+\vspace{3mm}
+\begin{figure}
+  \includegraphics[width=60mm,scale=0.5]{\string w15/InsufficicentInfo.png}
+\end{figure}
+\vspace{2mm}
+
+
