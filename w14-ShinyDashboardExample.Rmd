@@ -1,0 +1,517 @@
+---
+title: "Data Analysis with Shiny Apps"
+author: "Cheng Peng"
+date: "West Chester University"
+output: html_document
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Dashboard Frame
+
+A simple dashboard has three parts: header bar,  sider bar, and  body.
+
+The following code creates an empty dashboard.
+
+```{r}
+library(shiny)
+library(shinydashboard)
+
+## ui
+ui <- dashboardPage(
+           dashboardHeader(),
+           dashboardSidebar(),
+           dashboardBody()
+      )
+## server
+server <- function(input, output){
+  
+}
+## link
+shinyApp(ui, server)
+```
+
+If the three components are complicated, we can write the three pieces separately and then ensemble them
+
+```
+header <- dashboardHeader()
+sidebar <- dashboardSidebar()
+body <- dashboardBody()
+dashboardPage(header, sidebar, body)
+```
+
+# Dashboard Design 
+
+We next design the dashboard depending on the information to be presented. We first name the dashboard. To organize the type of information to be presented, we create a clean list of item menus and layout of the main body of the dashboard.
+
+The following code shows the basic design by adding the relevant information to the previous empty dashboard.
+
+```{r}
+library(shiny)
+library(shinydashboard)
+
+## ui
+ui <- dashboardPage(
+           ###
+           dashboardHeader(
+             title = "My 1st RShiny Dashboard"),
+           ###
+           dashboardSidebar( # start siderbar --------------  
+            ),           # close the sidebar --------------
+           ###
+           dashboardBody(
+             box(plotOutput("correlation1"), width=6), # width = # of columns
+             box(plotOutput("correlation2"), width=6),
+           )
+      )
+## server
+server <- function(input, output){}
+## link
+shinyApp(ui, server)
+```
+
+
+# Simple Static Dashboard
+
+Next we write some code run on server to generate some plots and display them in the main body of the dashboard layout in the designed ui.
+
+
+```{r}
+library(shiny)
+library(shinydashboard)
+
+## ui
+ui <- dashboardPage(
+           ###
+           dashboardHeader(
+              title = "Analysis of Iris Data"),
+           ###
+           dashboardSidebar(
+            ),
+           ####
+           dashboardBody(
+             box(plotOutput("correlation1"), width=6),
+             box(plotOutput("correlation2"), width=6),
+           )
+      )
+################
+##   server
+################
+server <- function(input, output){
+   output$correlation1 <- renderPlot(plot(iris$Sepal.Length, iris$Petal.Length))
+   output$correlation2 <- renderPlot(plot(iris$Sepal.Width, iris$Petal.Width))
+}
+## link
+shinyApp(ui, server)
+```
+
+# Adding Interactivity to the Dashboard
+
+We now add some interactive capabilities to the above simple dashboard. The idea is to select a feature as a baseline and look at the correlation between other feature variables. We can add drop down selection menu to select a feature from the list to make a scatter plot.
+
+To do this, we add a control 
+
+
+```{r}
+library(shiny)
+library(shinydashboard)
+##
+## ui
+ui <- dashboardPage(
+           dashboardHeader(title = "My 1st Dashboard"),
+           dashboardSidebar(
+               sidebarMenu(
+                     menuItem("iris", tabName = "iris", icon = icon("tree"))
+                )
+            ),
+           dashboardBody(
+             box(plotOutput("correlation1"), width=6),
+             box("Feature Selection",
+               selectInput("feature", "Feature",
+                           c("Sepal.Width",  "Petal.Length", "Petal.Width"),
+                           selected = "Sepal.Width"), 
+               width=6),
+           )
+      )
+
+#################
+##    server
+#################
+server <- function(input, output){
+   
+   output$correlation1 <- renderPlot(
+     #iris.spec = iris[which(iris$Species == input$species),],
+     plot(iris$Sepal.Length, iris[[input$feature]])
+     )
+}
+##
+## link
+shinyApp(ui, server)
+```
+
+
+# Move Reactive Controls to Siderbar
+
+We can see from the above examples that the dashboard UI function dashboardPage() have three components: dashboardHeader(). dashboardSiderbar(), and dashboardBody(). To organize the code, we can write the three components separately first and then call them as arguments of dashboardPage().
+
+In the above example, we placed a input control in a box of the main body of the dashboard. It may be more convenient to put all input controls on the left siderbar.
+
+
+```{r}
+library(shiny)
+library(shinydashboard)
+### loading data
+iris0 = read.table("https://raw.githubusercontent.com/pengdsci/sta553/main/shiny/iris0.txt", header = TRUE)
+x.names = names(iris0)[-c(1,6)]
+y.names =names(iris0)[-c(1,6)]
+####
+####
+ header0 <- dashboardHeader(title = "Iris Data Summary")
+ #####
+ sider0 <- dashboardSidebar(
+               sidebarMenu(
+                     menuItem("iris0", tabName = "Iris", icon = icon("tree")),
+                     ##
+                     hr(),
+                     radioButtons("species", "Species",
+                           c("setosa", "versicolor", "virginica", "all"),
+                           selected = "setosa",
+                           ),
+                
+
+                )
+               )
+ #####
+ body0 <- dashboardBody(
+             box(plotOutput("correlation1"), width=6),
+             box(plotOutput("scatterplot"),width=6)
+           )
+
+## UI
+ui <- dashboardPage(header = header0,
+                    sidebar = sider0,
+                    body = body0)
+## server
+server <- function(input, output){
+
+}
+## link
+shinyApp(ui, server)
+```
+
+```
+   
+ # define subset based on the input species
+  workDat = function(){
+      if (input$species == "setosa") {
+          workingData = iris0[which(iris0$Species == "setosa"),]
+      } else if (input$species == "versicolor") {
+          workingData = iris0[which(iris0$Species == "versicolor"),]
+      } else if (input$species == "virginica") {
+          workingData = iris0[which(iris0$Species == "virginica"),]
+      } else {
+          workingData = iris0
+      }
+   workingData 
+  }
+  
+######   
+   output$correlation1 <- renderPlot({
+      ##
+      in.dataset = workDat()[,-1]   # define the working data set
+     #mydata <- iris0(),
+      plot(in.dataset$Sepal.Length, in.dataset[[input$feature]],
+          xlab = "sepal length",
+          ylab = input$feature,
+          main=paste("Sepal.Length vs ", input$feature), cex.main = 0.7)
+
+   })
+```
+
+
+
+
+
+# Comparative and More Granular Information
+
+The primary goal of data visualization is to present the information that is not easily seen. Next we add this type of information to the above dashboard. In addition, we also add an image and a web link to the siderbar panel. The background color will also be changed to gray.
+
+
+```{r}
+library(shiny)
+library(shinydashboard)
+###########
+## Global code
+iris1 = read.table("https://raw.githubusercontent.com/pengdsci/sta553/main/shiny/iris0.txt", header = TRUE)[,-1]
+spc = unique(iris1$Species)
+#########
+ header0 <- dashboardHeader(title = "Iris Data Summary")
+ #####
+ sider0 <- dashboardSidebar( #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ (1)
+               sidebarMenu( #==============================================================================    (2)
+                     menuItem("iris", tabName = "iris", icon = icon("tree")),
+                     hr(),
+                     radioButtons("species", "Species",
+                           c(as.vector(spc), "all"),
+                           selected = spc[1]
+                           ),
+                     hr(),
+                      selectInput("Y", "Response Variable: Y",
+                           names(iris),
+                           selected = names(iris)[1]
+                           ),
+                      selectInput("X", "Predictor Variable: X",
+                           names(iris),
+                           selected = names(iris)[2]
+                           ),
+                     hr(),
+                      HTML('<p><center><img src="https://github.com/pengdsci/sta553/blob/main/image/goldenRamLogo.png?raw=true"  
+                           width="80" height="80"></center></p>'),
+                       HTML('<p style="font-family:Courier; color:Red; font-size: 20px;"><center>
+                            <font size =2> <a href="mailto:cpeng@wcupa.edu">
+                            <font color="gold">Report bugs to C. Peng </font></a> </font></center></p>')
+                      ), ### close the sidebarMenu! ======================================================= (2)
+                   hr(),
+                #### 
+                tags$head(  # sidebar background color ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ (2)
+                   tags$style(HTML(".skin-blue .main-sidebar {background-color:  skyblue;}"))    # background color of the side bar
+                    )       # close side bar background color ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ (2)
+                )  ## Close the DashboardSidebar +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ (1)
+ #####
+ body0 <- dashboardBody(
+          fluidRow(
+                box(plotOutput("correlation1"), width=6),
+                box(plotOutput("overallplot"),width=6)  # scatter plot all three species
+             ),
+          fluidRow(
+                 box(plotOutput("groupReg"), width=6),
+                 fluidRow(
+                    box(plotOutput("diagnostics"),width=6),  # scatter plot all three species 
+                    box(plotOutput("corr"),width=6)  # scatter plot all three species 
+                     )
+              )
+           )
+
+## UI
+ui <- dashboardPage(header = header0,
+                    sidebar = sider0,
+                    body = body0)
+
+##########################################
+#################      server
+##########################################
+server <- function(input, output){
+   ## adding a color code to the iris data based on the species
+   iris$color <-sort(rep(c("red","blue", "gold"),50))
+   ## reactive() function is used to select rows based on the
+   ## input row (species).
+   iris0 <- reactive({
+     sub.iris <- iris1[which(iris$Species == input$species),]   
+     sub.iris
+      })
+   ####
+   output$correlation1 <- renderPlot(
+     #mydata <- iris0(),
+     plot(iris0()$Sepal.Length, iris0()[[input$feature]],
+          pch=16,
+          ylim=c(0.8*min(iris0()[[input$feature]]), 1.2*max(iris0()[[input$feature]])),
+          col = iris0()$color,   # add color to the points
+          xlab = "sepal length",
+          ylab = input$feature,
+          main=paste("Sepal.Length vs ", input$feature),
+          cex.main = 0.7,
+          ### add correlation coefficients and regression line
+          text(mean(range(iris0()$Sepal.Length)), 1.15*max(iris0()[[input$feature]]), 
+               paste0("Correlation coefficient: r = ", 
+                       round(cor(iris0()$Sepal.Length,iris0()[[input$feature]]),3), 
+                      "\n Species: ", as.character(unique(iris0()$Species))), 
+                                          col = "purple", cex = 0.8)
+          )
+     )
+   ### overall plot
+   output$overallplot <- renderPlot(
+     # use the original data file,
+     plot(iris$Sepal.Length, iris[[input$feature]], 
+          pch=16,
+          ylim=c(0.8*min(iris[[input$feature]]), 1.2*max(iris[[input$feature]])),
+          col = iris$color,
+          xlab = "sepal length",
+          ylab = input$feature,
+          main=paste("Sepal.Length vs ", input$feature),
+          cex.main = 0.7,
+          text(mean(range(iris$Sepal.Length)), 1.15*max(iris[[input$feature]]), 
+               paste0("Correlation coefficient: r = ", 
+                                    round(cor(iris$Sepal.Length,iris[[input$feature]]),3)), 
+                                          col = "purple", cex = 0.8)
+          )
+     )
+}
+## link
+shinyApp(ui, server)
+```
+
+
+# Final Refinement
+
+The above dashboard contains visual representation and correlation between feature variables and that based on individual species. Next we add some some information of regression between the variables. To be specific, we will add two tables of inferential statistics of regression coefficients to the dashboard in a separate rows. We need to modify the dashboardBody() to display the tables.
+
+```{r}
+library(shiny)
+library(shinydashboard)
+ ####
+ header0 <- dashboardHeader(title = "Iris Data Summary")
+ #####
+ sider0 <- dashboardSidebar(
+               sidebarMenu(
+                     menuItem("iris", tabName = "iris", icon = icon("tree")),
+                     hr(),
+                     selectInput("feature", "Feature",
+                           c("Sepal.Width",  "Petal.Length", "Petal.Width"),
+                           selected = "Sepal.Width"),
+                     hr(),
+                     radioButtons("species", "Species",
+                           c("setosa", "versicolor", "virginica"),
+                           selected = "setosa",
+                           ),
+                     hr(),
+                      HTML('<p><center><img src="https://github.com/pengdsci/sta553/blob/main/image/goldenRamLogo.png?raw=true"  
+                           width="80" height="80"></center></p>'),
+            HTML('<p style="font-family:Courier; color:Red; font-size: 20px;"><center>
+                 <font size =2> <a href="mailto:cpeng@wcupa.edu">
+                 <font color="gold">Report bugs to C. Peng </font></a> </font></center></p>')
+                ),
+            hr(),
+              tags$head(
+    tags$style(HTML(".skin-blue .main-sidebar {background-color:  gray;}"))
+  )
+            )
+ 
+ 
+ 
+ #####
+ body0 <- dashboardBody(
+        fluidRow(
+             box( title = "Individual Species: Scatter Plot", 
+                  status = "primary", 
+                  solidHeader = TRUE,
+                  collapsible = TRUE,
+                  plotOutput("correlation1"), width=6),
+             box(title = "All Species: Scatter Plot", 
+                 status = "primary", 
+                 solidHeader = TRUE,
+                 collapsible = TRUE,
+                 plotOutput("overallplot"),width=6)  # scatter plot all three species
+           ),
+         fluidRow(
+             box( title = "Individual Species: Lineaar Regression", 
+                  status = "primary", 
+                  solidHeader = TRUE,
+                  collapsible = TRUE,
+                  tableOutput("reg_ind"), width=6),
+             box(title = "All Species: Linear Regression", 
+                 status = "primary", 
+                 solidHeader = TRUE,
+                 collapsible = TRUE,
+                 tableOutput("reg_all"),width=6)  # scatter plot all three species
+           ), 
+ )
+
+## UI
+ui <- dashboardPage(header = header0,
+                    sidebar = sider0,
+                    body = body0)
+
+
+
+
+
+
+
+## server
+server <- function(input, output){
+   ## adding a color code to the iris data based on the species
+   iris$color <-sort(rep(c("red","blue", "gold"),50))
+   ## reactive() function is used to select rows based on the
+   ## input row (species).
+   iris0 <- reactive({
+     sub.iris <- iris[which(iris$Species == input$species),]   
+     sub.iris
+      })
+   ####
+   output$correlation1 <- renderPlot(
+     #mydata <- iris0(),
+     plot(iris0()$Sepal.Length, iris0()[[input$feature]],
+          pch=16,
+          ylim=c(0.8*min(iris0()[[input$feature]]), 1.2*max(iris0()[[input$feature]])),
+          col = iris0()$color,   # add color to the points
+          xlab = "sepal length",
+          ylab = input$feature,
+          main=paste("Sepal.Length vs ", input$feature),
+          cex.main = 0.7,
+          ### add correlation coefficients and regression line
+          text(mean(range(iris0()$Sepal.Length)), 1.15*max(iris0()[[input$feature]]), 
+               paste0("Correlation coefficient: r = ", 
+                       round(cor(iris0()$Sepal.Length,iris0()[[input$feature]]),3), 
+                      "\n Species: ", as.character(unique(iris0()$Species))), 
+                                          col = "purple", cex = 0.8)
+          )
+     )
+   ### overall plot
+   output$overallplot <- renderPlot(
+     # use the original data file,
+     plot(iris$Sepal.Length, iris[[input$feature]], 
+          pch=16,
+          ylim=c(0.8*min(iris[[input$feature]]), 1.2*max(iris[[input$feature]])),
+          col = iris$color,
+          xlab = "sepal length",
+          ylab = input$feature,
+          main=paste("Sepal.Length vs ", input$feature),
+          cex.main = 0.7,
+          text(mean(range(iris$Sepal.Length)), 1.15*max(iris[[input$feature]]), 
+               paste0("Correlation coefficient: r = ", 
+                                    round(cor(iris$Sepal.Length,iris[[input$feature]]),3)), 
+                                          col = "purple", cex = 0.8)
+          )
+     )
+   ### individual linear regression
+   output$reg_ind <- renderTable(
+      #reg1 <- coef(summary(lm(iris0()[[input$feature]] ~ iris0()$Sepal.Length))),
+      coef(summary(lm(iris0()[[input$feature]] ~ iris0()$Sepal.Length)))
+      )
+   ### regression models based on all species
+   output$reg_all <- renderTable(
+      #reg1 <- coef(summary(lm(iris0()[[input$feature]] ~ iris0()$Sepal.Length))),
+      coef(summary(lm(iris[[input$feature]] ~ iris$Sepal.Length)))
+      )
+}
+## link
+shinyApp(ui, server)
+```
+
+
+```{r}
+library(shiny)
+library(plotly)
+library(shinydashboard)
+
+ui <- dashboardPage(
+  dashboardHeader(),
+  dashboardSidebar(),
+  dashboardBody(
+    fluidRow(
+      box(width=12,plotlyOutput("Map"))),
+    fluidRow(
+      box(plotlyOutput("Chart")),
+      box(tableOutput("Table")))
+  )
+)
+
+server <- function(input, output) { 
+
+}
+
+shinyApp(ui, server)
+```

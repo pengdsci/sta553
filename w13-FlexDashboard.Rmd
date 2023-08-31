@@ -1,0 +1,262 @@
+---
+title: "Some Visual Analyses of Iris Data Using FlexDashboard"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(shiny)
+library(plotly)
+library(ggplot2)
+library(tidyverse)
+```
+
+
+
+```{r data}
+
+iris1 = read.table("https://raw.githubusercontent.com/pengdsci/sta553/main/shiny/iris0.txt", header = TRUE)[,-1]
+y.names = names(iris1)
+x.names = names(iris1)
+spec = unique(iris1$Species)
+```
+
+
+\
+
+
+Column {.sidebar data-width=200}
+-------------------------------------------------------------------
+
+\
+
+<hr>
+
+
+```{r}
+radioButtons(inputId = "species",
+            label = strong("Species"), 
+            choices = c("all", as.vector(spec)), 
+            selected = "all")
+```
+
+<hr>
+
+```{r}
+selectInput(inputId="Y", 
+            label = strong("Response Variable: Y"), 
+            choices = y.names[-5], 
+            selected = y.names[1])
+
+selectInput(inputId="X", 
+            label = strong("Predictor Variable: X"), 
+            choices = x.names[-5], 
+            selected = x.names[2])
+      ###
+sliderInput("newX", strong("New Value for Prediction:"), 2.5, min = 0, max = 20, step = 0.1)
+
+```
+
+
+\
+
+<hr>
+
+<center><img src="https://github.com/pengdsci/sta553/blob/main/image/goldenRamLogo.png?raw=true" width="80" height="80"></center>
+<p style="font-family:Courier; color:Red; font-size: 20px;"><center>
+                 <font size =2> <a href="mailto:cpeng@wcupa.edu">
+                 <font color="purple">Report bugs to C. Peng </font></a> </font></center></p>
+
+
+```{r}
+  workDat = function(){
+      if (input$species == "setosa") {
+          workingData = iris1[which(iris1$Species == "setosa"),]
+      } else if (input$species == "versicolor") {
+          workingData = iris1[which(iris1$Species == "versicolor"),]
+      } else if (input$species == "virginica") {
+          workingData = iris1[which(iris1$Species == "virginica"),]
+      } else {
+          workingData = iris1
+      }
+   workingData 
+  }
+```
+
+
+
+Column {data-width=400 .tabset .tabset-fade}
+-------------------------------------------------------------------
+
+### **plotly Scatterplot** 
+```{r}
+renderPlotly({
+# hist(workDat()[[input$X]]) 
+plot_ly(data = workDat(),
+        x =  ~workDat()[[input$X]], 
+        y =  ~workDat()[[input$Y]], 
+        color = ~workDat()$Species, 
+        hovertemplate = paste('<i><b>',input$Y,'<b></i>: %{y}',
+                             '<br><b>',input$X,'</b>:  %{x}',
+                             '<br><b>',input$species,'</b>'),
+        alpha  = 0.9,
+        size = ~workDat()[[input$Y]],
+        type = "scatter",
+        mode = "markers")   %>%
+    layout(#title = paste( input$X, "vs", input$Y), 
+           plot_bgcolor = "#e5ecf6",
+           margin = list(l = 20, r = 20, b = 80, t = 10),
+           xaxis = list(title = paste(input$X,'(cm)')), 
+           yaxis = list(title = paste(input$Y,'(cm)')), 
+           legend = list(title=list(text='<b> Species </b>'),
+                         orientation = "h",   # show entries horizontally
+                         xanchor = "center",  # use center of legend as anchor
+                         x = 0.5)             # put legend in center of x-axis
+        )
+  })
+```
+
+
+### **Regression** 
+
+```{r}
+renderPlot({
+  regdata = workDat()
+  if (input$species == "all"){
+    m0 = lm(iris1[[input$Y]]~iris1[[input$X]])
+    plot(iris1[[input$X]], iris1[[input$Y]],
+      main = "",
+      type = "p",
+      pch = 19,
+      col = "blue",
+      xlab = input$X,
+      ylab = input$Y
+      )
+    abline(m0, lwd = 2, col = "red")
+  } else {
+    m1 = lm(workDat()[[input$Y]]~workDat()[[input$X]])
+    plot(workDat()[[input$X]], workDat()[[input$Y]],
+      main = "",
+      type = "p",
+      pch = 19,
+      col = "blue",
+      xlab = input$X,
+      ylab = input$Y
+      )
+    abline(m1, lwd = 2, col = "red")    
+  }
+})
+```
+
+### **Residual Plots**
+
+```{r}
+renderPlot({
+  regdata = workDat()
+  if (input$species == "all"){
+    LM = lm(iris1[[input$Y]]~iris1[[input$X]])
+  } else {
+    LM = lm(workDat()[[input$Y]]~workDat()[[input$X]])
+  }
+  par(mfrow = c(2,2))
+  plot(LM)
+})
+
+##
+
+```
+
+### **Prediction**
+
+```{r}
+renderPlot({
+    dataset = workDat()   # define the working data set
+
+    ###
+    m3 = lm(dataset[,input$Y] ~ dataset[,input$X])
+
+    pred.y = coef(m3)[1] + coef(m3)[2]*input$newX
+         #####
+    plot(dataset[,input$X], dataset[,input$Y], 
+    #    xlab = input$X,
+         ylab = input$Y,
+         main = ""
+         #main = paste("Relationship between", input$Y, "and", input$X)
+       )
+        ## adding a regression line to the plot
+     abline(m3,
+            col = "red",
+            lwd = 1,
+            lty=2)
+    points(input$newX, pred.y, pch = 19, col = "red", cex = 2)
+  })
+```
+
+
+
+Column {data-width=400}
+-------------------------------------------------------------------
+
+
+### **ggplot**-Boxplot
+```{r}
+renderPlot({
+ #plot(workDat()[[input$X]], workDat()[[input$Y]]) 
+ ggplot(data=workDat(), aes(x=workDat()$Species, y=workDat()[[input$X]])) +
+        geom_boxplot(aes(fill=workDat()$Species)) +  
+        ylab(input$X) + 
+        xlab("Species") + 
+        #ggtitle(paste("Boxplot of the response variable: ", input$X )) +
+        labs(fill = "Species") +
+        stat_summary(fun.y=mean, geom="point", shape=5, size=4)  
+})
+```
+
+
+### **Ridge Plot** - Distribution of response: Y
+```{r}
+renderPlotly({
+  if(input$species == "all"){
+    sepal.len.setosa <- iris1[which(iris1$Species == "setosa"),]
+    setosa <- density(sepal.len.setosa$Sepal.Length)
+    sepal.len.versicolor <- iris1[which(iris1$Species == "versicolor"),]
+    versicolor <- density(sepal.len.versicolor$Sepal.Length)
+    sepal.len.virginica <- iris1[which(iris1$Species == "virginica"),]
+    virginica <- density(sepal.len.virginica$Sepal.Length)
+    # plot density curves
+    plot_ly(x = ~virginica$x, y = ~virginica$y, 
+               type = 'scatter', 
+               mode = 'lines', 
+               name = 'virginica', 
+               fill = 'tozeroy')  %>% 
+           # adding more density curves
+       add_trace(x = ~versicolor$x, 
+                 y = ~versicolor$y, 
+                 name = 'versicolor', 
+                 fill = 'tozeroy')  %>% 
+       add_trace(x = ~setosa$x, 
+                 y = ~setosa$y, 
+                 name = 'setosa', 
+                 fill = 'tozeroy')  %>%   
+       layout(xaxis = list(title = paste(input$Y)),
+              yaxis = list(title = 'Density'))
+    } else {
+      den <- density(workDat()[[input$Y]])
+     plot_ly(x = ~den$x, 
+             y = ~den$y, 
+          color = ~input$species, 
+          type = 'scatter', 
+          mode = 'lines', 
+          name = input$species, 
+          fill = 'tozeroy')    %>%
+      layout(xaxis = list(title = paste(input$Y)),
+             yaxis = list(title = 'Density'))
+    }
+  
+  
+})
+```

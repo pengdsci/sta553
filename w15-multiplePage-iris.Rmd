@@ -1,0 +1,108 @@
+---
+title: "Multiple Analyses"
+output: flexdashboard::flex_dashboard
+---
+
+Sidebar {.sidebar data-width=200}
+==================================
+
+
+
+
+Descriptive Statistics
+=====================================  
+    
+Column {data-width=600}
+-------------------------------------
+    
+### Categorical Variables
+    
+```{r}
+
+```
+   
+Column {data-width=400}
+-------------------------------------
+   
+### Numerical Variables
+
+```{r}
+```   
+ 
+### Associations
+    
+```{r}
+```
+
+Inferential Analysis {data-orientation=rows}
+=====================================     
+   
+Row {data-height=600 .tabset .tabset-fade}
+-------------------------------------
+
+### Parametric Regression
+
+```{r}
+```
+
+### Non-parametric Regression
+
+```{r}
+```
+
+Row {data-height=200}
+-------------------------------------
+   
+### Model Diagnostics
+
+```{r}
+```   
+    
+### Final Model Summary
+```{r}
+```
+
+
+
+Progress Reports {data-orientation=rows}
+===================================== 
+
+
+Row {data-height=600}
+-----------------------------------
+### Overall Process
+
+```{r}
+```
+
+Row {data-height=200}
+-------------------------------------
+   
+    
+### Errors
+
+```{r} 
+library(flexdashboard)
+valueBox(42, caption = "Errors", icon="fa-thumbs-down",  color = "orange")
+```
+
+### Trials
+
+```{r}
+valueBox(107, caption = "Trials", icon="fa-tag",  color = "orange")
+```
+
+### Corrections
+
+```{r}
+valueBox(247, caption = "Connections", icon="fa-random",  color = "orange")
+```
+
+### Progress
+
+```{r}
+library(flexdashboard)
+gauge(45, min = 0, max = 100, symbol = '%', gaugeSectors(
+success = c(80, 100), warning = c(40, 79), danger = c(0, 39)
+))
+```

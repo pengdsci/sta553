@@ -1,0 +1,813 @@
+---
+title: "An Interactive Introduction to R Shiny"
+author: "Cheng Peng"
+date: "12/18/2021"
+output: 
+  html_document: 
+    toc: yes
+    number_sections: yes
+runtime: shiny
+---
+
+<style type="text/css">
+div#TOC li {
+    list-style:none;
+    background-image:none;
+    background-repeat:none;
+    background-position:0;
+}
+
+h1.title {
+  font-size: 20px;
+  color: DarkRed;
+  text-align: center;
+}
+h4.author { /* Header 4 - and the author and data headers use this too  */
+    font-size: 18px;
+  font-family: "Times New Roman", Times, serif;
+  color: DarkRed;
+  text-align: center;
+}
+h4.date { /* Header 4 - and the author and data headers use this too  */
+  font-size: 18px;
+  font-family: "Times New Roman", Times, serif;
+  color: DarkBlue;
+  text-align: center;
+}
+h1 { /* Header 3 - and the author and data headers use this too  */
+    font-size: 22px;
+    font-family: "Times New Roman", Times, serif;
+    color: darkred;
+    text-align: center;
+}
+h2 { /* Header 3 - and the author and data headers use this too  */
+    font-size: 18px;
+    font-family: "Times New Roman", Times, serif;
+    color: navy;
+    text-align: left;
+}
+
+h3 { /* Header 3 - and the author and data headers use this too  */
+    font-size: 15px;
+    font-family: "Times New Roman", Times, serif;
+    color: navy;
+    text-align: left;
+}
+
+h4 { /* Header 4 - and the author and data headers use this too  */
+    font-size: 18px;
+    font-family: "Times New Roman", Times, serif;
+    color: darkred;
+    text-align: left;
+}
+</style>
+
+```{r setup, include=FALSE}
+if (!require("knitr")) {
+   install.packages("knitr")
+   library(knitr)
+}
+if (!require("shiny")) {
+   install.packages("shiny")
+   library(shiny)
+}
+if (!require("ggplot2")) {
+   install.packages("ggplot2")
+   library(ggplot2)
+}
+if (!require("tidyverse")) {
+   install.packages("tidyverse")
+   library(tidyverse)
+}
+if (!require("dplyr")) {
+   install.packages("dplyr")
+   library(dplyr)
+}
+knitr::opts_chunk$set(echo = TRUE,       
+                      warning = FALSE,   
+                      result = TRUE,   
+                      message = FALSE,
+                      fig.align='center', 
+                      fig.pos = 'ht')
+```
+
+
+
+# What is Shiny?
+
+Shiny is a package from RStudio that can be used to build **interactive** web pages with R without assuming any prior experience with web development, and you do not need to know any HTML/CSS/JavaScript.
+
+We can us R Shiny to make an interactive web page that can seamlessly interact with R and display R objects (plots, tables, of anything else you do in R). 
+
+<center><img src="https://stat553.s3.amazonaws.com/Shiny/uiserver.png"
+     alt="Markdown Monster icon"
+     style="float: center; margin-right: 10px;" /></center>
+
+In this note, we’ll walk through all the steps of building a Shiny app using a data set to illustrate these steps. If you want even more practice, you can check the official Shiny tutorial <https://shiny.rstudio.com/tutorial/>. RStudio also provides a handy cheat-sheet <https://shiny.rstudio.com/images/shiny-cheatsheet.pdf> with detailed Shiny commands.
+
+
+# Shiny App Basics
+
+Shiny applications have two components, a web-based user interface object that shows the app to the user and a server function running on a computer (such as our local machine or a remote server). We need to write the source code for these two parts. In Shiny terminology, they are called UI (user interface) and server.
+
+**UI Function** is just a web document that the user gets to see, it’s HTML that you write using Shiny’s functions. The UI is responsible for creating the layout of the app and telling Shiny exactly where things go. 
+
+**Server Function** is responsible for the logic of the app; it’s the set of instructions that tell the web page what to show when the user interacts with the page.
+
+The UI is responsible for creating these controls and telling Shiny where to place the controls and where to place the plot and table, while the server is responsible for creating the actual plot or the data in the table.
+
+
+# The Skeleton of Shiny Apps 
+
+All Shiny apps follow the same template that has no content.
+
+```{r}
+library(shiny)
+ui <- fluidPage()
+server <- function(input, output) {}
+shinyApp(ui = ui, server = server)
+```
+
+Several important things we should keep in mind:
+
+* It is very important that the name of the file is `app.R`, otherwise it would not be recognized as a Shiny app.
+
+* We should not have any R code after the `shinyApp(ui = ui, server = server)` line. That line needs to be the last line in your file.
+
+* It is good practice to place this app in its own folder, and not in a folder that already has other R scripts or files, unless those other files are used by your app.
+
+After saving the file, RStudio should recognize that this is a Shiny app, and we will see the usual Run button at the top change to Run App.
+
+
+## Separate UI and Server Files
+
+Another way to define a Shiny app is by separating the UI and server code into two files: `ui.R` and `server.R`. This is the preferable way to write Shiny apps when the app is complex and involves more code.  
+
+If we want to break up your app into these two files, you simply put all code that is assigned to the ui variable in `ui.R` and all the code assigned to the server function in `server.R`. 
+
+Note that when using this method (instead of having one app.R file), we do not need to include the code line `shinyApp(ui = ui, server = server)`.
+
+## Shiny App Template
+
+We can also create a new Shiny app using RStudio’s menu by selecting 
+
+`File > New File > Shiny Web App….`
+
+RStudio will let us choose if we want a single-file app (app.R) or a two-file app (ui.R+server.R). RStudio will initialize a simple functional Shiny app with some code in it. 
+
+# Loading Datasets
+
+The dataset we’ll be using contains information about all the products sold by BC Liquor Store and is provided by OpenDataBC. A subset of the data file can be found at <https://raw.githubusercontent.com/pengdsci/sta553/main/shiny/bcl-data.csv>
+
+```{r}
+bcl <- read.csv("https://raw.githubusercontent.com/pengdsci/sta553/main/shiny/bcl-data.csv", stringsAsFactors = FALSE)
+```
+
+Place this line in the app as the second line, just after library(shiny). We can type the following command to see the detailed information about the variables in the data set.
+
+```{r}
+print(str(bcl))
+```
+
+Please keep in mind that this line of code should not be placed in the app.
+
+
+# Buildiung UI
+
+Let’s start populating our app with some elements visually. This is usually the first thing you do when writing a Shiny app - add elements to the UI. Recall the following template of shiny app.
+
+```{}
+library(shiny)
+ui <- fluidPage()
+server <- function(input, output) {}
+shinyApp(ui = ui, server = server)
+```
+
+
+## Add Plain Text to UI
+
+You can place R strings inside `fluidPage()` to render text.
+
+
+```{r}
+library(shiny) 
+ui <- fluidPage("BC Liquor Store", "prices")  # add text to the app
+server <- function(input, output) {}
+shinyApp(ui = ui, server = server)
+```
+
+
+Since the entire UI is built by passing comma-separated arguments into the `fluidPage()` function, By passing regular text, the web page just rendered boring unformatted text.
+
+## Add Formatted Text and Other HTML Elements
+
+If we want our text to be formatted nicer, Shiny has many functions that are wrappers around HTML tags that format text. We can use the following HTML commands to formatted the added text.
+
+* `h1()` function for a top-level header (`<h1> in HTML`), 
+
+* `h2()` for a secondary header (`<h2> in HTML`), 
+
+* `strong()` to make text bold (`<strong> in HTML`), 
+
+* `em()` to make text italicized (`<em> in HTML`), and many more.
+
+There are also functions that are wrappers to other HTML tags, such as 
+
+* `br()` for a line break, 
+
+* `img()` for an image, 
+
+* `a()` for a hyperlink, and others.
+
+All of these functions are actually just wrappers to HTML tags with the equivalent name. You can add any arbitrary HTML tag using the tags object, which you can learn more about by reading the help file on tags.
+
+Just as a demonstration, try replacing the `fluidPage()` function in your UI with
+
+```{r}
+# UI function
+ui = fluidPage(
+    h1("My app"),   # level 1 header
+    "BC",
+    "Liquor",
+  br(),             # break line
+  "Store",
+  strong("prices")  # bold face
+)
+
+## Server function
+server <- function(input, output) {}
+## 
+shinyApp(ui = ui, server = server)
+```
+
+For those who know basic HTML: run the `fluidPage(...)` function in the console and see the HTML that it creates.
+
+That means that we can, for example, create blue text with `div("this is blue", style = "color: blue;")`.
+
+```{r}
+# UI function
+ui = fluidPage(
+    h1("My app"),   # level 1 header
+    "BC",
+    "Liquor",
+  br(),             # break line
+  "Store",
+  strong("prices"), # bold face
+  br(),
+  div("this is blue", style = "color: blue;")  # add colors to the text
+)
+
+## Server function
+server <- function(input, output) {}
+## 
+shinyApp(ui = ui, server = server)
+```
+
+
+## Add A Title
+
+We could add a title to the app with `h1()`, but Shiny also has a special function `titlePanel()`. Using `titlePanel()` not only adds a visible big title-like text to the top of the page, but it also sets the “official” title of the web page. This means that when you look at the name of the tab in the browser, we’ll see this title.
+
+
+```{r}
+# UI function
+ui = fluidPage(
+    titlePanel("BC Liquor Store prices"),
+    ##
+    h1("My app"),   # level 1 header
+    "BC",
+    "Liquor",
+    
+    br(),             # break line
+    "Store",
+    strong("prices"), # bold face
+    br(),
+    div(h2("this is blue"), style = "color: blue;")  # add colors to the text
+)
+
+## Server function
+server <- function(input, output) {}
+## 
+shinyApp(ui = ui, server = server)
+```
+
+## Add A Layout
+
+So far, everything added to the UI is unstructured and the elements simply stack up one below the other in one column. We’ll use `sidebarLayout()` to add a simple structure. 
+
+It provides a simple two-column layout with a smaller **sidebar** and a **larger main panel**. We’ll build our app such that all the inputs that the user can manipulate will be in the **sidebar** on the <b><font color = "red">left</font></b>, and the results will be shown in the **main panel** on the <b><font color = "red">right</font></b>.
+
+
+Remember that all the arguments inside `fluidPage()` need to be separated by commas. So far our complete app looks like this (hopefully this isn’t a surprise to you)
+
+```{r}
+library(shiny)
+bcl <- read.csv("https://raw.githubusercontent.com/pengdsci/sta553/main/shiny/bcl-data.csv", stringsAsFactors = FALSE)
+###
+ui <- fluidPage(
+  titlePanel("BC Liquor Store prices"),
+  sidebarLayout(
+    sidebarPanel("our inputs will go here"),
+    mainPanel("the results will go here")
+  )
+)
+###
+server <- function(input, output) {}
+###
+shinyApp(ui = ui, server = server)
+```
+
+
+**Shiny layout**: we add much more fine control over where things go by using a grid layout. 
+
+## UI Functions - HTML Wrappers
+
+As mentioned earlier, the entire UI is just HTML, and Shiny simply gives you easy tools to write it without having to know HTML. For example, we type the `ui` in the R Console, you will the following HTML code.
+
+```{}
+ <div class="container-fluid">
+   <h2>BC Liquor Store prices</h2>
+   <div class="row">
+     <div class="col-sm-4">
+       <form class="well">our inputs will go here</form>
+     </div>
+     <div class="col-sm-8">the results will go here</div>
+   </div>
+ </div>
+```
+
+# Add Inputs to the UI
+
+Inputs are what gives users a way to interact with a Shiny app. Shiny provides many input functions to support many kinds of interactions that the user could have with an app.
+
+* `textInput()` is used to let the user enter text, 
+* `numericInput()` lets the user select a number, 
+* `dateInput()` is for selecting a date, 
+*`selectInput()` is for creating a select box (aka a dropdown menu).
+
+<br>
+<center><img src="https://stat553.s3.amazonaws.com/Shiny/shiny-inputs.png" alt="what image shows" height="300" width="500"></center>
+<br>
+
+All input functions have the same first two arguments: `inputId` and label. The `inputId` will be the name that Shiny will use to refer to this input when you want to retrieve its current value. 
+
+It is important to note that every input must have a unique `inputId`. If you give more than one input the same id, Shiny will unfortunately not give us an explicit error, but our app won’t work correctly. 
+
+The `label argument` specifies the text in the display label that goes along with the input widget. 
+
+##  Input for Price
+
+The first input we want to have is for specifying a price range (minimum and maximum price). The most sensible types of input for this are either `numericInput()` or `sliderInput()` since they are both used for selecting numbers. 
+
+If we use `numericInput()`, we’d have to use two inputs, one for the minimum value and one for the maximum. 
+
+To create a `slider input`, a maximum value needs to be provided. We could use the maximum price in the data set.
+
+```{}
+sliderInput("priceInput", "Price", 
+             min = 0, 
+             max = 100,
+             value = c(25, 40), 
+             pre = "$")
+```            
+        
+        
+```{r}
+library(shiny)
+bcl <- read.csv("https://raw.githubusercontent.com/pengdsci/sta553/main/shiny/bcl-data.csv", stringsAsFactors = FALSE)
+###
+ui <- fluidPage(
+  titlePanel("BC Liquor Store prices"),
+  sidebarPanel( # There could be multiple input widgets within siderbarPanel. 
+     sliderInput("priceInput", "Price", 
+             min = 0, 
+             max = 100,
+             value = c(25, 40), 
+             pre = "$")
+     )
+)
+###
+server <- function(input, output) {}
+###
+shinyApp(ui = ui, server = server)
+```
+
+Place the code for the slider input inside `sidebarPanel()`.  There could be multiple input widgets within `siderbarPanel`. 
+
+## Input for Product Type
+
+Usually when going to the liquor store we know exactly the type of wine we want to buy and  don’t want to waste time in the wrong section. The same is true in our app, we should be able to choose what type of product we want.
+
+We could either use either `radio buttons` or a `select box` for our purpose. Let’s use radio buttons for now since there are only a few options, so take a look at the documentation for `radioButtons()` and come up with a reasonable input function code. 
+
+```{r}
+library(shiny)
+bcl <- read.csv("https://raw.githubusercontent.com/pengdsci/sta553/main/shiny/bcl-data.csv", stringsAsFactors = FALSE)
+###
+ui <- fluidPage(
+  titlePanel("BC Liquor Store prices"),
+  sidebarPanel( # There could be multiple input widgets within siderbarPanel. 
+     sliderInput("priceInput", "Price", 
+             min = 0, 
+             max = 100,
+             value = c(25, 40), 
+             pre = "$")
+     ),
+  radioButtons("typeInput", "Product type",
+            choices = c("BEER", "REFRESHMENT", "SPIRITS", "WINE"),
+            selected = "WINE")
+)
+###
+server <- function(input, output) {}
+###
+shinyApp(ui = ui, server = server)
+```
+
+Again, add input code `radioButtons` inside `sidebarPanel()`. 
+
+If we look at that input function and think “what if there were 100 types, listing them by hand would not be fun, there’s got to be a better way!”, then we’re right. This is where `uiOutput()` comes in handy, but we’ll talk about that later.
+
+## Input for Country
+
+Sometimes we only look for wines imported from France. We then should add one last input, to select a country. The most appropriate input type in this case is probably the select box using `selectInput()` to create dropdown input function. 
+
+Assume that we have CANADA, FRANCE, ITALY as options, and later we’ll see how to include all countries. The code is given below
+
+```{}
+selectInput("countryInput", "Country",
+            choices = c("CANADA", "FRANCE", "ITALY"))
+```
+
+Add this function as well to our App (with aforementioned input widgets). 
+
+```{r}
+library(shiny)
+bcl <- read.csv("https://raw.githubusercontent.com/pengdsci/sta553/main/shiny/bcl-data.csv", stringsAsFactors = FALSE)
+###
+ui <- fluidPage(
+  titlePanel("BC Liquor Store prices"),
+  sidebarLayout(
+    sidebarPanel(
+      sliderInput("priceInput", "Price", 0, 100, c(25, 40), pre = "$"),
+      radioButtons("typeInput", "Product type",
+                  choices = c("BEER", "REFRESHMENT", "SPIRITS", "WINE"),
+                  selected = "WINE"),
+      selectInput("countryInput", "Country",
+                  choices = c("CANADA", "FRANCE", "ITALY"))
+    ),
+    mainPanel("the results will go here")
+  )
+)
+###
+server <- function(input, output) {}
+###
+shinyApp(ui = ui, server = server)
+```
+
+# Add Placeholders for Outputs
+
+After creating all the inputs, we should add elements to the UI to display the **outputs**. Outputs can be any object that R creates and that we want to display in our app - such as a plot, a table, or text. 
+
+We’re still only building the UI, so at this point we can only add placeholders for the outputs that will determine where an output will be and what its ID is, but it won’t actually show anything. 
+
+Shiny provides several output functions, one for each type of output. Similarly to input functions, all output functions have a `outputId` argument that is used to identify each output, and this argument must be `unique` for each output.
+
+## Output for A Plot
+
+At the top of the **main panel** we’ll have a plot showing some visualization of the results. Since we want a plot, the function we use is `plotOutput()`.
+
+Add the following code into the `mainPanel()`:
+
+```{r}
+plotOutput("coolplot")
+```
+
+This will add a placeholder in the UI for a plot named **coolplot**.
+
+##  Output for A Table Summary 
+
+Below the plot, we will have a table that shows all the results. To get a table, we use the `tableOutput()` function.
+
+Here is a simple way to create a UI element that will hold a table output:
+
+```{}
+tableOutput("results")
+```
+
+Add this output to the `mainPanel()` as well. Maybe add a couple `br()` in between the two outputs, just as a space buffer so that they aren’t too close to each other.
+
+# Checkpoint: what our app looks like after implementing the UI
+
+If you’ve followed along, your app should now have this code:
+
+```{r}
+library(shiny)
+# global statement
+bcl <- read.csv("https://raw.githubusercontent.com/pengdsci/sta553/main/shiny/bcl-data.csv", stringsAsFactors = FALSE)
+# ui
+ui <- fluidPage(
+  ## title panel
+  titlePanel("BC Liquor Store prices"),
+  ## sidebar layout
+  sidebarLayout(
+    sidebarPanel(
+         ### input widget 1
+         sliderInput("priceInput", "Price", 0, 100, c(25, 40), pre = "$"),
+         ### input widget 2
+         radioButtons("typeInput", "Product type",
+                  choices = c("BEER", "REFRESHMENT", "SPIRITS", "WINE"),
+                  selected = "WINE"),
+         ### input widget 3
+         selectInput("countryInput", "Country",
+                  choices = c("CANADA", "FRANCE", "ITALY"))
+         ),
+     ## Main Panel for outputs
+     mainPanel(
+         plotOutput("coolplot"), # output place holder 1
+         br(),                   # separate 
+         br(), 
+         tableOutput("results")  # output place holder 2
+       )
+  )   # close sidebarLyout
+)     # close ui
+##
+server <- function(input, output) {}
+##
+shinyApp(ui = ui, server = server)
+```
+
+# Implement Server Logic to Display Outputs
+
+Now we have to write the server function, which will be responsible for listening to changes to the inputs and creating outputs to show in the app.
+
+Since the server function has two arguments: **input** and **output**, we must define these two arguments! 
+
+**input** is a list we will read values from and **output** is a list we will write values to. 
+
+* **input** will contain the values of all the different inputs at any given time;
+
+* **output** is where we will save output objects (such as tables and plots) to display in the app.
+
+
+## Building An Output
+
+Recall that we created two output placeholders: **coolplot** (a plot) and **results** (a table). We need to write code in R that will tell Shiny what kind of plot or table to display. 
+
+There are three rules to build an output in Shiny.
+
+1. Save the output object into the output list (remember the app template - every server function has an output argument)
+
+2. Build the object with a `render*` function, where `*` is the type of output, such as `renderPlot`, `renderTable`, `renderImage`, etc.
+
+3. Access input values using the input list (every server function has an input argument)
+
+The third rule is only required if we want our output to depend on some input. Let’s first see how to build a very basic output using only the first two rules. We’ll create a plot and send it to the coolplot output.
+
+```{}
+output$coolplot <- renderPlot({
+      plot(rnorm(100))
+    })
+```
+
+This simple code shows the first two rules: we’re creating a plot inside the `renderPlot()` function, and assigning it to **coolplot** in the output list. 
+
+Remember that every output created in the UI must have a unique ID, now we see why. In order to attach an R object to an output with ID `x`, we assign the R object to `output$x`.
+
+```{r}
+library(shiny)
+# ui
+ui <- fluidPage(
+  ## title panel
+  titlePanel("BC Liquor Store prices"),
+  ## sidebar layout
+  sidebarLayout(
+    sidebarPanel(
+         ### input widget 1
+         sliderInput("priceInput", "Price", 0, 100, c(25, 40), pre = "$"),
+         ### input widget 2
+         radioButtons("typeInput", "Product type",
+                  choices = c("BEER", "REFRESHMENT", "SPIRITS", "WINE"),
+                  selected = "WINE"),
+         ### input widget 3
+         selectInput("countryInput", "Country",
+                  choices = c("CANADA", "FRANCE", "ITALY"))
+         ),
+     ## Main Panel for outputs
+     mainPanel(
+         plotOutput("coolplot"), # output place holder 1
+         br(),                   # separate 
+         br(), 
+         tableOutput("results")  # output place holder 2
+       )
+  )   # close sidebarLyout
+)     # close ui
+##
+server <- function(input, output) {
+       output$coolplot <- renderPlot({
+           plot(rnorm(100))
+       })
+}
+##
+shinyApp(ui = ui, server = server)
+```
+
+
+## Making An Output That Reacts to An Input
+
+Instead of always plotting the same plot (100 random numbers) in the previous example, let's make an output plot based on working data set so that the output plots will change based on the input information via various input widgets. 
+
+The following is the definition of the output plot based on the 
+
+```{}
+output$coolplot <- renderPlot({
+  plot(rnorm(input$priceInput[1])),
+  plot(rnorm(input$priceInput[2]))
+})
+```
+
+```{r}
+library(shiny)
+# global statement
+bcl <- read.csv("https://raw.githubusercontent.com/pengdsci/sta553/main/shiny/bcl-data.csv", stringsAsFactors = FALSE)
+# ui
+ui <- fluidPage(
+  ## title panel
+  titlePanel("BC Liquor Store prices"),
+  ## sidebar layout
+  sidebarLayout(
+    sidebarPanel(
+         ### input widget 1
+         sliderInput("priceInput", "Price", 0, 100, c(25, 40), pre = "$"),
+         ),
+     ## Main Panel for outputs
+     mainPanel(
+         plotOutput("coolplot"), # output place holder 1
+         plotOutput("coolplot2") # output place holder 1
+       )
+  )   # close sidebarLyout
+)     # close ui
+##
+server <- function(input, output) {
+  output$coolplot <- renderPlot({
+         plot(rnorm(input$priceInput[1]))
+      })
+     br()
+    output$coolplot2 <- renderPlot({
+         plot(rnorm(input$priceInput[2]))
+      })
+}
+##
+shinyApp(ui = ui, server = server)
+```
+
+
+Whenever we choose a new minimum price range , the first plot will update with a new number of points but not the second plot and vice versa. 
+
+`input$priceInput` return a vector of length 2 containing the miminimum and maximum price. Whenever the user manipulates the slider in the app, these values are updated, and whatever code relies on it gets re-evaluated. This is a concept known as **reactivity**, which we will get to in a few minutes.
+
+## Building the plot output
+
+We mow create a simple histogram of the alcohol content of the products by using the same 3 rules to create a plot output using package `ggplot()`.
+
+The alcohol content is dependent on the price, wine type, and the country where the wine was produced. Therefore, we have 3 inputs: `priceInput`, `typeInput`, and `countryInput` that are defined in **ui()**. 
+
+We can filter the data based on the values of these three inputs. We’ll use `dplyr` functions to filter the data, so be sure to include `dplyr` at the top. Then we’ll plot the filtered data instead of the original data using the following code.
+
+```{}
+output$coolplot <- renderPlot({
+  filtered <-
+    bcl %>%
+    filter(Price >= input$priceInput[1],
+           Price <= input$priceInput[2],
+           Type == input$typeInput,
+           Country == input$countryInput
+    )
+  ggplot(filtered, aes(Alcohol_Content)) +
+    geom_histogram()
+})
+```
+
+
+To make sure we’re on the same page, here is what our code should look like at this point:
+
+```{r}
+library(shiny)
+library(ggplot2)
+library(dplyr)
+
+bcl <- read.csv("https://raw.githubusercontent.com/pengdsci/sta553/main/shiny/bcl-data.csv", stringsAsFactors = FALSE)
+
+ui <- fluidPage(
+  titlePanel("BC Liquor Store prices"),
+  sidebarLayout(
+    sidebarPanel(
+      sliderInput("priceInput", "Price", 0, 100, c(25, 40), pre = "$"),
+      radioButtons("typeInput", "Product type",
+                  choices = c("BEER", "REFRESHMENT", "SPIRITS", "WINE"),
+                  selected = "WINE"),
+      selectInput("countryInput", "Country",
+                  choices = c("CANADA", "FRANCE", "ITALY"))
+    ),
+    mainPanel(
+      plotOutput("coolplot"),
+      br(), br(),
+      tableOutput("results")
+    )
+  )
+)
+
+server <- function(input, output) {
+  output$coolplot <- renderPlot({
+    filtered <-
+      bcl %>%
+      filter(Price >= input$priceInput[1],
+             Price <= input$priceInput[2],
+             Type == input$typeInput,
+             Country == input$countryInput
+      )
+    ggplot(filtered, aes(Alcohol_Content)) +
+      geom_histogram()
+  })
+}
+
+shinyApp(ui = ui, server = server)
+```
+
+
+## Building Table Outputs
+
+The other output we have was called **results** (as defined in the UI) and should be a table of all the products that match the filters.
+
+Since it’s a table output, we should use the `renderTable()` function. We’ll do the exact same filtering on the data, and then simply return the data as a data.frame. Shiny will know that it needs to display it as a table because it’s defined as a `tableOutput`.
+
+The code for creating the table output has the following form
+
+```{}
+output$results <- renderTable({
+  filtered <-
+    bcl %>%
+    filter(Price >= input$priceInput[1],
+           Price <= input$priceInput[2],
+           Type == input$typeInput,
+           Country == input$countryInput
+    )
+  filtered
+})
+```
+
+
+We add this code to the server function. Don’t overwrite the previous definition of `output$coolplot`, just add this code before or after that, but inside the server function. 
+
+```{r}
+library(shiny)
+library(ggplot2)
+library(dplyr)
+
+bcl <- read.csv("https://raw.githubusercontent.com/pengdsci/sta553/main/shiny/bcl-data.csv", stringsAsFactors = FALSE)
+
+ui <- fluidPage(
+  titlePanel("BC Liquor Store prices"),
+  sidebarLayout(
+    sidebarPanel(
+      sliderInput("priceInput", "Price", 0, 100, c(25, 40), pre = "$"),
+      radioButtons("typeInput", "Product type",
+                  choices = c("BEER", "REFRESHMENT", "SPIRITS", "WINE"),
+                  selected = "WINE"),
+      selectInput("countryInput", "Country",
+                  choices = c("CANADA", "FRANCE", "ITALY"))
+    ),
+    mainPanel(
+      plotOutput("coolplot"),
+      br(), br(),
+      tableOutput("results")
+    )
+  )
+)
+
+server <- function(input, output) {
+  output$coolplot <- renderPlot({
+    filtered <-
+      bcl %>%
+      filter(Price >= input$priceInput[1],
+             Price <= input$priceInput[2],
+             Type == input$typeInput,
+             Country == input$countryInput
+      )
+    ggplot(filtered, aes(Alcohol_Content)) +
+      geom_histogram()
+  })
+  
+  output$results <- renderTable({
+  filtered <-
+    bcl %>%
+    filter(Price >= input$priceInput[1],
+           Price <= input$priceInput[2],
+           Type == input$typeInput,
+           Country == input$countryInput
+    )
+  filtered
+})
+}
+
+shinyApp(ui = ui, server = server)
+```

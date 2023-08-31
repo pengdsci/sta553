@@ -1,0 +1,270 @@
+---
+title: "Storyline: HTML Widgets Showcase"
+output: 
+  flexdashboard::flex_dashboard:
+    storyboard: true
+    social: menu
+    source: embed
+---
+
+<style type="text/css">
+div#TOC li {
+    list-style:none;
+    background-image:none;
+    background-repeat:none;
+    background-position:0;
+}
+
+h1.title {
+  font-size: 20px;
+  color: DarkRed;
+  text-align: center;
+}
+h4.author { /* Header 4 - and the author and data headers use this too  */
+    font-size: 18px;
+  font-family: "Times New Roman", Times, serif;
+  color: DarkRed;
+  text-align: center;
+}
+h4.date { /* Header 4 - and the author and data headers use this too  */
+  font-size: 18px;
+  font-family: "Times New Roman", Times, serif;
+  color: DarkBlue;
+  text-align: center;
+}
+h1 { /* Header 3 - and the author and data headers use this too  */
+    font-size: 22px;
+    font-family: "Times New Roman", Times, serif;
+    color: darkred;
+    text-align: center;
+}
+h2 { /* Header 3 - and the author and data headers use this too  */
+    font-size: 18px;
+    font-family: "Times New Roman", Times, serif;
+    color: navy;
+    text-align: left;
+}
+
+h3 { /* Header 3 - and the author and data headers use this too  */
+    font-size: 15px;
+    font-family: "Times New Roman", Times, serif;
+    color: navy;
+    text-align: left;
+}
+
+h4 { /* Header 4 - and the author and data headers use this too  */
+    font-size: 18px;
+    font-family: "Times New Roman", Times, serif;
+    color: darkred;
+    text-align: left;
+}
+</style>
+
+```{r setup, include=FALSE}
+if (!require("knitr")) {
+   install.packages("knitr")
+   library(knitr)
+}
+if (!require("shiny")) {
+   install.packages("shiny")
+   library(shiny)
+}
+if (!require("ggplot2")) {
+   install.packages("ggplot2")
+   library(ggplot2)
+}
+if (!require("tidyverse")) {
+   install.packages("tidyverse")
+   library(tidyverse)
+}
+if (!require("dplyr")) {
+   install.packages("dplyr")
+   library(dplyr)
+}
+if (!require("flexdashboard")) {
+   install.packages("flexdashboard")
+   library(flexdashboard)
+}
+if (!require("leaflet")) {
+   install.packages("leaflet")
+   library(leaflet)
+}
+if (!require("beanplot")) {
+   install.packages("beanplot")
+   library(beanplot)
+}
+
+
+knitr::opts_chunk$set(echo = FALSE,       
+                      warning = FALSE,   
+                      result = TRUE,   
+                      message = FALSE,
+                      fig.align='center', 
+                      fig.pos = 'ht')
+```
+
+
+### **WCU Applied Statistics** 
+
+
+
+```{r}
+wcuicon <- makeIcon(
+  iconUrl = "https://github.com/pengdsci/sta553/blob/main/image/goldenRamLogo.png?raw=true", 
+  iconWidth = 60, iconHeight = 60)
+# define a leaflet map 
+  leaflet() %>% setView(lng=-75.5978, lat=39.9522, zoom = 20) %>%
+     addTiles() %>%   # Add default OpenStreetMap map tiles
+     addMarkers(lng=-75.5978, lat=39.9522,  icon = wcuicon)
+```
+
+***
+
+https://www.wcupa.edu/sciences-mathematics/mathematics/gradstat/
+
+- WCU Applied Statistics Program offers the Master of Science Degree and Certificate in Applied Statistics.
+
+- The programs bring together statistics, computer science, scientific research, and communication skills using the latest state-of-the-art technologies. 
+
+- The Programs prepare students for immediate employment in a variety of high-paying industry positions or doctoral study in applied statistics or a related field.
+
+
+
+
+
+### Iris Flowers
+
+```{r}
+include_graphics("https://raw.githubusercontent.com/pengdsci/sta553/main/shiny/iris-dataset.png")
+```
+
+
+***
+
+This well-known data set has been used frequently in statistics and machine learning to illustrate 
+various classification models and algorithms. We use this data set to create various descriptive plots 
+to demonstrate to create visual storytelling presentation using `storyline` in **flexdashboard**.
+
+
+### Distribution of Numerical Variables
+
+```{r}
+library(beanplot)
+xiris <- iris
+xiris$Species <- NULL
+beanplot(xiris, main = "Iris flowers",col=c('#ff8080','#0000FF','#0000FF','#FF00FF'), border = "#000000")
+```
+
+***
+
+Some stories about the distribution of width and length of sepal and petal of iris flowers......
+
+
+
+### Plotly plots of regression related to iris data.
+
+```{r}
+myplot.theme_new <- function() {
+  theme(
+    #ggplot margins
+     plot.margin = margin(t = 50,  # Top margin
+                          r = 30,  # Right margin
+                          b = 30,  # Bottom margin
+                          l = 30), # Left margin
+    ## ggplot titles
+    plot.title = element_text(face = "bold", 
+                              size = 12,
+                              family = "sans", 
+                              color = "navy",
+                              hjust = 0.5,
+                              margin=margin(0,0,30,0)), # left(0),right(1)
+    # add border 1)
+    panel.border = element_rect(colour = NA, 
+                                fill = NA, 
+                                linetype = 2),
+    # color background 2)
+    panel.background = element_rect(fill = "#f6f6f6"),
+    # modify grid 3)
+    panel.grid.major.x = element_line(colour = 'white', 
+                                      linetype = 3, 
+                                      size = 0.5),
+    panel.grid.minor.x = element_blank(),
+    panel.grid.major.y =  element_line(colour = 'white', 
+                                       linetype = 3, 
+                                       size = 0.5),
+    panel.grid.minor.y = element_blank(),
+    # modify text, axis and colour 4) and 5)
+    axis.text = element_text(colour = "navy", 
+                             #face = "italic", 
+                             size = 7,
+                             #family = "Times New Roman"
+                             ),
+    axis.title = element_text(colour = "navy", 
+                              size = 7,
+                              #family = "Times New Roman"
+                              ),
+    axis.ticks = element_line(colour = "navy"),
+    # legend at the bottom 6)
+    legend.position = "bottom",
+    legend.key.size = unit(0.6, 'cm'), #change legend key size
+    legend.key.height = unit(0.6, 'cm'), #change legend key height
+    legend.key.width = unit(0.6, 'cm'), #change legend key width
+    #legend.title = element_text(size=8), #change legend title font size
+    legend.title=element_blank(),  # remove all legend titles
+    legend.key = element_rect(fill = "white"),
+    #####
+    legend.text = element_text(size=8)) #change legend text font size
+}
+```
+
+
+
+
+```{r}
+library(plotly)
+p <- ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width,
+                              color = factor(Species)), linetype = Species) +
+             geom_point(size = 2, alpha = 0.7) +
+             stat_smooth(method = lm, se=FALSE, size = 0.3) +
+             scale_color_manual(values=c("dodgerblue4", "darkolivegreen4", "darkorchid3")) +
+             labs(
+                 x = "Sepal Length",
+                 y = "Sepal Width",
+                 title = "Association between Sepal Length and Width") +
+             myplot.theme_new() + 
+              annotate(geom="text" , 
+                       x=6.8, 
+                       y=2,
+                       label=paste("The Pearson correlation coefficient r = ",                          
+                                   round(cor(iris$Sepal.Length, iris$Sepal.Width),3)), 
+                          size = 2,
+                          color = "navy") + 
+               coord_fixed(1)    ## This changes the aspect ratio of the graph
+ggplotly(p)
+```
+
+***
+
+https://plot.ly/ggplot2/
+
+If you use ggplot2, `ggplotly()` converts your plots to an interactive, web-based version! It also provides sensible tooltips, which assists decoding of values encoded as visual properties in the plot.
+
+plotly supports some chart types that ggplot2 doesn't (such as 3D surface, point, and line plots). You can create these (or any other plotly) charts using `plot_ly()`.
+
+
+### MetricsGraphics enables easy creation of D3 scatterplots, line charts, and histograms.
+
+```{r}
+library(metricsgraphics)
+mjs_plot(mtcars, x=wt, y=mpg) %>%
+  mjs_point(color_accessor=carb, size_accessor=carb) %>%
+  mjs_labs(x="Weight of Car", y="Miles per Gallon")
+```
+
+***
+
+https://hrbrmstr.github.io/metricsgraphics/
+
+Building metricsgraphics charts follows the “piping” idiom made popular through the magrittr, ggvis and dplyr packages. This makes it possible to avoid one giant function with a ton of parameters and facilitates breaking out the chart building into logical steps. 
+
+While MetricsGraphics.js charts may not have the flexibility of ggplot2, you can build functional, interactive [multi-]line, scatterplot, bar charts & histograms and + even link charts together.
